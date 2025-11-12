@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - GanderSync</title>
+  <link rel="stylesheet" th:href="@{/css/CSSProductos.css}"> 
+</head>
+<body>
+  <header class="barra-navegacion">
+    <h1 class="logo">GanderSync</h1>
+    <nav class="menu">
+      <a th:href="@{/inicio}">Inicio</a>
+      <a th:href="@{/productos}" class="active">Productos</a>
+      <a th:href="@{/novedades}">Novedades</a>
+      <a th:href="@{/ofertas}">Ofertas</a>
+      <a th:href="@{/historia}">Historia</a>
+      <a th:href="@{/login}">Login</a>
+    </nav>
+  </header>
+
+  <main class="productos-container">
+    <section class="filtros">
+      <input type="text" id="searchInput" placeholder="Buscar producto...">
+      <select id="categoriaFiltro">
+        <option value="todos">Todas las categorías</option>
+        <option value="Unguentos">Ungüentos</option>
+        <option value="Antiparasitarios">Antiparasitarios</option>
+        <option value="Cremas y Pomadas">Cremas y Pomadas</option>
+        <option value="Hormonas">Hormonas</option>
+        <option value="Vitaminas">Vitaminas</option>
+        <option value="Concentrados">Concentrados</option>
+        <option value="Garrapaticidas">Garrapaticidas</option>
+        <option value="Mosquicidas">Mosquicidas</option>
+      </select>
+
+      <button id="abrirFormBtn">➕ Agregar producto</button>
+
+      <div class="vista-botones">
+        <button id="btnVistaOriginal" title="Vista original">🔳</button>
+        <button id="btnVistaLista" title="Vista lista">📋</button>
+      </div>
+    </section>
+
+    <section class="grid vista-original" id="productosGrid">
+    </section>
+
+    <section id="carrito-section">
+      <h2>🛒 Carrito de Compras</h2>
+      <table id="carritoTabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Total</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <h3 id="totalCarrito">Total: $0</h3>
+    </section>
+
+    <section id="pago-section">
+      <h2>💳 Métodos de Pago</h2>
+      <label for="billetera">Elige tu billetera:</label>
+      <select id="billetera">
+        <option value="">-- Selecciona una --</option>
+        <option value="Nequi">Nequi</option>
+        <option value="Daviplata">Daviplata</option>
+        <option value="Bancolombia">Bancolombia</option>
+        <option value="PayPal">PayPal</option>
+      </select>
+      <button id="pagarBtn">Pagar ahora</button>
+    </section>
+
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="closeModal">&times;</span>
+        <img id="modalImg" src="" alt="">
+        <h2 id="modalNombre"></h2>
+        <p id="modalInfo"></p>
+        <p><strong>Modo de uso:</strong> <span id="modalUso"></span></p>
+        <p><strong>Precio:</strong> <span id="modalPrecio"></span></p>
+        <button id="contactoBtn">Escribir al vendedor</button>
+      </div>
+    </div>
+
+    <div id="formModal" class="modal hidden">
+      <div class="modal-content">
+        <span id="closeForm">&times;</span>
+        <h2 id="formTitle">Agregar Producto</h2>
+        <form th:action="@{/productos/guardar}" method="post" id="productoForm" enctype="multipart/form-data">
+          <input type="hidden" id="editIndex" name="id">
+
+          <label>Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required>
+
+          <label>Categoría:</label>
+          <select id="categoria" name="categoria" required>
+            <option value="Unguentos">Ungüentos</option>
+            <option value="Antiparasitarios">Antiparasitarios</option>
+            <option value="Cremas y Pomadas">Cremas y Pomadas</option>
+            <option value="Hormonas">Hormonas</option>
+            <option value="Vitaminas">Vitaminas</option>
+            <option value="Concentrados">Concentrados</option>
+            <option value="Garrapaticidas">Garrapaticidas</option>
+            <option value="Mosquicidas">Mosquicidas</option>
+          </select>
+
+          <label>Descripción:</label>
+          <textarea id="info" name="info" required></textarea>
+
+          <label>Modo de uso:</label>
+          <textarea id="uso" name="uso" required></textarea>
+
+          <label>Precio (COP):</label>
+          <input type="number" id="precio" name="precio" required>
+
+          <label>URL Imagen (opcional):</label>
+          <input type="text" id="imagen" name="imagen">
+
+          <label>O Subir Archivo de Imagen (opcional):</label>
+          <input type="file" id="imagenArchivo" accept="image/*">
+
+          <button type="submit">💾 Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="chatBox" class="chat hidden">
+      <div class="chat-header">
+        <span>💬 Contactar al vendedor</span>
+        <button id="closeChat">✖</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message vendedor">👨‍🌾 Hola, ¿en qué puedo ayudarte?</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Escribe un mensaje...">
+        <button id="sendMsg">Enviar</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="alertModal" class="modal hidden">
+    <div class="modal-content alert-modal">
+      <p id="alertMessage"></p>
+      <button id="alertCloseBtn">Aceptar</button>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="modal hidden">
+    <div class="modal-content confirm-modal">
+      <p id="confirmMessage"></p>
+      <div class="confirm-buttons">
+        <button id="confirmOkBtn">Aceptar</button>
+        <button id="confirmCancelBtn" class="btn-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p> 
+  </footer>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4URRzvmN3OYMnM3jaGk1vdzFgGpENWvA",
+      authDomain: "gandersync.firebaseapp.com",
+      databaseURL: "https://gandersync-default-rtdb.firebaseio.com/",
+      projectId: "gandersync",
+      storageBucket: "gandersync.appspot.com",
+      messagingSenderId: "744744999999",
+      appId: "1:744744999999:web:12345abcde6789",
+      measurementId: "G-XYZ1234ABC"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const storage = firebase.storage(); 
+  </script>
+
+  <script th:src="@{/js/JSProductos.js}"></script>
+</body>
+</html>

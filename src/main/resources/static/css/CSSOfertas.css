@@ -1,0 +1,207 @@
+/* === ESTILOS GENERALES === */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+  color: #333;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  overflow-x: hidden;
+  padding-top: 70px; /* espacio para navbar fija */
+}
+
+body.loaded {
+  opacity: 1;
+}
+
+/* === BARRA DE NAVEGACIÓN === */
+.barra-navegacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(40, 84, 48, 0.95);
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  transition: transform 0.4s ease, background-color 0.4s ease, opacity 0.4s ease;
+}
+
+.barra-navegacion.oculta {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.barra-navegacion.transparente {
+  background-color: rgba(40, 84, 48, 0.5);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.menu a:hover {
+  background-color: #1abc9c;
+  color: black;
+}
+
+/* === MAIN === */
+main {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === SECCIÓN DE SUBIR OFERTA === */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 40px 0;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.upload-section h2 {
+  margin-bottom: 20px;
+  color: #285430;
+}
+
+.upload-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.upload-section input,
+.upload-section button {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button {
+  background: #285430;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #1d3b25;
+}
+
+/* === GRID DE PRODUCTOS === */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  align-items: start;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.acciones button {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.acciones .editar {
+  background-color: #f39c12;
+}
+
+.acciones .editar:hover {
+  background-color: #e67e22;
+}
+
+.acciones .eliminar {
+  background-color: #c0392b;
+}
+
+.acciones .eliminar:hover {
+  background-color: #a93226;
+}
+
+/* === FOOTER (visible solo al final) === */
+.footer {
+  text-align: center;
+  background-color: rgba(40, 84, 48, 0.95);
+  color: white;
+  padding: 18px 10px;
+  margin-top: 30px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, background-color 0.5s ease;
+}
+
+.footer.visible {
+  opacity: 1;
+}
+
+.footer p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .menu a {
+    padding: 8px 10px;
+    margin-left: 8px;
+  }
+}

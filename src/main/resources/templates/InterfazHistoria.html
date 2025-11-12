@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia - GanderSync</title>
+    <link rel="stylesheet" th:href="@{/css/CSSHistoria.css}">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="barra-navegacion">
+        <h1 class="logo">GanderSync</h1>
+        <nav class="menu">
+            <a th:href="@{/inicio}">Inicio</a>
+            <a th:href="@{/productos}">Productos</a>
+            <a th:href="@{/novedades}">Novedades</a>
+            <a th:href="@{/ofertas}">Ofertas</a>
+            <a th:href="@{/historia}" class="active">Historia</a>
+            <a th:href="@{/login}">Login</a>
+        </nav>
+    </header>
+
+    <!-- GALERÍA DE IMÁGENES -->
+    <section class="imagenes" id="galeria">
+        <img th:src="@{/img/imagen1.jpeg}" alt="Imagen 1" class="img-activa">
+        <img th:src="@{/img/imagen2.jpg}" alt="Imagen 2">
+        <img th:src="@{/img/imagen3.jpg}" alt="Imagen 3">
+    </section>
+
+    <!-- HISTORIA -->
+    <section class="seccion">
+        <h2 class="titulo">Nuestra Historia</h2>
+        <div class="contenido">
+            <p>
+               Somos <strong>DeepCode</strong>, un equipo de aprendices del Servicio Nacional de Aprendizaje (SENA), formados en el desarrollo de software con enfoque en tecnologías digitales. Nuestra misión es impulsar el crecimiento del sector ganadero en Norte de Santander, mediante la creación de soluciones tecnológicas que optimicen los procesos productivos y fortalezcan la competitividad de los productores locales.<br><br>
+                Como parte de nuestra formación, identificamos una necesidad sentida en el sector ganadero de Cúcuta, la falta de herramientas digitales que faciliten el acceso a la información y la gestión de la producción. Por ello, surge la idea de crear <strong>Marketplace GanderSync</strong>, un espacio digital que conecta a productores y compradores, promoviendo el comercio local y sostenible.<br><br>
+                Nos destacamos por nuestro enfoque en el aprendizaje colaborativo, trabajando junto a expertos del sector y otros aprendices para ofrecer soluciones reales y sostenibles.
+            </p>
+        </div>
+    </section>
+
+    <!-- MISIÓN -->
+    <section class="seccion">
+        <h2 class="titulo">Misión</h2>
+        <div class="contenido">
+            <p>
+                 Diseñar y desarrollar soluciones tecnológicas que respondan a problemáticas reales de la comunidad, especialmente en sectores con poca digitalización como el ganadero. A través de este proyecto, buscamos facilitar la promoción, comercialización y conexión entre productores y compradores mediante una plataforma web funcional, segura y fácil de usar.
+            </p>
+        </div>
+    </section>
+
+    <!-- VISIÓN -->
+    <section class="seccion">
+        <h2 class="titulo">Visión</h2>
+        <div class="contenido">
+            <p>
+                Ser reconocidos como un equipo de aprendices comprometido con la innovación, la transformación digital y el impacto social, desarrollando proyectos de software útiles, escalables y adaptados a las necesidades del entorno.
+            </p>
+        </div>
+    </section>
+
+    <!-- LOGROS -->
+    <section class="seccion">
+        <h2 class="titulo">Logros</h2>
+        <div class="contenido">
+            <p>
+                A lo largo del desarrollo del proyecto, hemos alcanzado varios logros importantes. Realizamos un análisis detallado de las necesidades del sector ganadero en Cúcuta, lo que permitió definir con claridad los requisitos del sistema. Se diseñó la estructura general del marketplace y se desarrollaron interfaces clave como el registro, inicio de sesión, publicación y visualización de productos.
+            </p>
+        </div>
+    </section>
+
+    <!-- AVANCES -->
+    <section class="seccion">
+        <h2 class="titulo">Avances</h2>
+        <div class="contenido">
+            <p>
+                 Actualmente hemos completado el análisis de necesidades del sector ganadero y definido los requisitos del sistema. Ya están en desarrollo las principales interfaces del marketplace, como el registro, publicación y búsqueda de productos. También iniciamos la integración del backend con la base de datos. El proyecto avanza según lo planificado.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>    
+    </footer>
+
+    <!-- JS -->
+    <script th:src="@{/js/JSHistoria.js}"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio - GanderSync</title>
+
+  <!-- Enlace al CSS -->
+  <link rel="stylesheet" th:href="@{/css/CSSInicio.css}">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="barra-navegacion">
+    <h1 class="logo">GanderSync</h1>
+    <nav class="menu">
+      <a th:href="@{/inicio}" class="active">Inicio</a>
+      <a th:href="@{/productos}">Productos</a>
+      <a th:href="@{/novedades}">Novedades</a>
+      <a th:href="@{/ofertas}">Ofertas</a>
+      <a th:href="@{/historia}">Historia</a>
+      <a th:href="@{/login}">Login</a>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="contenido-inicio">
+    <section class="hero">
+      <h2>Bienvenido a GanderSync</h2>
+      <p>Tu plataforma confiable para la gestión de insumos ganaderos.  
+      Con GanderSync podrás explorar novedades, acceder a ofertas y mantenerte informado de nuestros avances en el sector.</p>
+    </section>
+
+    <section class="features">
+      <h3>🔹 Funcionalidades principales</h3>
+      <ul>
+        <li>Catálogo de productos organizados por categorías.</li>
+        <li>Carrito de compras y múltiples métodos de pago.</li>
+        <li>Ofertas y novedades actualizadas constantemente.</li>
+        <li>Historia y evolución del sector ganadero.</li>
+        <li>Panel de administración para gestión de productos.</li>
+      </ul>
+    </section>
+
+    <section class="benefits">
+      <h3>¿Por qué elegirnos?</h3>
+      <p>En GanderSync buscamos conectar a productores y clientes de manera simple y efectiva, brindando transparencia y confianza en cada transacción.</p>
+    </section>
+
+    <section class="call-to-action">
+      <h3>Empieza ahora</h3>
+      <p>Explora nuestro catálogo de productos o inicia sesión para administrar tu inventario.</p>
+      <a th:href="@{/productos}" class="btn">Ver productos</a>
+      <a th:href="@{/login}" class="btn">Iniciar sesión</a>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script th:src="@{/js/JSInicio.js}"></script>
+</body>
+</html>
