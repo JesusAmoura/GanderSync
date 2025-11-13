@@ -1,0 +1,146 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  padding-top: 70px; /* espacio para navbar fija */
+  /* ✅ Añadido para layout flexible */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.loaded {
+  opacity: 1;
+}
+
+/* --- BARRA DE NAVEGACIÓN --- */
+.barra-navegacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* ✅ Color base sólido para consistencia */
+  background-color: #285430;
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  /* ✅ Transición consistente de InterfazInicio */
+  transition: transform 0.4s ease, background-color 0.4s ease, opacity 0.4s ease;
+}
+
+.barra-navegacion.oculta {
+  /* Aseguramos que se oculte por completo */
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.barra-navegacion.transparente {
+  /* ✅ Regla de transparencia y blur de InterfazInicio */
+  background-color: rgba(40, 84, 48, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.menu a:hover {
+  background-color: #1abc9c;
+  color: black;
+}
+
+/* --- GALERÍA DE IMÁGENES --- */
+.imagenes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+  background-color: #fff;
+}
+
+.imagenes img {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.imagenes img.img-activa {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* --- SECCIONES --- */
+.seccion {
+  padding: 40px 20px;
+  background-color: #ffffff;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  /* ✅ Agregado para empujar el footer */
+  flex: 1;
+  /* Espacio extra al final del último elemento para no pegarse al footer */
+  margin-bottom: 30px; 
+}
+
+/* --- FOOTER (Estilo InterfazInicio) --- */
+.footer {
+  /* ✅ Estilo de InterfazInicio: Color base sólido */
+  text-align: center;
+  background-color: #285430;
+  color: white;
+  padding: 18px 10px;
+  margin: 0;
+  
+  /* CORRECCIÓN DE ESTABILIDAD: Eliminamos translateY y usamos solo opacity */
+  opacity: 0;
+  transform: none; 
+  pointer-events: none; /* Asegura que no es interactivo si está invisible */
+  user-select: none;
+  
+  /* Transición solo para opacidad */
+  transition: opacity 0.6s ease-out; 
+  will-change: opacity;
+}
+
+.footer.visible {
+  opacity: 1;
+  pointer-events: auto;
+  user-select: auto;
+  /* Eliminamos el transform: translateY(0) */
+  transform: none; 
+}
+
+.footer p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .menu a {
+    padding: 8px 10px;
+    margin-left: 8px;
+  }
+}

@@ -1,0 +1,206 @@
+/* ============================= */
+/* LAYOUT GENERAL */
+/* ============================= */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    color: #333;
+}
+
+.contenido-inicio {
+    flex: 1; 
+    padding: 30px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    /* Mantenemos el padding inferior para separación */
+    padding-bottom: 50px; 
+}
+
+/* ============================= */
+/* Barra de navegación */
+/* ============================= */
+.barra-navegacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #285430;
+    color: white;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0; /* Aseguramos que siempre esté arriba */
+    z-index: 1000;
+    transition: background-color 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.menu a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.menu a:hover {
+    background-color: #1abc9c;
+    color: black;
+}
+
+/* NAVBAR transparente al subir */
+.barra-navegacion.transparente {
+    background-color: rgba(40, 84, 48, 0.75);
+    backdrop-filter: blur(6px);
+}
+
+/* NAVBAR oculta al bajar */
+.barra-navegacion.oculta {
+    /* Mantenemos este transform para ocultar */
+    transform: translateY(-100%); 
+    opacity: 0;
+}
+
+/* ============================= */
+/* Hero section */
+/* ============================= */
+.hero {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 50px 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.hero h2 {
+    color: #285430;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ============================= */
+/* Secciones (features, benefits, call-to-action) */
+/* ============================= */
+.features, .benefits, .call-to-action {
+    background-color: #ffffff;
+    margin: 20px 0 10px 0;
+    padding: 28px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.contenido-inicio > .features:last-child, 
+.contenido-inicio > .benefits:last-child, 
+.contenido-inicio > .call-to-action:last-child {
+    margin-bottom: 20px; 
+}
+
+
+.features h3, .benefits h3, .call-to-action h3 {
+    color: #285430;
+    margin-bottom: 12px;
+    font-size: 22px;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.features ul li {
+    font-size: 18px;
+    margin: 10px 0;
+    padding-left: 12px;
+    border-left: 5px solid #1abc9c;
+}
+
+/* ============================= */
+/* Botones */
+/* ============================= */
+.btn {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+    padding: 12px 20px;
+    background-color: #285430;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.25s ease;
+}
+
+.btn:hover {
+    background-color: #1abc9c;
+    color: black;
+}
+
+/* ============================= */
+/* Footer */
+/* ============================= */
+.footer {
+    text-align: center;
+    background-color: #285430;
+    color: white;
+    padding: 18px 10px;
+    margin: 0;
+    
+    /* SOLUCIÓN FINAL: Usamos solo opacidad para la transición, lo más estable. 
+       Añadimos pointer-events: none para que no sea interactivo cuando es invisible. */
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    
+    /* Transición suave solo en opacidad */
+    transition: opacity 0.6s ease-out;
+    will-change: opacity;
+    
+    /* Eliminamos el transform para evitar inestabilidad */
+    transform: none; 
+}
+
+.footer.visible {
+    opacity: 1;
+    pointer-events: auto;
+    user-select: auto;
+    /* Eliminamos el transform: translateY(0) */
+    transform: none; 
+}
+
+.footer p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+}
+
+/* ============================= */
+/* Responsive */
+/* ============================= */
+@media (max-width: 768px) {
+    .hero { padding: 30px 15px; }
+    .features, .benefits, .call-to-action { padding: 20px 12px; }
+    .menu a { padding: 8px 10px; margin-left: 8px; }
+}
+
+@media (max-width: 480px) {
+    .contenido-inicio { padding: 18px 12px; }
+    .hero h2 { font-size: 24px; }
+    .features ul li, .hero p { font-size: 16px; }
+}

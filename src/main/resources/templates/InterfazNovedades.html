@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novedades - GanderSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/CSSNovedades.css}">
+</head>
+<body>
+
+  <header class="barra-navegacion">
+      <h1 class="logo">GanderSync</h1>
+      <nav class="menu">
+          <a th:href="@{/inicio}">Inicio</a>          
+          <a th:href="@{/productos}">Productos</a>
+          <a th:href="@{/novedades}" class="active">Novedades</a>
+          <a th:href="@{/ofertas}">Ofertas</a>
+          <a th:href="@{/historia}">Historia</a>
+          <a th:href="@{/login}">Login</a>
+      </nav>
+  </header>
+
+  <section class="contenedor-calendario">
+      <h2 class="titulo">Calendario de Novedades</h2>
+      <div id="calendar"></div>
+
+      <div class="formulario-evento">
+        <h3>Agregar Evento</h3>
+        <form id="eventForm">
+          <label for="title">Título:</label>
+          <input type="text" id="title" required>
+
+          <label for="start">Fecha inicio:</label>
+          <input type="date" id="start" required>
+
+          <label for="end">Fecha fin (opcional):</label>
+          <input type="date" id="end">
+
+          <button type="submit">Guardar Evento</button>
+        </form>
+      </div>
+  </section>
+
+  <div class="modal" id="eventModal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Editar/Eliminar Evento</h3>
+      <form id="editForm">
+        <label for="editTitle">Título:</label>
+        <input type="text" id="editTitle" required>
+
+        <label for="editStart">Fecha inicio:</label>
+        <input type="date" id="editStart" required>
+
+        <label for="editEnd">Fecha fin:</label>
+        <input type="date" id="editEnd">
+
+        <div class="modal-buttons">
+          <button type="submit" class="guardar">Guardar cambios</button>
+          <button type="button" id="deleteBtn" class="eliminar">Eliminar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>    
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script th:src="@{/js/JSNovedades.js}"></script>
+</body>
+</html>

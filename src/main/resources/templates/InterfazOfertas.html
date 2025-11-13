@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ofertas</title>
+  <link rel="stylesheet" th:href="@{/css/CSSOfertas.css}" href="CSSOfertas.css">
+</head>
+<body>
+  <header class="barra-navegacion">
+    <h1 class="logo">GanderSync</h1>
+      <nav class="menu">
+        <a th:href="@{/inicio}">Inicio</a>            
+        <a th:href="@{/productos}">Productos</a>
+        <a th:href="@{/novedades}">Novedades</a>
+        <a th:href="@{/ofertas}" class="active">Ofertas</a>
+        <a th:href="@{/historia}">Historia</a>
+        <a th:href="@{/login}">Login</a>
+      </nav>
+  </header>
+
+  <main class="ofertas-container">
+    <section class="upload-section">
+      <h2>Subir nuevo producto en oferta</h2>
+      <form id="uploadForm">
+        <input type="text" placeholder="Nombre del producto" required>
+        <input type="number" placeholder="Precio original" required>
+        <input type="number" placeholder="Precio rebajado" required>
+        <input type="file" accept="image/*" required>
+        <button type="submit">Subir Producto</button>
+      </form>
+    </section>
+
+    <section class="lista-ofertas">
+      <h2>Productos en Oferta</h2>
+      <div id="ofertasGrid" class="grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>    
+  </footer>
+
+  <script th:src="@{/js/JSOfertas.js}" src="JSOfertas.js"></script>
+</body>
+</html>
