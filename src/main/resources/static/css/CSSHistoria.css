@@ -1,72 +1,325 @@
+:root {
+  --font-scale: 1.0;
+  --color-primary-dark: #285430; /* Verde Oscuro (Navbar/Footer) */
+  --color-primary-medium: #4a4a4a; /* Gris Oscuro para texto secundario y botones */
+  --color-secondary: #000; /* Negro para la mayoría del texto por defecto */
+  --color-highlight: #007c39; /* Verde de GanderSync para acciones y foco */
+  --color-action: #4a4a4a; /* Gris para botones de acción flotantes */
+  --color-danger: #d9534f; /* Rojo */
+  --color-text-light: #fff; /* Blanco */
+  --color-border: #eee;
+  --color-bg-light: #f4f4f4;
+  --color-bg-main: #fff;
+  --font-body: 'Open Sans', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  font-size: calc(16px * var(--font-scale));
+}
+
+/* ------------------------------------------- */
+/* ESTILOS DE ACCESIBILIDAD Y BASE            */
+/* ------------------------------------------- */
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  padding-top: 70px; /* espacio para navbar fija */
-  /* ✅ Añadido para layout flexible */
+  font-family: var(--font-body);
+  background-color: var(--color-bg-light);
+  color: var(--color-secondary);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: 60px; /* espacio para navbar fija */
+  overflow-x: hidden;
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 body.loaded {
   opacity: 1;
 }
 
-/* --- BARRA DE NAVEGACIÓN --- */
+/* Foco de accesibilidad */
+button:focus,
+input:focus,
+select:focus,
+a.btn:focus,
+.floating-accessibility-btn:focus,
+.close-btn:focus,
+.menu a:focus,
+.cart-nav-btn:focus,
+.imagenes img:focus {
+  outline: 2px dashed var(--color-highlight);
+  outline-offset: 2px;
+}
+
+/* Alto Contraste */
+#body.high-contrast {
+  --color-primary-dark: #000;
+  --color-secondary: #fff;
+  --color-highlight: #0f0;
+  --color-danger: #f00;
+  --color-text-light: #000;
+  --color-border: #fff;
+  --color-bg-light: #000;
+  --color-bg-main: #000;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+#body.high-contrast .barra-navegacion,
+#body.high-contrast .footer,
+#body.high-contrast .sidebar-header {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+#body.high-contrast .seccion,
+#body.high-contrast .modal-content,
+#body.high-contrast .accessibility-sidebar {
+  background-color: #000 !important;
+  border: 2px solid #fff !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+#body.high-contrast h1,
+#body.high-contrast h2,
+#body.high-contrast h3,
+#body.high-contrast h4,
+#body.high-contrast a,
+#body.high-contrast strong,
+#body.high-contrast .logo {
+  color: var(--color-highlight) !important;
+}
+
+#body.high-contrast p {
+  color: #fff !important;
+}
+
+#body.high-contrast .btn,
+#body.high-contrast .btn-primary,
+#body.high-contrast .btn-secondary,
+#body.high-contrast .btn-action {
+  background-color: var(--color-highlight) !important;
+  color: #000 !important;
+  border: 2px solid #000 !important;
+}
+
+
+/* ------------------------------------------- */
+/* NAVBAR, FOOTER, BOTONES (Estilo Unificado) */
+/* ------------------------------------------- */
+
 .barra-navegacion {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* ✅ Color base sólido para consistencia */
-  background-color: #285430;
-  color: white;
-  padding: 10px 20px;
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  padding: 0 20px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  box-sizing: border-box;
-  /* ✅ Transición consistente de InterfazInicio */
-  transition: transform 0.4s ease, background-color 0.4s ease, opacity 0.4s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
 }
 
 .barra-navegacion.oculta {
-  /* Aseguramos que se oculte por completo */
   transform: translateY(-100%);
   opacity: 0;
 }
 
 .barra-navegacion.transparente {
-  /* ✅ Regla de transparencia y blur de InterfazInicio */
-  background-color: rgba(40, 84, 48, 0.75);
+  background-color: rgba(34, 37, 41, 0.8);
   backdrop-filter: blur(6px);
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 60px; /* Altura estándar Desktop */
+}
+
 .logo {
-  font-size: 24px;
-  font-weight: 700;
+  margin: 0;
+  color: var(--color-highlight);
+  font-size: calc(1.5em * var(--font-scale));
+}
+
+.menu {
+  display: flex; /* Aseguramos Flexbox para el menú */
+  align-items: center;
 }
 
 .menu a {
-  color: white;
+  color: var(--color-text-light);
   text-decoration: none;
-  padding: 10px 15px;
+  margin-left: 20px;
+  padding: 5px 0;
+  transition: color 0.3s, border-bottom 0.3s;
+  white-space: nowrap; /* Evita que los links se rompan en varias líneas */
+}
+
+.menu a:hover, .menu a.active {
+  color: var(--color-highlight);
+  border-bottom: 2px solid var(--color-highlight);
+}
+
+.header-actions .cart-nav-btn {
+  background-color: var(--color-highlight);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-highlight);
+  padding: 8px 15px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.header-actions .cart-nav-btn:hover {
+  background-color: #006631;
+}
+
+/* Botones genéricos */
+.btn-primary, .btn-secondary, .btn-action, .close-btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.1s;
+  border: none;
+  text-align: center;
+  text-decoration: none;
   display: inline-block;
-  transition: all 0.3s ease;
-  border-radius: 5px;
-  margin-left: 10px;
 }
 
-.menu a:hover {
-  background-color: #1abc9c;
-  color: black;
+.btn-primary {
+  background-color: var(--color-highlight);
+  color: var(--color-text-light);
 }
 
-/* --- GALERÍA DE IMÁGENES --- */
+.btn-primary:hover {
+  background-color: #006631;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--color-primary-medium);
+  color: var(--color-text-light);
+}
+
+.btn-secondary:hover {
+  background-color: #5d5d5d;
+}
+
+.btn-action {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+}
+
+/* FOOTER (NO FIJO) */
+.footer {
+  text-align: center;
+  background-color: var(--color-primary-dark);
+  color: #ccc;
+  padding: 20px;
+  margin-top: auto; /* Para que siempre vaya al fondo del flex (body) */
+  border-top: 3px solid var(--color-highlight);
+  height: 80px;
+}
+
+.footer p {
+  margin: 5px 0;
+  font-size: calc(14px * var(--font-scale));
+}
+
+/* ------------------------------------------- */
+/* ACCESIBILIDAD SIDEBAR                      */
+/* ------------------------------------------- */
+
+.floating-accessibility-btn {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  z-index: 1000;
+  background-color: var(--color-action);
+  color: var(--color-text-light);
+  border-radius: 50px;
+  padding: 12px 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease;
+  cursor: pointer;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accessibility-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background-color: var(--color-bg-main);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  transform: translateX(-100%);
+  transition: transform 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.accessibility-sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-items {
+  padding: 15px;
+}
+
+.text-size-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.btn-full-width {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.close-btn {
+  background: transparent;
+  color: var(--color-text-light);
+  font-size: calc(1.2em * var(--font-scale));
+  padding: 5px 10px;
+}
+
+/* ------------------------------------------- */
+/* ESTILOS ESPECÍFICOS DE HISTORIA            */
+/* ------------------------------------------- */
+main {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* GALERÍA DE IMÁGENES */
 .imagenes {
   display: flex;
   justify-content: center;
@@ -74,15 +327,20 @@ body.loaded {
   overflow: hidden;
   position: relative;
   height: 400px;
-  background-color: #fff;
+  background-color: var(--color-bg-main);
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  width: 100%;
 }
 
 .imagenes img {
   position: absolute;
   opacity: 0;
   transition: opacity 1s ease-in-out;
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
 }
 
@@ -91,56 +349,200 @@ body.loaded {
   z-index: 1;
 }
 
-/* --- SECCIONES --- */
+/* SECCIONES Y TEXTOS MEJORADOS */
 .seccion {
-  padding: 40px 20px;
-  background-color: #ffffff;
-  margin: 20px;
+  padding: 40px 30px;
+  background-color: var(--color-bg-main);
+  margin: 20px 0;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  /* ✅ Agregado para empujar el footer */
-  flex: 1;
-  /* Espacio extra al final del último elemento para no pegarse al footer */
-  margin-bottom: 30px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
 }
 
-/* --- FOOTER (Estilo InterfazInicio) --- */
-.footer {
-  /* ✅ Estilo de InterfazInicio: Color base sólido */
+.titulo {
+  color: var(--color-highlight);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+  font-size: calc(28px * var(--font-scale));
   text-align: center;
-  background-color: #285430;
-  color: white;
-  padding: 18px 10px;
-  margin: 0;
-  
-  /* CORRECCIÓN DE ESTABILIDAD: Eliminamos translateY y usamos solo opacity */
-  opacity: 0;
-  transform: none; 
-  pointer-events: none; /* Asegura que no es interactivo si está invisible */
-  user-select: none;
-  
-  /* Transición solo para opacidad */
-  transition: opacity 0.6s ease-out; 
-  will-change: opacity;
 }
 
-.footer.visible {
-  opacity: 1;
-  pointer-events: auto;
-  user-select: auto;
-  /* Eliminamos el transform: translateY(0) */
-  transform: none; 
+.contenido {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.footer p {
-  margin: 6px 0;
-  font-size: 0.95rem;
+.contenido p {
+  font-size: calc(18px * var(--font-scale));
+  color: var(--color-primary-medium);
+  line-height: 1.7;
+  margin-bottom: 1em;
+  text-align: justify;
 }
 
-/* --- RESPONSIVE --- */
+.contenido strong {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+/* ------------------------------------------- */
+/* MODALES OCULTOS (Para JS)                  */
+/* ------------------------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s;
+}
+
+.modal.hidden {
+  display: none !important;
+}
+
+.modal-content {
+  background: var(--color-bg-main);
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-modal, .confirm-modal {
+  text-align: center;
+  width: 350px;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* ANIMACIONES */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+/* ------------------------------------------- */
+/* RESPONSIVE (max-width: 768px)              */
+/* ------------------------------------------- */
+
 @media (max-width: 768px) {
+  /* --- AJUSTE GENERAL DE FUENTE --- */
+  :root {
+    --font-scale: 0.9;
+  }
+
+  /* --- AJUSTES NAVBAR (COMPACTO HORIZONTAL) --- */
+
+  .barra-navegacion {
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
+
+  .header-content {
+    height: 50px; /* Reducimos la altura del navbar */
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row; /* Mantenemos el contenido en una fila */
+    justify-content: space-between;
+  }
+
+  body {
+    padding-top: 50px; /* Ajustamos el padding del body a la nueva altura del navbar */
+  }
+
+  .logo {
+    display: none; /* Ocultamos el logo para ahorrar espacio */
+  }
+
+  .menu {
+    width: auto;
+    flex-grow: 1;
+    justify-content: flex-start;
+    margin: 0;
+    order: 1;
+    min-width: 0;
+  }
+
   .menu a {
-    padding: 8px 10px;
-    margin-left: 8px;
+    font-size: 0.9em;
+    margin: 0 8px; /* Espaciado ajustado */
+    padding: 3px 0;
+    white-space: nowrap;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    order: 2;
+  }
+
+  .header-actions .cart-nav-btn {
+    display: none; /* Ocultamos el botón de carrito para ahorrar espacio */
+  }
+
+  /* --- AJUSTES CONTENIDO ESPECÍFICO --- */
+
+  main {
+    padding: 0 10px;
+    margin: 10px auto;
+  }
+
+  .floating-accessibility-btn {
+    top: 70px; /* Ajustar posición ya que el navbar es más pequeño */
+    left: 10px;
+    padding: 10px 15px;
+    font-size: 1em;
+  }
+
+  .imagenes {
+    height: 300px; /* Reducir altura en móvil */
+    margin-top: 10px;
+  }
+
+  .seccion {
+    padding: 25px 15px; /* Reducir padding */
+    margin: 15px 0;
+  }
+
+  .titulo {
+    font-size: calc(24px * var(--font-scale));
+    margin-bottom: 15px;
+  }
+
+  .contenido p {
+    font-size: calc(16px * var(--font-scale)); /* Reducir tamaño de párrafo */
+    text-align: left; /* Desjustificar para mejor lectura en móvil */
+  }
+
+  /* --- AJUSTES FOOTER --- */
+  .footer {
+    height: auto;
+    padding: 15px 10px;
+  }
+
+  .footer p {
+    font-size: calc(13px * var(--font-scale));
   }
 }

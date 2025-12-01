@@ -11,6 +11,7 @@ public class ChatMessage {
     private String sender;
     private String content;
     private MessageType type;
+    private String chatId; 
 
     public enum MessageType {
         CHAT, JOIN, LEAVE

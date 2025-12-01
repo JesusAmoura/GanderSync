@@ -1,67 +1,106 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio - GanderSync</title>
-
-  <!-- Enlace al CSS -->
-  <link rel="stylesheet" th:href="@{/css/CSSInicio.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - GanderSync</title>
+    <link rel="stylesheet" th:href="@{/css/CSSInicio.css}" href="CSSInicio.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
 </head>
-<body>
+<body id="body">
 
-  <!-- HEADER -->
-  <header class="barra-navegacion">
-    <h1 class="logo">GanderSync</h1>
-    <nav class="menu">
-      <a th:href="@{/inicio}" class="active">Inicio</a>
-      <a th:href="@{/productos}">Productos</a>
-      <a th:href="@{/novedades}">Novedades</a>
-      <a th:href="@{/ofertas}">Ofertas</a>
-      <a th:href="@{/historia}">Historia</a>
-      <a th:href="@{/login}">Login</a>
-    </nav>
-  </header>
+    <header class="barra-navegacion">
+        <div class="header-content">
+            <h1 class="logo">GanderSync</h1>
+            <nav class="menu" role="navigation" aria-label="Menú principal">
+                <a th:href="@{/inicio}" class="active" tabindex="0" aria-current="page">Inicio</a> 
+                <a th:href="@{/productos}" tabindex="0">Productos</a>
+                <a th:href="@{/novedades}" tabindex="0">Novedades</a>
+                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                <a th:href="@{/historia}" tabindex="0">Historia</a>
+                <a th:href="@{/login}" tabindex="0">Login</a>
+            </nav>
+            <div class="header-actions">
+                <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
+            </div>
+        </div>
+    </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="contenido-inicio">
-    <section class="hero">
-      <h2>Bienvenido a GanderSync</h2>
-      <p>Tu plataforma confiable para la gestión de insumos ganaderos.  
-      Con GanderSync podrás explorar novedades, acceder a ofertas y mantenerte informado de nuestros avances en el sector.</p>
-    </section>
+    <main class_name="contenido-inicio">
+        <section class="hero">
+            <h2>Bienvenido a GanderSync</h2>
+            <p>Tu plataforma confiable para la gestión de insumos ganaderos. 
+            Con GanderSync podrás explorar novedades, acceder a ofertas y mantenerte informado de nuestros avances en el sector.</p>
+        </section>
 
-    <section class="features">
-      <h3>🔹 Funcionalidades principales</h3>
-      <ul>
-        <li>Catálogo de productos organizados por categorías.</li>
-        <li>Carrito de compras y múltiples métodos de pago.</li>
-        <li>Ofertas y novedades actualizadas constantemente.</li>
-        <li>Historia y evolución del sector ganadero.</li>
-        <li>Panel de administración para gestión de productos.</li>
-      </ul>
-    </section>
+        <section class="features">
+            <h3>🔹 Funcionalidades principales</h3>
+            <ul>
+                <li>Catálogo de productos organizados por categorías.</li>
+                <li>Carrito de compras y múltiples métodos de pago.</li>
+                <li>Ofertas y novedades actualizadas constantemente.</li>
+                <li>Historia y evolución del sector ganadero.</li>
+                <li>Panel de administración para gestión de productos.</li>
+            </ul>
+        </section>
 
-    <section class="benefits">
-      <h3>¿Por qué elegirnos?</h3>
-      <p>En GanderSync buscamos conectar a productores y clientes de manera simple y efectiva, brindando transparencia y confianza en cada transacción.</p>
-    </section>
+        <section class="benefits">
+            <h3>¿Por qué elegirnos?</h3>
+            <p>En GanderSync buscamos conectar a productores y clientes de manera simple y efectiva, brindando transparencia y confianza en cada transacción.</p>
+        </section>
 
-    <section class="call-to-action">
-      <h3>Empieza ahora</h3>
-      <p>Explora nuestro catálogo de productos o inicia sesión para administrar tu inventario.</p>
-      <a th:href="@{/productos}" class="btn">Ver productos</a>
-      <a th:href="@{/login}" class="btn">Iniciar sesión</a>
-    </section>
-  </main>
+        <section class="call-to-action">
+            <h3>Empieza ahora</h3>
+            <p>Explora nuestro catálogo de productos o inicia sesión para administrar tu inventario.</p>
+            <a th:href="@{/productos}" class="btn" tabindex="0">Ver productos</a>
+            <a th:href="@{/login}" class="btn" tabindex="0">Iniciar sesión</a>
+        </section>
+        
+        <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage" hidden>
+            <div class="modal-content alert-modal">
+                <p id="alertMessage"></p>
+                <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
+            </div>
+        </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
-    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
-  </footer>
+        <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage" hidden>
+            <div class="modal-content confirm-modal">
+                <p id="confirmMessage"></p>
+                <div class="confirm-buttons">
+                    <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
+                    <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-  <!-- SCRIPT -->
-  <script th:src="@{/js/JSInicio.js}"></script>
+    <footer class="footer">
+        <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
+    </footer>
+
+    <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-sidebar" aria-expanded="false" aria-label="Abrir opciones de accesibilidad">
+        ♿
+    </button>
+
+    <aside id="accessibility-sidebar" class="accessibility-sidebar" role="complementary" aria-hidden="true" hidden>
+        <div class="sidebar-header">
+            <h3>Opciones de Accesibilidad</h3>
+            <button id="closeAccessibility" class="close-btn" tabindex="0" aria-label="Cerrar barra de accesibilidad">✖</button>
+        </div>
+
+        <div class="sidebar-items">
+            <h4>🎨 Contraste</h4>
+            <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0" aria-live="polite">Alto Contraste: DESACTIVADO</button>
+
+            <h4>🔍 Tamaño del Texto</h4>
+            <div class="text-size-controls">
+                <button id="decreaseTextBtn" class="btn-secondary" tabindex="0">A- Disminuir</button>
+                <button id="increaseTextBtn" class="btn-secondary" tabindex="0">A+ Aumentar</button>
+            </div>
+        </div>
+    </aside>
+
+    <script th:src="@{/js/JSInicio.js}" src="JSInicio.js"></script>
 </body>
 </html>

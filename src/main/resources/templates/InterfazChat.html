@@ -1,23 +1,104 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat en Tiempo Real</title>
-    <link rel="stylesheet" href="CSSChat.css">
-</head>
-<body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h2>Chat en Tiempo Real</h2>
-        </div>
-        <div id="chat-messages" class="chat-messages"></div>
-        <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Escribe tu mensaje...">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
-    </div>
+    <title>Chat con Vendedor - GanderSync</title>
 
-    <script src="JSChat.js"></script>
+    <link rel="stylesheet" th:href="@{/css/CSSChat.css}"> 
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+
+<body id="body">
+
+    <header class="barra-navegacion">
+        <div class="header-content">
+            <h1 class="logo">GanderSync</h1>
+
+            <nav class="menu" role="navigation" aria-label="Menú principal">
+                <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
+                <a th:href="@{/productos}" tabindex="0">Productos</a>
+                <a th:href="@{/novedades}" tabindex="0">Novedades</a>
+                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                <a th:href="@{/historia}" tabindex="0">Historia</a>
+                <a th:href="@{/login}" tabindex="0">Login</a>
+            </nav>
+
+            <div class="header-actions">
+                </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="contenedor-chat">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>Chat con Vendedor: [[${vendedorName}]]</h2> 
+                    <button id="disconnectBtn" class="disconnect-btn" aria-label="Desconectar" title="Desconectar" tabindex="0">❌</button>
+                </div>
+                
+                <div id="chat-messages" class="chat-messages" role="log" aria-live="polite">
+                    <div class="message status">Estableciendo conexión con el vendedor...</div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="messageInput" placeholder="Escribe tu mensaje..." autocomplete="off"
+                           aria-label="Campo de texto para escribir mensaje">
+                    
+                    <button id="sendBtn" tabindex="0">Enviar</button>
+                </div>
+            </div>
+        </section>
+
+        <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage" hidden>
+            <div class="modal-content alert-modal">
+                <p id="alertMessage"></p>
+                <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage" hidden>
+            <div class="modal-content confirm-modal">
+                <p id="confirmMessage"></p>
+                <div class="confirm-buttons">
+                    <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
+                    <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
+    </footer>
+
+    <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-sidebar" aria-expanded="false" aria-label="Abrir opciones de accesibilidad">
+        ♿
+    </button>
+
+    <aside id="accessibility-sidebar" class="accessibility-sidebar" role="complementary" aria-hidden="true" hidden>
+        <div class="sidebar-header">
+            <h3>Opciones de Accesibilidad</h3>
+            <button id="closeAccessibility" class="close-btn" tabindex="0" aria-label="Cerrar barra de accesibilidad">✖</button>
+        </div>
+
+        <div class="sidebar-items">
+            <h4>🎨 Contraste</h4>
+            <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0" aria-live="polite">Alto Contraste: DESACTIVADO</button>
+
+            <h4>🔍 Tamaño del Texto</h4>
+            <div class="text-size-controls">
+                <button id="decreaseTextBtn" class="btn-secondary" tabindex="0">A- Disminuir</button>
+                <button id="increaseTextBtn" class="btn-secondary" tabindex="0">A+ Aumentar</button>
+            </div>
+        </div>
+    </aside>
+
+    <script th:src="@{/js/JSChat.js}"></script>
 </body>
 </html>

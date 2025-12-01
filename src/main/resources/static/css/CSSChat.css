@@ -1,63 +1,571 @@
+/* =================================================== */
+/* 1. VARIABLES GLOBALES Y BASE   */
+/* =================================================== */
+
+:root {
+    --font-scale: 1.0;
+    --color-primary-dark: #285430; /* 🟢 Verde Oscuro (Navbar/Footer) */
+    --color-primary-medium: #4a4a4a; /* Gris Oscuro para texto secundario */
+    --color-secondary: #000; /* Negro para la mayoría del texto por defecto */
+    --color-highlight: #007c39; /* Verde de GanderSync para focus/acción */
+    --color-lime-hover: #a3ff73; /* 🟢 Nuevo Verde Lima para Hover/Active (Añadido) */
+    --color-action: #4a4a4a; /* Gris para botones de acción flotantes */
+    --color-danger: #d9534f;
+    --color-text-light: #fff; /* ⚪ Blanco (Texto en fondo oscuro) */
+    --color-border: #eee;
+    --color-bg-light: #f4f4f4;
+    --color-bg-main: #fff;
+    --font-body: 'Open Sans', Arial, sans-serif;
+    --nav-height: 60px; /* Altura de la barra de navegación */
+    --footer-height: 80px; /* Altura del footer */
+    --chat-bubble-self: var(--color-highlight); /* Verde para mis mensajes */
+    --chat-bubble-other: #e9ecef; /* Gris claro para mensajes del vendedor */
+}
+
+* {
+    box-sizing: border-box;
+    /* La fuente base utiliza la variable --font-scale */
+    font-size: calc(16px * var(--font-scale));
+}
+
+/* Base body y Animación de Carga */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-bg-light);
+    color: var(--color-secondary);
     display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Espacio superior para el Navbar fijo */
+    padding-top: var(--nav-height); 
+    /* Agregado espacio inferior para el Footer fijo (CRUCIAL para corregir el salto de scroll) */
+    padding-bottom: var(--footer-height); 
+    overflow-x: hidden;
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; 
+}
+
+body.loaded {
+    opacity: 1; 
+}
+
+/* Foco de accesibilidad (Unificado con CSSInicio.css) */
+button:focus,
+input:focus,
+a:focus,
+.menu a:focus,
+.floating-accessibility-btn:focus,
+.close-btn:focus { 
+    outline: 2px dashed var(--color-highlight);
+    outline-offset: 2px;
+}
+
+/* ----------------------------------------------------- */
+/* 2. ESTILOS DE ACCESIBILIDAD (High Contrast - B/N Estricto)  */
+/* ----------------------------------------------------- */
+
+body.high-contrast {
+    --color-primary-dark: #000;
+    --color-primary-medium: #111;
+    --color-secondary: #fff; /* Blanco Estricto */
+    --color-highlight: #fff; /* Blanco Estricto */
+    --color-action: #000;
+    --color-danger: #f00;
+    --color-text-light: #000;
+    --color-border: #000;
+    --color-bg-light: #000;
+    --color-bg-main: #000;
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+body.high-contrast .barra-navegacion,
+body.high-contrast .footer,
+body.high-contrast .sidebar-header,
+body.high-contrast .chat-header {
+    background-color: #000 !important;
+    color: #fff !important; 
+    border-color: #fff !important; 
+}
+
+body.high-contrast a,
+body.high-contrast .menu a {
+    color: #fff !important; 
+}
+
+body.high-contrast .chat-container,
+body.high-contrast .chat-messages,
+body.high-contrast .modal-content,
+body.high-contrast .accessibility-sidebar {
+    background-color: #000 !important;
+    border: 2px solid #fff !important; 
+    box-shadow: none !important;
+    color: #fff !important;
+}
+
+body.high-contrast h1, h2, h3, h4 {
+    color: #fff !important; 
+}
+
+body.high-contrast input,
+body.high-contrast button {
+    border-color: #fff !important; 
+}
+
+/* AJUSTES DE CONTRASTE PARA BOTONES DEL SIDEBAR (Unificado con CSSInicio) */
+body.high-contrast .btn-primary, 
+body.high-contrast .btn-secondary, 
+body.high-contrast .btn-action, 
+body.high-contrast .chat-input-area button,
+body.high-contrast .message.cliente {
+    background-color: #fff !important; 
+    color: #000 !important;
+    border: 2px solid #000 !important;
+}
+
+body.high-contrast .message.vendedor {
+    background-color: #444 !important; 
+    color: #fff !important;
+}
+
+
+/* ----------------------------------------------------- */
+/* 3. LAYOUT GENERAL Y COMPONENTES (Navbar, Footer, Acc.)*/
+/* ----------------------------------------------------- */
+
+/* NAVBAR (Sin cambios) */
+.barra-navegacion {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+}
+.barra-navegacion.oculta {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.barra-navegacion.transparente {
+    background-color: rgba(40, 84, 48, 0.9);
+    backdrop-filter: blur(6px);
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: var(--nav-height);
+}
+.logo {
+    margin: 0;
+    color: var(--color-text-light);
+    font-size: calc(1.5em * var(--font-scale));
+    transition: color 0.3s;
+}
+.menu {
+    display: flex;
+    align-items: center;
+}
+.menu a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 5px 0;
+    transition: color 0.3s, border-bottom 0.3s;
+    white-space: nowrap;
+}
+.menu a:hover, .menu a.active {
+    color: var(--color-lime-hover);
+    border-bottom: 2px solid var(--color-lime-hover);
+}
+
+
+/* FOOTER (Sin cambios) */
+.footer {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    border-top: 3px solid var(--color-highlight);
+    height: var(--footer-height);
+    padding: 10px;
+    box-sizing: border-box;
+    /* Inicia oculto */
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.footer.visible {
+    /* Se muestra al hacer scroll al final */
+    transform: translateY(0);
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: calc(14px * var(--font-scale));
+}
+
+/* ⭐ BOTONES GENÉRICOS (Para el Sidebar) - Copia de CSSInicio.css ⭐ */
+.btn-primary, .btn-secondary, .btn-action, .btn-danger {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.1s;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--color-highlight);
+    color: var(--color-text-light);
+}
+.btn-primary:hover {
+    background-color: #006631;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: var(--color-primary-medium);
+    /* Color de texto CLARO por defecto para fondo gris oscuro */
+    color: var(--color-text-light);
+}
+.btn-secondary:hover {
+    background-color: #5d5d5d;
+}
+
+.btn-danger {
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
+}
+.btn-danger:hover {
+    background-color: #a93226;
+    transform: translateY(-1px);
+}
+
+.btn-action {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+}
+
+/* ACCESIBILIDAD SIDEBAR (Botón y Sidebar UNIFICADOS) */
+.floating-accessibility-btn {
+    position: fixed;
+    top: 90px;
+    right: 20px; 
+    z-index: 1000;
+    background-color: var(--color-action);
+    color: var(--color-text-light);
+    border-radius: 50px;
+    padding: 12px 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 1.2em;
+    border: none;
+    transition: transform 0.4s ease; 
+    display: flex; 
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+}
+.floating-accessibility-btn:hover {
+    transform: scale(1.05);
+}
+
+.accessibility-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0; 
+    width: 280px;
+    height: 100%;
+    background-color: var(--color-bg-main);
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1); 
+    z-index: 2000;
+    transform: translateX(100%); 
+    transition: transform 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.accessibility-sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.close-btn {
+    background: transparent;
+    color: var(--color-text-light);
+    font-size: calc(1.2em * var(--font-scale));
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.accessibility-sidebar .sidebar-items {
+    padding: 15px;
+}
+
+/* ⭐⭐⭐ CORRECCIÓN CLAVE: Asegurar que TODO el texto normal en el cuerpo del sidebar sea Verde Oscuro ⭐⭐⭐ */
+.accessibility-sidebar .sidebar-items * {
+    /* Resetea a Verde Oscuro para el texto normal del cuerpo, si no está en un botón o en el modo alto contraste */
+    color: var(--color-primary-dark);
+}
+/* Excepciones (Botones) */
+.accessibility-sidebar .sidebar-items button,
+.accessibility-sidebar .sidebar-items .btn-secondary,
+.accessibility-sidebar .sidebar-items .btn-full-width {
+    /* Reestablece el texto a BLANCO solo dentro de los botones, para contrastar con el gris */
+    color: var(--color-text-light) !important; 
+}
+/* TÍTULOS DE SECCIÓN (h4) */
+.accessibility-sidebar .sidebar-items h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    /* Ya están cubiertos por la regla general de arriba, pero los forzamos por si acaso */
+    color: var(--color-primary-dark) !important; 
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.text-size-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+.btn-full-width {
+    width: 100%;
+    margin-bottom: 10px;
+}
+/* Configuraciones finales de los botones del sidebar */
+.sidebar-items .btn-secondary,
+.sidebar-items .btn-full-width {
+    padding: 10px 15px;
+    font-size: calc(1em * var(--font-scale)); 
+}
+/* ⭐⭐⭐ FIN CORRECCIONES SIDEBAR TEXTO ⭐⭐⭐ */
+
+
+/* ----------------------------------------------------- */
+/* 4. ESTILOS ESPECÍFICOS DEL CHAT                     */
+/* ----------------------------------------------------- */
+
+main {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contenedor-chat {
+    width: 100%;
+    max-width: 700px;
+    min-height: 650px; /* Altura mínima corregida */
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-container {
-    width: 400px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
+    flex: 1;
+    border-radius: 12px;
     overflow: hidden;
+    background-color: var(--color-bg-main);
 }
 
 .chat-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    text-align: center;
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* Título del chat en blanco */
+.chat-header h2 { 
+    color: var(--color-text-light); 
+    font-size: calc(1.2em * var(--font-scale));
+    margin: 0;
+}
+
+.disconnect-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    font-size: 1.2em;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.disconnect-btn:hover {
+    opacity: 1;
 }
 
 .chat-messages {
     flex: 1;
-    padding: 10px;
+    padding: 15px;
     overflow-y: auto;
-    border-bottom: 1px solid #ddd;
+    background-color: #f7f9fc;
+    border-bottom: 1px solid var(--color-border);
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-messages .message {
+    padding: 10px 15px;
+    border-radius: 15px;
     margin-bottom: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.chat-input {
+.message.vendedor {
+    background-color: var(--chat-bubble-other);
+    color: var(--color-secondary);
+    margin-right: auto;
+    border-bottom-left-radius: 5px; 
+}
+
+.message.cliente {
+    background-color: var(--chat-bubble-self);
+    color: var(--color-text-light);
+    margin-left: auto;
+    border-bottom-right-radius: 5px; 
+}
+.message.status {
+    text-align: center;
+    width: 100%;
+    background-color: #e3f2fd;
+    color: var(--color-primary-medium);
+    font-style: italic;
+    border-radius: 8px;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+}
+
+.chat-input-area {
     display: flex;
-    padding: 10px;
+    padding: 15px;
+    background-color: var(--color-bg-main);
+    border-top: 1px solid var(--color-border);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
-.chat-input input {
+.chat-input-area input {
     flex: 1;
-    padding: 8px;
-    border-radius: 4px;
+    padding: 10px 15px;
+    border-radius: 20px;
     border: 1px solid #ccc;
+    font-size: calc(1em * var(--font-scale));
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.chat-input button {
-    margin-left: 5px;
-    padding: 8px 12px;
+.chat-input-area button {
+    margin-left: 10px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
-    background-color: #4CAF50;
-    color: white;
+    border-radius: 20px;
+    background-color: var(--color-highlight);
+    color: var(--color-text-light);
     cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.1s;
+}
+.chat-input-area button:hover {
+    background-color: #006631;
+    transform: translateY(-1px);
 }
 
-.chat-input button:hover {
-    background-color: #45a049;
+
+/* ------------------------------------------- */
+/* 5. RESPONSIVE (max-width: 768px)          */
+/* ------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* --- AJUSTE GENERAL DE FUENTE Y TAMAÑO --- */
+    :root {
+        --font-scale: 0.9;
+        --nav-height: 50px;
+        --footer-height: 70px;
+    }
+    body {
+        padding-top: var(--nav-height); 
+        padding-bottom: var(--footer-height); 
+    }
+
+    /* --- AJUSTES NAVBAR --- */
+    .header-content {
+        height: var(--nav-height);
+    }
+    .logo {
+        display: none;
+    }
+    .menu {
+        flex-grow: 1;
+        justify-content: flex-start;
+        margin: 0;
+    }
+    .menu a {
+        font-size: 0.9em;
+        margin: 0 8px;
+        padding: 3px 0;
+    }
+
+    /* --- AJUSTES FOOTER --- */
+    .footer {
+        height: var(--footer-height);
+        padding: 8px;
+    }
+    .footer p {
+        font-size: calc(13px * var(--font-scale));
+    }
+
+    /* --- AJUSTES CHAT Y ACCESIBILIDAD --- */
+    main {
+        padding: 10px;
+    }
+    .floating-accessibility-btn {
+        top: 70px; 
+        right: 10px; 
+        padding: 10px 15px; 
+        font-size: 1em;
+    }
+    .contenedor-chat {
+        min-height: 90vh; 
+    }
 }

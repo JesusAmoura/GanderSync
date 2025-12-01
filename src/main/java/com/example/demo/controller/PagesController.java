@@ -25,4 +25,9 @@ public class PagesController {
     public String mostrarOfertas() {
         return "InterfazOfertas"; // carga InterfazOfertas.html
     }
+
+    @GetMapping("/chat")
+    public String mostrarchat() {
+        return "InterfazChat"; // carga InterfazChat.html
+    }
 }
