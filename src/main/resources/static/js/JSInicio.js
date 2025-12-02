@@ -8,16 +8,18 @@ const alertMessage = document.getElementById("alertMessage");
 const alertCloseBtn = document.getElementById("alertCloseBtn");
 const confirmModal = document.getElementById("confirmModal");
 const confirmMessage = document.getElementById("confirmMessage");
+// CORRECCIÓN: Había un error de asignación doble en confirmCancelBtn
 const confirmOkBtn = document.getElementById("confirmOkBtn");
-const confirmCancelBtn = document.getElementById("confirmCancelBtn");
+const confirmCancelBtn = document.getElementById("confirmCancelBtn"); 
 
 // Elementos de Accesibilidad 
 const floatingAccessibilityBtn = document.getElementById("floatingAccessibilityBtn");
-const accessibilitySidebar = document.getElementById("accessibility-sidebar");
-const closeAccessibility = document.getElementById("closeAccessibility");
+const accessibilityContainer = document.querySelector(".accessibility-container"); // Contenedor arrastrable
+const accessibilityMenu = document.getElementById("accessibility-menu"); 
 const toggleContrastBtn = document.getElementById("toggleContrastBtn");
 const increaseTextBtn = document.getElementById("increaseTextBtn");
 const decreaseTextBtn = document.getElementById("decreaseTextBtn");
+const resetTextBtn = document.getElementById("resetTextBtn"); 
 
 // Constantes de Accesibilidad
 const FONT_SCALE_STEP = 0.1;
@@ -26,6 +28,7 @@ const FONT_SCALE_MIN = 0.8;
 
 let ultimoScroll = 0;
 let scrollTimeout;
+let isMenuClosingByScroll = false; // Flag para evitar que el click listener interfiera
 
 // ===================================
 // FUNCIONES DE UTILIDAD Y ACCESIBILIDAD
@@ -110,17 +113,37 @@ function showConfirm(message) {
     });
 }
 
-function toggleAccessibilitySidebar() {
-    const isOpen = accessibilitySidebar?.classList.toggle("open");
-    if (accessibilitySidebar) {
-        accessibilitySidebar.toggleAttribute('hidden', !isOpen);
+/**
+ * Función para alternar el menú flotante de accesibilidad
+ */
+function toggleAccessibilityMenu() {
+    const isOpen = accessibilityMenu?.classList.toggle("open");
+    if (accessibilityMenu) {
+        accessibilityMenu.toggleAttribute('hidden', !isOpen);
         floatingAccessibilityBtn.setAttribute('aria-expanded', isOpen);
     }
 }
 
+/**
+ * Nueva función CLAVE: Cierra el menú de accesibilidad si está abierto.
+ */
+function closeAccessibilityMenuOnScroll() {
+    if (accessibilityMenu && accessibilityMenu.classList.contains("open")) {
+        // Marcamos la bandera para evitar que el click listener (window.click) interfiera.
+        isMenuClosingByScroll = true; 
+        toggleAccessibilityMenu(); 
+        
+        // Retrasamos la desactivación de la bandera un momento.
+        setTimeout(() => {
+            isMenuClosingByScroll = false;
+        }, 50);
+    }
+}
+
+
 function toggleContrast() {
     const isHighContrast = body?.classList.toggle("high-contrast");
-    toggleContrastBtn.textContent = isHighContrast ? "Alto Contraste: ACTIVADO" : "Alto Contraste: DESACTIVADO";
+    toggleContrastBtn.setAttribute('aria-label', isHighContrast ? "Alto Contraste: ACTIVADO" : "Alto Contraste: DESACTIVADO");
 }
 
 function changeFontSize(direction) {
@@ -140,12 +163,13 @@ function changeFontSize(direction) {
 
 // Event Listeners de Accesibilidad
 if (floatingAccessibilityBtn) {
-    floatingAccessibilityBtn.addEventListener("click", toggleAccessibilitySidebar);
-    handleEnterKey(floatingAccessibilityBtn, toggleAccessibilitySidebar);
-}
-if (closeAccessibility) {
-    closeAccessibility.addEventListener("click", toggleAccessibilitySidebar);
-    handleEnterKey(closeAccessibility, toggleAccessibilitySidebar);
+    floatingAccessibilityBtn.addEventListener("click", (e) => {
+        // Solo abre/cierra si NO se está moviendo (click instantáneo)
+        if (!e.target.closest('.is-moving')) {
+            toggleAccessibilityMenu();
+        }
+    });
+    handleEnterKey(floatingAccessibilityBtn, toggleAccessibilityMenu); 
 }
 if (toggleContrastBtn) {
     toggleContrastBtn.addEventListener("click", toggleContrast);
@@ -156,7 +180,116 @@ if (increaseTextBtn) {
 if (decreaseTextBtn) {
     decreaseTextBtn.addEventListener("click", () => changeFontSize('decrease'));
 }
+if (resetTextBtn) { 
+    resetTextBtn.addEventListener("click", () => changeFontSize('reset'));
+}
 
+
+// ===================================
+// FUNCIONALIDAD DRAGGABLE PARA EL CONTENEDOR DE ACCESIBILIDAD
+// ===================================
+// ... (Toda la lógica de dragElement y dragMouseDown/elementDrag/closeDragElement se mantiene igual) ...
+
+function dragElement(elmnt) {
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let isDragging = false;
+    let clickStartX, clickStartY; 
+    const dragHandle = floatingAccessibilityBtn; 
+    const DRAG_THRESHOLD = 5; 
+
+    if (dragHandle) {
+        dragHandle.onmousedown = dragMouseDown;
+        dragHandle.ontouchstart = dragMouseDown; 
+    }
+
+    function dragMouseDown(e) {
+        if (e.target !== dragHandle) return;
+
+        e = e || window.event;
+        e.preventDefault(); 
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        pos3 = clickStartX = clientX;
+        pos4 = clickStartY = clientY;
+        isDragging = false; 
+
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+        document.ontouchend = closeDragElement;
+        document.ontouchmove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        if (!isDragging) {
+            const deltaX = Math.abs(clientX - clickStartX);
+            const deltaY = Math.abs(clientY - clickStartY);
+
+            if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
+                isDragging = true;
+                elmnt.classList.add('dragging'); 
+                elmnt.classList.add('is-moving'); 
+            } else {
+                return;
+            }
+        }
+
+        pos1 = pos3 - clientX;
+        pos2 = pos4 - clientY;
+        pos3 = clientX;
+        pos4 = clientY;
+
+        let newTop = elmnt.offsetTop - pos2;
+        let newLeft = elmnt.offsetLeft - pos1;
+
+        // Limitar movimiento
+        newTop = Math.max(0, Math.min(newTop, window.innerHeight - elmnt.offsetHeight));
+        newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - elmnt.offsetWidth));
+
+        elmnt.style.top = newTop + "px";
+        elmnt.style.left = newLeft + "px";
+        elmnt.style.right = "unset"; 
+        
+        // LÓGICA DE AJUSTE DE ALINEACIÓN
+        const screenCenter = window.innerWidth / 2;
+        if (newLeft < screenCenter) {
+            elmnt.classList.add('align-left');
+        } else {
+            elmnt.classList.remove('align-left');
+        }
+    }
+
+    function closeDragElement(e) {
+        document.onmouseup = null;
+        document.onmousemove = null;
+        document.ontouchend = null;
+        document.ontouchmove = null;
+
+        if (isDragging) {
+            elmnt.classList.remove('dragging');
+            
+            setTimeout(() => {
+                elmnt.classList.remove('is-moving');
+            }, 10); 
+            
+            isDragging = false; 
+        }
+    }
+}
+
+// Aplicar la función de arrastre al contenedor de accesibilidad
+if (accessibilityContainer) {
+    accessibilityContainer.style.right = 'unset';
+    accessibilityContainer.style.left = (window.innerWidth - accessibilityContainer.offsetWidth - 20) + 'px';
+    dragElement(accessibilityContainer);
+}
 
 // ===================================
 // ANIMACIÓN DE NAVBAR Y FOOTER
@@ -164,17 +297,25 @@ if (decreaseTextBtn) {
 const scrollThreshold = 80;
 
 window.addEventListener("scroll", () => {
-    const actualScroll = window.scrollY || document.documentElement.scrollTop;
-
-    // Detener si los modales o el sidebar están abiertos
+    
+    // **NUEVA LÓGICA:** Cierra inmediatamente el menú de accesibilidad si está abierto.
+    closeAccessibilityMenuOnScroll(); 
+    
+    // Si algún modal de ALERTA/CONFIRMACIÓN está abierto, bloqueamos la animación de barra/pie.
     if (
       (alertModal && !alertModal.classList.contains("hidden")) ||
-      (confirmModal && !confirmModal.classList.contains("hidden")) ||
-      (accessibilitySidebar && accessibilitySidebar.classList.contains("open"))
+      (confirmModal && !confirmModal.classList.contains("hidden"))
     )
-      return;
+        return;
+    
+    // NOTA: Eliminamos la condición (accessibilityMenu && accessibilityMenu.classList.contains("open"))
+    // del return, ya que lo estamos cerrando justo arriba.
 
-    // --- NAVBAR ---
+    const actualScroll = window.scrollY || document.documentElement.scrollTop;
+    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+
+
+    // --- NAVBAR (Ocultar al bajar, mostrar al subir) ---
     if (actualScroll > ultimoScroll && actualScroll > scrollThreshold) {
         navbar?.classList.add('oculta');
         navbar?.classList.remove('transparente');
@@ -193,22 +334,29 @@ window.addEventListener("scroll", () => {
         navbar?.classList.remove("transparente");
     }
 
-    ultimoScroll = Math.max(actualScroll, 0);
+    // --- FOOTER (Aparecer al final, desaparecer al subir) ---
+    const footerThreshold = 100; 
 
-    // --- FOOTER ---
-    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-    if (window.scrollY >= scrollMax - 5) {
+    if (actualScroll >= scrollMax - footerThreshold) {
         footer?.classList.add("visible");
     } else {
         footer?.classList.remove("visible");
     }
+
+    ultimoScroll = Math.max(actualScroll, 0);
 }, { passive: true });
 
 // Control de cierre de accesibilidad al hacer click fuera
 window.addEventListener("click", function (e) {
-    if (accessibilitySidebar && accessibilitySidebar.classList.contains('open')) {
-        if (!e.target.closest('.accessibility-sidebar') && e.target !== floatingAccessibilityBtn) {
-            toggleAccessibilitySidebar(); 
+    // Si el menú se está cerrando por el scroll, evitamos que el click listener
+    // lo intente cerrar de nuevo e interfiera con el scroll.
+    if (isMenuClosingByScroll) {
+        return;
+    }
+    
+    if (accessibilityMenu && accessibilityMenu.classList.contains('open')) {
+        if (!e.target.closest('.accessibility-container') && e.target !== floatingAccessibilityBtn) {
+            toggleAccessibilityMenu(); 
         }
     }
 });
