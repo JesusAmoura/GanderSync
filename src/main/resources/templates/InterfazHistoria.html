@@ -4,89 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia - GanderSync</title>
-    <link rel="stylesheet" th:href="@{/css/CSSHistoria.css}">
+    <link rel="stylesheet" th:href="@{/css/CSSHistoria.css}" href="CSSHistoria.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
 </head>
-<body>
+<body id="body">
 
-    <!-- HEADER -->
     <header class="barra-navegacion">
-        <h1 class="logo">GanderSync</h1>
-        <nav class="menu">
-            <a th:href="@{/inicio}">Inicio</a>
-            <a th:href="@{/productos}">Productos</a>
-            <a th:href="@{/novedades}">Novedades</a>
-            <a th:href="@{/ofertas}">Ofertas</a>
-            <a th:href="@{/historia}" class="active">Historia</a>
-            <a th:href="@{/login}">Login</a>
-        </nav>
+        <div class="header-content">
+            <h1 class="logo">GanderSync</h1>
+            <nav class="menu" role="navigation" aria-label="Menú principal">
+                <a th:href="@{/inicio}" tabindex="0">Inicio</a>
+                <a th:href="@{/productos}" tabindex="0">Productos</a>
+                <a th:href="@{/novedades}" tabindex="0">Novedades</a>
+                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                <a th:href="@{/historia}" class="active" tabindex="0" aria-current="page">Historia</a>
+                <a th:href="@{/login}" tabindex="0">Login</a>
+            </nav>
+            <div class="header-actions">
+                <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
+            </div>
+        </div>
     </header>
 
-    <!-- GALERÍA DE IMÁGENES -->
-    <section class="imagenes" id="galeria">
-        <img th:src="@{/img/imagen1.jpeg}" alt="Imagen 1" class="img-activa">
-        <img th:src="@{/img/imagen2.jpg}" alt="Imagen 2">
-        <img th:src="@{/img/imagen3.jpg}" alt="Imagen 3">
-    </section>
+    <main>
+        <section class="imagenes" id="galeria">
+            <img th:src="@{/img/imagen1.jpeg}" alt="Imagen 1: Visión de GanderSync" class="img-activa" tabindex="0">
+            <img th:src="@{/img/imagen2.jpg}" alt="Imagen 2: Equipo DeepCode" tabindex="0">
+            <img th:src="@{/img/imagen3.jpg}" alt="Imagen 3: Avances del proyecto" tabindex="0">
+        </section>
 
-    <!-- HISTORIA -->
-    <section class="seccion">
-        <h2 class="titulo">Nuestra Historia</h2>
-        <div class="contenido">
-            <p>
-               Somos <strong>DeepCode</strong>, un equipo de aprendices del Servicio Nacional de Aprendizaje (SENA), formados en el desarrollo de software con enfoque en tecnologías digitales. Nuestra misión es impulsar el crecimiento del sector ganadero en Norte de Santander, mediante la creación de soluciones tecnológicas que optimicen los procesos productivos y fortalezcan la competitividad de los productores locales.<br><br>
-                Como parte de nuestra formación, identificamos una necesidad sentida en el sector ganadero de Cúcuta, la falta de herramientas digitales que faciliten el acceso a la información y la gestión de la producción. Por ello, surge la idea de crear <strong>Marketplace GanderSync</strong>, un espacio digital que conecta a productores y compradores, promoviendo el comercio local y sostenible.<br><br>
-                Nos destacamos por nuestro enfoque en el aprendizaje colaborativo, trabajando junto a expertos del sector y otros aprendices para ofrecer soluciones reales y sostenibles.
-            </p>
-        </div>
-    </section>
+        <section class="seccion">
+            <h2 class="titulo">Nuestra Historia</h2>
+            <div class="contenido">
+                <p>
+                    Somos <strong>DeepCode</strong>, un equipo de aprendices del Servicio Nacional de Aprendizaje (SENA), formados en el desarrollo de software con enfoque en tecnologías digitales. Nuestra misión es impulsar el crecimiento del sector ganadero en Norte de Santander, mediante la creación de soluciones tecnológicas que optimicen los procesos productivos y fortalezcan la competitividad de los productores locales.<br><br>
+                    Como parte de nuestra formación, identificamos una necesidad sentida en el sector ganadero de Cúcuta, la falta de herramientas digitales que faciliten el acceso a la información y la gestión de la producción. Por ello, surge la idea de crear <strong>Marketplace GanderSync</strong>, un espacio digital que conecta a productores y compradores, promoviendo el comercio local y sostenible.<br><br>
+                    Nos destacamos por nuestro enfoque en el aprendizaje colaborativo, trabajando junto a expertos del sector y otros aprendices para ofrecer soluciones reales y sostenibles.
+                </p>
+            </div>
+        </section>
 
-    <!-- MISIÓN -->
-    <section class="seccion">
-        <h2 class="titulo">Misión</h2>
-        <div class="contenido">
-            <p>
-                 Diseñar y desarrollar soluciones tecnológicas que respondan a problemáticas reales de la comunidad, especialmente en sectores con poca digitalización como el ganadero. A través de este proyecto, buscamos facilitar la promoción, comercialización y conexión entre productores y compradores mediante una plataforma web funcional, segura y fácil de usar.
-            </p>
-        </div>
-    </section>
+        <section class="seccion">
+            <h2 class="titulo">Misión</h2>
+            <div class="contenido">
+                <p>
+                    Diseñar y desarrollar soluciones tecnológicas que respondan a problemáticas reales de la comunidad, especialmente en sectores con poca digitalización como el ganadero. A través de este proyecto, buscamos facilitar la promoción, comercialización y conexión entre productores y compradores mediante una plataforma web funcional, segura y fácil de usar.
+                </p>
+            </div>
+        </section>
 
-    <!-- VISIÓN -->
-    <section class="seccion">
-        <h2 class="titulo">Visión</h2>
-        <div class="contenido">
-            <p>
-                Ser reconocidos como un equipo de aprendices comprometido con la innovación, la transformación digital y el impacto social, desarrollando proyectos de software útiles, escalables y adaptados a las necesidades del entorno.
-            </p>
-        </div>
-    </section>
+        <section class="seccion">
+            <h2 class="titulo">Visión</h2>
+            <div class="contenido">
+                <p>
+                    Ser reconocidos como un equipo de aprendices comprometido con la innovación, la transformación digital y el impacto social, desarrollando proyectos de software útiles, escalables y adaptados a las necesidades del entorno.
+                </p>
+            </div>
+        </section>
 
-    <!-- LOGROS -->
-    <section class="seccion">
-        <h2 class="titulo">Logros</h2>
-        <div class="contenido">
-            <p>
-                A lo largo del desarrollo del proyecto, hemos alcanzado varios logros importantes. Realizamos un análisis detallado de las necesidades del sector ganadero en Cúcuta, lo que permitió definir con claridad los requisitos del sistema. Se diseñó la estructura general del marketplace y se desarrollaron interfaces clave como el registro, inicio de sesión, publicación y visualización de productos.
-            </p>
-        </div>
-    </section>
+        <section class="seccion">
+            <h2 class="titulo">Logros</h2>
+            <div class="contenido">
+                <p>
+                    A lo largo del desarrollo del proyecto, hemos alcanzado varios logros importantes. Realizamos un análisis detallado de las necesidades del sector ganadero en Cúcuta, lo que permitió definir con claridad los requisitos del sistema. Se diseñó la estructura general del marketplace y se desarrollaron interfaces clave como el registro, inicio de sesión, publicación y visualización de productos.
+                </p>
+            </div>
+        </section>
 
-    <!-- AVANCES -->
-    <section class="seccion">
-        <h2 class="titulo">Avances</h2>
-        <div class="contenido">
-            <p>
-                 Actualmente hemos completado el análisis de necesidades del sector ganadero y definido los requisitos del sistema. Ya están en desarrollo las principales interfaces del marketplace, como el registro, publicación y búsqueda de productos. También iniciamos la integración del backend con la base de datos. El proyecto avanza según lo planificado.
-            </p>
-        </div>
-    </section>
+        <section class="seccion">
+            <h2 class="titulo">Avances</h2>
+            <div class="contenido">
+                <p>
+                    Actualmente hemos completado el análisis de necesidades del sector ganadero y definido los requisitos del sistema. Ya están en desarrollo las principales interfaces del marketplace, como el registro, publicación y búsqueda de productos. También iniciamos la integración del backend con la base de datos. El proyecto avanza según lo planificado.
+                </p>
+            </div>
+        </section>
+    </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
-        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>    
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
     </footer>
+    
+    <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-sidebar" aria-expanded="false" aria-label="Abrir opciones de accesibilidad">
+        ♿
+    </button>
 
-    <!-- JS -->
-    <script th:src="@{/js/JSHistoria.js}"></script>
+    <aside id="accessibility-sidebar" class="accessibility-sidebar" role="complementary" aria-hidden="true" hidden>
+        <div class="sidebar-header">
+            <h3>Opciones de Accesibilidad</h3>
+            <button id="closeAccessibility" class="close-btn" tabindex="0" aria-label="Cerrar barra de accesibilidad">✖</button>
+        </div>
+
+        <div class="sidebar-items">
+            <h4>🎨 Contraste</h4>
+            <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0" aria-live="polite">Alto Contraste: DESACTIVADO</button>
+
+            <h4>🔍 Tamaño del Texto</h4>
+            <div class="text-size-controls">
+                <button id="decreaseTextBtn" class="btn-secondary" tabindex="0">A- Disminuir</button>
+                <button id="increaseTextBtn" class="btn-secondary" tabindex="0">A+ Aumentar</button>
+            </div>
+        </div>
+    </aside>
+
+    <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage" hidden>
+        <div class="modal-content alert-modal">
+            <p id="alertMessage"></p>
+            <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage" hidden>
+        <div class="modal-content confirm-modal">
+            <p id="confirmMessage"></p>
+            <div class="confirm-buttons">
+                <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
+                <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/JSHistoria.js}" src="JSHistoria.js"></script>
 </body>
 </html>

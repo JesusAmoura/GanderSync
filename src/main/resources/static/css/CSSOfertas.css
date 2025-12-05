@@ -1,34 +1,140 @@
-/* === ESTILOS GENERALES === */
+:root {
+  --font-scale: 1.0;
+  --color-primary-dark: #285430; /* Verde Oscuro (Navbar/Footer) */
+  --color-primary-medium: #4a4a4a;
+  --color-secondary: #000;
+  --color-highlight: #007c39; /* Verde de GanderSync */
+  --color-action: #4a4a4a;
+  --color-danger: #d9534f;
+  --color-text-light: #fff;
+  --color-border: #eee;
+  --color-bg-light: #f4f4f4;
+  --color-bg-main: #fff;
+  --font-body: 'Open Sans', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  /* La fuente base utiliza la variable --font-scale */
+  font-size: calc(16px * var(--font-scale));
+}
+
+/* ------------------------------------------- */
+/* ESTILOS DE ACCESIBILIDAD Y BASE            */
+/* ------------------------------------------- */
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
-  color: #333;
+  font-family: var(--font-body);
+  background-color: var(--color-bg-light);
+  color: var(--color-secondary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Espacio superior para el Navbar fijo (60px) */
+  padding-top: 60px;
+  /* Agregado espacio inferior para el Footer fijo (80px) */
+  padding-bottom: 80px;
+  overflow-x: hidden;
+  line-height: 1.6;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
-  overflow-x: hidden;
-  padding-top: 70px; /* espacio para navbar fija */
 }
 
 body.loaded {
   opacity: 1;
 }
 
-/* === BARRA DE NAVEGACIÓN === */
+/* Base de Alto Contraste */
+body.high-contrast {
+  --color-primary-dark: #000;
+  --color-primary-medium: #111;
+  --color-secondary: #ff0;
+  --color-highlight: #ff0;
+  --color-action: #000;
+  --color-danger: #f00;
+  --color-text-light: #000;
+  --color-border: #000;
+  --color-bg-light: #000;
+  --color-bg-main: #000;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+body.high-contrast .barra-navegacion,
+body.high-contrast .footer,
+body.high-contrast .sidebar-header {
+  background-color: #000 !important;
+  color: #ff0 !important;
+  border-color: #ff0 !important;
+}
+
+body.high-contrast a,
+body.high-contrast .menu a {
+  color: #ff0 !important;
+}
+
+body.high-contrast .upload-section,
+body.high-contrast .card,
+body.high-contrast .modal-content,
+body.high-contrast .accessibility-sidebar {
+  background-color: #000 !important;
+  border: 2px solid #ff0 !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+body.high-contrast h1,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4 {
+  color: #ff0 !important;
+}
+
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast button {
+  border-color: #ff0 !important;
+}
+
+body.high-contrast .btn-primary,
+body.high-contrast .btn-secondary,
+body.high-contrast .btn-action,
+body.high-contrast .acciones .editar,
+body.high-contrast .acciones .eliminar {
+  background-color: #ff0 !important;
+  color: #000 !important;
+  border: 2px solid #000 !important;
+}
+
+/* Foco de accesibilidad */
+button:focus,
+input:focus,
+select:focus,
+.floating-accessibility-btn:focus,
+.file-label:focus,
+.menu a:focus, /* Agregado para accesibilidad del Navbar */
+.header-actions .cart-nav-btn:focus {
+  outline: 2px dashed var(--color-highlight);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------- */
+/* COMPONENTES GENERALES                      */
+/* ------------------------------------------- */
+
+/* BARRA DE NAVEGACIÓN (NAVBAR) */
 .barra-navegacion {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(40, 84, 48, 0.95);
-  color: white;
-  padding: 10px 20px;
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  padding: 0 20px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  box-sizing: border-box;
-  transition: transform 0.4s ease, background-color 0.4s ease, opacity 0.4s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
 }
 
 .barra-navegacion.oculta {
@@ -37,129 +143,355 @@ body.loaded {
 }
 
 .barra-navegacion.transparente {
-  background-color: rgba(40, 84, 48, 0.5);
+  background-color: rgba(40, 84, 48, 0.9);
+  backdrop-filter: blur(6px);
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.menu a {
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  display: inline-block;
-  transition: all 0.3s ease;
-  border-radius: 5px;
-  margin-left: 10px;
-}
-
-.menu a:hover {
-  background-color: #1abc9c;
-  color: black;
-}
-
-/* === MAIN === */
-main {
-  padding: 20px;
+.header-content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 60px; /* Altura estándar Desktop */
+}
+
+/* LOGO */
+.logo {
+  margin: 0;
+  color: var(--color-text-light);
+  font-size: calc(1.5em * var(--font-scale));
+  font-weight: bold;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: var(--color-highlight);
+}
+
+.menu {
+  display: flex; /* Aseguramos Flexbox para el menú */
   align-items: center;
 }
 
-/* === SECCIÓN DE SUBIR OFERTA === */
+.menu a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  margin-left: 20px;
+  padding: 5px 0;
+  transition: color 0.3s, border-bottom 0.3s;
+  white-space: nowrap; /* Evita que los links se rompan en varias líneas */
+}
+
+.menu a:hover, .menu a.active {
+  color: var(--color-highlight);
+  border-bottom: 2px solid var(--color-highlight);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header-actions .cart-nav-btn {
+  position: relative;
+  color: var(--color-text-light);
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: var(--color-primary-medium);
+  border: 1px solid var(--color-primary-medium);
+  border-radius: 4px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.header-actions .cart-nav-btn:hover {
+  background-color: #4a4a4a;
+  border-color: #4a4a4a;
+}
+
+/* BOTONES GENERALES */
+.btn-primary, .btn-secondary, .btn-action {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.1s;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: var(--color-highlight);
+  color: var(--color-text-light);
+}
+
+.btn-primary:hover {
+  background-color: #006631;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: var(--color-primary-dark);
+}
+
+.btn-secondary:hover {
+  background-color: #bbb;
+}
+
+.btn-action {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+}
+
+.btn-action:hover {
+  background-color: var(--color-primary-medium);
+  transform: translateY(-1px);
+}
+
+/* ACCESIBILIDAD SIDEBAR */
+.floating-accessibility-btn {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  z-index: 1000;
+  background-color: var(--color-action);
+  color: var(--color-text-light);
+  border-radius: 50px;
+  padding: 12px 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease;
+  cursor: pointer;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accessibility-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background-color: var(--color-bg-main);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  transform: translateX(-100%);
+  transition: transform 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.accessibility-sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: calc(1.2em * var(--font-scale));
+}
+
+.sidebar-header .close-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  font-size: calc(1.5em * var(--font-scale));
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.accessibility-sidebar .sidebar-items {
+  padding: 15px;
+}
+
+.accessibility-sidebar .sidebar-items h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: var(--color-primary-dark);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 5px;
+  font-size: 1.1em;
+}
+
+.text-size-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.btn-full-width {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+
+/* ------------------------------------------- */
+/* ESTILOS ESPECÍFICOS DE OFERTAS             */
+/* ------------------------------------------- */
+
+main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 20px auto;
+  padding: 0 20px; /* Removido padding-bottom extra para que el footer funcione mejor */
+  box-sizing: border-box;
+}
+
 .upload-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 40px 0;
+  margin: 40px auto 60px;
   padding: 30px;
-  background: #ffffff;
+  background: var(--color-bg-main);
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  border: 1px solid var(--color-border);
 }
 
 .upload-section h2 {
   margin-bottom: 20px;
-  color: #285430;
+  color: var(--color-highlight);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 10px;
+  width: 100%;
 }
 
 .upload-section form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   width: 100%;
 }
 
-.upload-section input,
-.upload-section button {
-  padding: 10px;
+.upload-section input[type="text"],
+.upload-section input[type="number"] {
+  padding: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  font-size: 14px;
+  font-size: calc(1em * var(--font-scale));
+  width: 100%;
 }
 
-button {
-  background: #285430;
-  color: white;
-  border: none;
+.file-label {
+  background-color: var(--color-bg-light);
+  border: 1px dashed #ccc;
+  padding: 10px;
+  text-align: center;
   cursor: pointer;
-  transition: background 0.3s;
+  width: 100%;
+  display: block;
+  border-radius: 8px;
 }
 
-button:hover {
-  background: #1d3b25;
+#archivoImagen {
+  display: none;
 }
 
-/* === GRID DE PRODUCTOS === */
+.ofertas-grid-container h2 {
+  color: var(--color-primary-dark);
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 5px;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   justify-content: center;
-  align-items: start;
-  max-width: 900px;
+  align-items: stretch;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .card {
-  background: white;
+  background: var(--color-bg-main);
   border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border);
   text-align: center;
-  font-size: 14px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card:focus {
+  outline: 2px solid var(--color-highlight);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .card img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
+  background-color: var(--color-bg-light);
+}
+
+.card h3 {
+  color: var(--color-primary-dark);
+  margin: 5px 0;
+  font-size: calc(1.1em * var(--font-scale));
+}
+
+.card p {
+  margin: 5px 0;
+  font-weight: 600;
+}
+
+.card del {
+  color: var(--color-danger);
+  font-weight: 400;
+  margin-right: 5px;
+}
+
+.card strong {
+  color: var(--color-highlight);
+  font-size: calc(1.1em * var(--font-scale));
 }
 
 .acciones {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--color-border);
 }
 
 .acciones button {
-  padding: 5px 10px;
-  font-size: 12px;
-  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: calc(0.9em * var(--font-scale));
+  border-radius: 4px;
+  color: var(--color-text-light);
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
 .acciones .editar {
@@ -171,7 +503,7 @@ button:hover {
 }
 
 .acciones .eliminar {
-  background-color: #c0392b;
+  background-color: var(--color-danger);
 }
 
 .acciones .eliminar:hover {
@@ -180,28 +512,191 @@ button:hover {
 
 /* === FOOTER (visible solo al final) === */
 .footer {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
   text-align: center;
-  background-color: rgba(40, 84, 48, 0.95);
-  color: white;
-  padding: 18px 10px;
-  margin-top: 30px;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out, background-color 0.5s ease;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  border-top: 3px solid var(--color-highlight);
+  height: 80px;
+  padding: 10px;
+  box-sizing: border-box;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
 }
 
 .footer.visible {
-  opacity: 1;
+  transform: translateY(0);
 }
 
 .footer p {
-  margin: 6px 0;
-  font-size: 0.95rem;
+  margin: 5px 0;
+  font-size: calc(14px * var(--font-scale));
 }
 
-/* === RESPONSIVE === */
+.hidden {
+  display: none !important;
+}
+
+/* ESTILOS DE MODALES (Alerta/Confirmación) */
+.modal {
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  background-color: var(--color-bg-main);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 90%;
+  width: 500px;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-modal, .confirm-modal {
+  text-align: center;
+  width: 350px;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ------------------------------------------- */
+/* RESPONSIVE (max-width: 768px)              */
+/* ------------------------------------------- */
+
 @media (max-width: 768px) {
+  /* --- AJUSTE GENERAL DE FUENTE --- */
+  :root {
+    --font-scale: 0.9;
+  }
+
+  /* --- AJUSTES NAVBAR (Énfasis aquí) --- */
+
+  .barra-navegacion {
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
+
+  .header-content {
+    height: 50px; /* Reducimos la altura del navbar */
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row; /* Aseguramos que siga en fila */
+    justify-content: space-between; /* Mantenemos la distribución */
+  }
+
+  body {
+    padding-top: 50px; /* Ajustamos el padding del body a la nueva altura del navbar */
+  }
+
+  .logo {
+    display: none; /* Ocultamos el logo para ahorrar espacio */
+  }
+
+  .menu {
+    width: auto;
+    flex-grow: 1;
+    justify-content: flex-start; /* Alineamos los links a la izquierda */
+    margin: 0;
+    order: 1;
+    min-width: 0;
+  }
+
   .menu a {
-    padding: 8px 10px;
-    margin-left: 8px;
+    font-size: 0.9em;
+    margin: 0 8px; /* Espaciado ajustado */
+    padding: 3px 0;
+    white-space: nowrap;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    order: 2;
+  }
+
+  .header-actions .cart-nav-btn {
+    display: none; /* Ocultamos el botón de carrito para ahorrar espacio */
+  }
+
+  /* --- AJUSTES FOOTER --- */
+  .footer {
+    height: 70px; /* Altura ajustada */
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .footer p {
+    font-size: calc(13px * var(--font-scale)); /* Fuente ligeramente más pequeña */
+  }
+
+
+  /* --- AJUSTES ESPECÍFICOS DE OFERTAS --- */
+
+  main {
+    padding: 0 10px; /* Reducimos el padding lateral del contenido principal */
+    margin: 10px auto;
+  }
+
+  .upload-section {
+    margin: 20px auto 30px;
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Hacemos las tarjetas más pequeñas */
+    gap: 15px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .card img {
+    height: 120px;
+  }
+
+  .card h3 {
+    font-size: calc(1em * var(--font-scale));
+  }
+
+  .acciones {
+    gap: 5px;
+  }
+
+  .acciones button {
+    padding: 6px 10px;
+    font-size: calc(0.85em * var(--font-scale));
   }
 }

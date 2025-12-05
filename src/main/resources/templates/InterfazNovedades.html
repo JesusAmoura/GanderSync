@@ -1,75 +1,132 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Novedades - GanderSync</title>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
-  <link rel="stylesheet" th:href="@{/css/CSSNovedades.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novedades - GanderSync</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/CSSNovedades.css}" href="CSSNovedades.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
 </head>
-<body>
 
-  <header class="barra-navegacion">
-      <h1 class="logo">GanderSync</h1>
-      <nav class="menu">
-          <a th:href="@{/inicio}">Inicio</a>          
-          <a th:href="@{/productos}">Productos</a>
-          <a th:href="@{/novedades}" class="active">Novedades</a>
-          <a th:href="@{/ofertas}">Ofertas</a>
-          <a th:href="@{/historia}">Historia</a>
-          <a th:href="@{/login}">Login</a>
-      </nav>
-  </header>
+<body id="body">
 
-  <section class="contenedor-calendario">
-      <h2 class="titulo">Calendario de Novedades</h2>
-      <div id="calendar"></div>
+    <header class="barra-navegacion">
+        <div class="header-content">
+            <h1 class="logo">GanderSync</h1>
 
-      <div class="formulario-evento">
-        <h3>Agregar Evento</h3>
-        <form id="eventForm">
-          <label for="title">Título:</label>
-          <input type="text" id="title" required>
+            <nav class="menu" role="navigation" aria-label="Menú principal">
+                <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
+                <a th:href="@{/productos}" tabindex="0">Productos</a>
+                <a th:href="@{/novedades}" class="active" tabindex="0" aria-current="page">Novedades</a>
+                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                <a th:href="@{/historia}" tabindex="0">Historia</a>
+                <a th:href="@{/login}" tabindex="0">Login</a>
+            </nav>
 
-          <label for="start">Fecha inicio:</label>
-          <input type="date" id="start" required>
-
-          <label for="end">Fecha fin (opcional):</label>
-          <input type="date" id="end">
-
-          <button type="submit">Guardar Evento</button>
-        </form>
-      </div>
-  </section>
-
-  <div class="modal" id="eventModal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Editar/Eliminar Evento</h3>
-      <form id="editForm">
-        <label for="editTitle">Título:</label>
-        <input type="text" id="editTitle" required>
-
-        <label for="editStart">Fecha inicio:</label>
-        <input type="date" id="editStart" required>
-
-        <label for="editEnd">Fecha fin:</label>
-        <input type="date" id="editEnd">
-
-        <div class="modal-buttons">
-          <button type="submit" class="guardar">Guardar cambios</button>
-          <button type="button" id="deleteBtn" class="eliminar">Eliminar</button>
+            <div class="header-actions">
+                <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
+            </div>
         </div>
-      </form>
-    </div>
-  </div>
+    </header>
 
-  <footer class="footer">
-    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
-    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>    
-  </footer>
+    <main>
+        <section class="contenedor-calendario">
+            <h2 class="titulo">Calendario de Novedades</h2>
 
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-  <script th:src="@{/js/JSNovedades.js}"></script>
+            <div id="calendar" aria-label="Calendario de eventos"></div>
+
+            <div class="formulario-evento">
+                <h3>Agregar Evento</h3>
+
+                <form id="eventForm">
+                    <label for="title">Título:</label>
+                    <input type="text" id="title" required tabindex="0">
+
+                    <label for="start">Fecha inicio:</label>
+                    <input type="date" id="start" required tabindex="0">
+
+                    <label for="end">Fecha fin (opcional):</label>
+                    <input type="date" id="end" tabindex="0">
+
+                    <button type="submit" class="btn-primary" tabindex="0">Guardar Evento</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="modal" id="eventModal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+            <div class="modal-content">
+                <button class="close" tabindex="0" aria-label="Cerrar ventana">&times;</button>
+
+                <h3 id="modal-title">Editar / Eliminar Evento</h3>
+
+                <form id="editForm">
+                    <label for="editTitle">Título:</label>
+                    <input type="text" id="editTitle" required tabindex="0">
+
+                    <label for="editStart">Fecha inicio:</label>
+                    <input type="date" id="editStart" required tabindex="0">
+
+                    <label for="editEnd">Fecha fin:</label>
+                    <input type="date" id="editEnd" tabindex="0">
+
+                    <div class="modal-buttons">
+                        <button type="submit" class="guardar btn-primary" tabindex="0">Guardar cambios</button>
+                        <button type="button" id="deleteBtn" class="eliminar btn-danger" tabindex="0">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage" hidden>
+            <div class="modal-content alert-modal">
+                <p id="alertMessage"></p>
+                <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage" hidden>
+            <div class="modal-content confirm-modal">
+                <p id="confirmMessage"></p>
+                <div class="confirm-buttons">
+                    <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
+                    <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
+    </footer>
+
+    <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-sidebar" aria-expanded="false" aria-label="Abrir opciones de accesibilidad">
+        ♿
+    </button>
+
+    <aside id="accessibility-sidebar" class="accessibility-sidebar" role="complementary" aria-hidden="true" hidden>
+        <div class="sidebar-header">
+            <h3>Opciones de Accesibilidad</h3>
+            <button id="closeAccessibility" class="close-btn" tabindex="0" aria-label="Cerrar barra de accesibilidad">✖</button>
+        </div>
+
+        <div class="sidebar-items">
+            <h4>🎨 Contraste</h4>
+            <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0" aria-live="polite">Alto Contraste: DESACTIVADO</button>
+
+            <h4>🔍 Tamaño del Texto</h4>
+            <div class="text-size-controls">
+                <button id="decreaseTextBtn" class="btn-secondary" tabindex="0">A- Disminuir</button>
+                <button id="increaseTextBtn" class="btn-secondary" tabindex="0">A+ Aumentar</button>
+            </div>
+        </div>
+    </aside>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script th:src="@{/js/JSNovedades.js}" src="JSNovedades.js"></script>
 </body>
 </html>
