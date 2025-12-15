@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usuarios") // La tabla de usuarios que debes crear
+@Table(name = "usuarios") // La tabla de usuarios
 public class User {
 
     @Id
@@ -24,16 +24,31 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    // 🔑 CAMPO AGREGADO PARA EL ROL
+    // Asegura que este campo no tenga un valor por defecto en la BD, 
+    // o que el ddl-auto de Hibernate lo cree sin DEFAULT.
+    @Column(nullable = false)
+    private String role; 
+
     public User() {
     }
 
+    // 🔨 Constructor completo
+    public User(String nombre, String email, String password, String role) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.role = role; // Inicializando el rol
+    }
+
+    // Constructor previo (actualizado solo para compatibilidad)
     public User(String nombre, String email, String password) {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
     }
 
-    // Getters y Setters
+    // ------------------- Getters y Setters -------------------
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -45,4 +60,8 @@ public class User {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+    
+    // 🔑 Getters y Setters para el ROL (AGREGADOS)
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

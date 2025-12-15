@@ -19,16 +19,30 @@
             <h1 class="logo">GanderSync</h1>
 
             <nav class="menu" role="navigation" aria-label="Menú principal">
-                <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
-                <a th:href="@{/productos}" tabindex="0">Productos</a>
-                <a th:href="@{/novedades}" class="active" tabindex="0" aria-current="page">Novedades</a>
-                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
-                <a th:href="@{/historia}" tabindex="0">Historia</a>
-                <a th:href="@{/login}" tabindex="0">Login</a>
+                
+                <div class="menu-links-container">
+                    <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
+                    <a th:href="@{/productos}" tabindex="0">Productos</a>
+                    <a th:href="@{/novedades}" class="active" tabindex="0" aria-current="page">Novedades</a>
+                    <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                    <a th:href="@{/historia}" tabindex="0">Historia</a>
+                </div>
+                
+                <a href="#" class="logout-btn-mobile" tabindex="0">Cerrar Sesión</a>
+
+                
             </nav>
 
             <div class="header-actions">
+                <a href="#" class="logout-btn" tabindex="0">Cerrar Sesión</a>
+                
                 <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
+                
+                <button class="menu-toggle" aria-controls="menu-mobile-list" aria-expanded="false" aria-label="Abrir menú de navegación">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
         </div>
     </header>
@@ -104,29 +118,45 @@
         <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
     </footer>
 
-    <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-sidebar" aria-expanded="false" aria-label="Abrir opciones de accesibilidad">
-        ♿
-    </button>
+    <div id="accessibility-container" class="accessibility-container">
+        <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-menu" aria-expanded="false" aria-label="Abrir opciones de accesibilidad (Arrastrar para mover)" title="Opciones de Accesibilidad (Arrastrar para mover)">
+            ♿
+        </button>
 
-    <aside id="accessibility-sidebar" class="accessibility-sidebar" role="complementary" aria-hidden="true" hidden>
-        <div class="sidebar-header">
-            <h3>Opciones de Accesibilidad</h3>
-            <button id="closeAccessibility" class="close-btn" tabindex="0" aria-label="Cerrar barra de accesibilidad">✖</button>
-        </div>
-
-        <div class="sidebar-items">
-            <h4>🎨 Contraste</h4>
-            <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0" aria-live="polite">Alto Contraste: DESACTIVADO</button>
-
-            <h4>🔍 Tamaño del Texto</h4>
-            <div class="text-size-controls">
-                <button id="decreaseTextBtn" class="btn-secondary" tabindex="0">A- Disminuir</button>
-                <button id="increaseTextBtn" class="btn-secondary" tabindex="0">A+ Aumentar</button>
+        <nav id="accessibility-menu" role="menubar" aria-hidden="true" hidden>
+            <button id="toggleContrastBtn" class="btn-action" role="menuitem" tabindex="0" aria-live="polite" title="Alternar Alto Contraste" data-icon="🎨">Alto Contraste</button>
+            
+            <div class="zoom-controls"> 
+                <button id="increaseTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Aumentar Tamaño de Fuente" data-icon="🔍+">Aumentar Fuente</button>
+                <button id="decreaseTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Disminuir Tamaño de Fuente" data-icon="🔍-">Disminuir Fuente</button>
             </div>
-        </div>
-    </aside>
+            
+            <button id="resetTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Restablecer Tamaño de Fuente" data-icon="🔄">Restablecer Fuente</button>
+        </nav>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4URRzvmN3OYMnM3jaGk1vdzFgGpENWvA",
+            authDomain: "gandersync.firebaseapp.com",
+            databaseURL: "https://gandersync-default-rtdb.firebaseio.com/",
+            projectId: "gandersync",
+            storageBucket: "gandersync.appspot.com",
+            messagingSenderId: "744744999999",
+            appId: "1:744744999999:web:12345abcde6789",
+            measurementId: "G-XYZ1234ABC"
+        };
+        firebase.initializeApp(firebaseConfig);
+        
+        // Variables globales necesarias para JSNovedades.js
+        const db = firebase.database();
+        const eventsRef = db.ref('novedades/eventos'); // Referencia al nodo de eventos
+    </script>
+    
     <script th:src="@{/js/JSNovedades.js}" src="JSNovedades.js"></script>
 </body>
 </html>

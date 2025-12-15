@@ -26,7 +26,7 @@ public class NovedadEventoController {
     private NovedadEventoRepository eventoRepository;
 
     /**
-     * Ruta: GET /gandersync/api/novedades/eventos
+     * Ruta: GET /api/novedades/eventos
      */
     @GetMapping("/eventos")
     public List<NovedadEvento> getAllEventos() {
@@ -34,7 +34,7 @@ public class NovedadEventoController {
     }
 
     /**
-     * Ruta: POST /gandersync/api/novedades/guardar
+     * Ruta: POST /api/novedades/guardar
      */
     @PostMapping("/guardar")
     public ResponseEntity<NovedadEvento> saveOrUpdateEvento(@RequestBody NovedadEvento evento) {

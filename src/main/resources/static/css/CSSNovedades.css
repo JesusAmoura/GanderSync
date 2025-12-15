@@ -1,340 +1,456 @@
 :root {
-  --font-scale: 1.0;
-  --color-primary-dark: #285430; /* Verde Oscuro (Navbar/Footer) */
-  --color-primary-medium: #4a4a4a; /* Gris Oscuro para texto secundario y botones */
-  --color-secondary: #000; /* Negro para la mayoría del texto por defecto */
-  --color-highlight: #007c39; /* Verde de GanderSync para acciones y foco */
-  --color-action: #4a4a4a; /* Gris para botones de acción flotantes */
-  --color-danger: #d9534f; /* Rojo */
-  --color-text-light: #fff; /* Blanco */
-  --color-border: #eee;
-  --color-bg-light: #f4f4f4;
-  --color-bg-main: #fff;
-  --font-body: 'Open Sans', Arial, sans-serif;
+    --font-scale: 1.0;
+    --color-primary-dark: #285430; /* Verde Oscuro (Navbar/Footer) */
+    --color-primary-medium: #4a4a4a; /* Gris Oscuro para texto secundario y botones */
+    --color-secondary: #000; /* Negro para la mayoría del texto por defecto */
+    --color-highlight: #007c39; /* Verde de GanderSync para acciones y foco */
+    /* INICIO CSS: Color más neutro para el hover del logo, eliminando el sombreado verde/lima */
+    --color-lime-hover: #cccccc; 
+    --color-action: #4a4a4a; /* Gris para botones de acción flotantes */
+    --color-danger: #d9534f; /* Rojo */
+    --color-text-light: #fff; /* Blanco */
+    --color-border: #eee;
+    --color-bg-light: #f4f4f4;
+    --color-bg-main: #fff;
+    --font-body: 'Open Sans', Arial, sans-serif;
+    /* INICIO CSS: Variables para Alto Contraste del Navbar/Botón Flotante */
+    --hc-bg-dark: #121e14; 
+    --hc-text-light: #e0e0e0; 
+    --hc-highlight-bright: var(--color-highlight); 
+    --hc-primary-darker: #1a331f; 
+    --color-menu-hover-active: var(--color-text-light); 
 }
 
 * {
-  box-sizing: border-box;
-  /* La fuente base utiliza la variable --font-scale */
-  font-size: calc(16px * var(--font-scale));
+    box-sizing: border-box;
+    /* La fuente base utiliza la variable --font-scale */
+    font-size: calc(16px * var(--font-scale));
 }
 
 /* ------------------------------------------- */
-/* ESTILOS DE ACCESIBILIDAD Y BASE           */
+/* ESTILOS DE ACCESIBILIDAD Y BASE           */
 /* ------------------------------------------- */
 
 body {
-  margin: 0;
-  font-family: var(--font-body);
-  background-color: var(--color-bg-light);
-  color: var(--color-secondary); /* Texto negro por defecto */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  /* Espacio superior para el Navbar fijo (60px) */
-  padding-top: 60px;
-  /* Espacio inferior para el Footer fijo (80px) */
-  padding-bottom: 80px; 
-  overflow-x: hidden;
-  line-height: 1.6;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-bg-light);
+    color: var(--color-secondary); /* Texto negro por defecto */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Espacio superior para el Navbar fijo (60px) */
+    padding-top: 60px;
+    /* Espacio inferior para el Footer fijo (80px) */
+    padding-bottom: 80px; 
+    overflow-x: hidden;
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 body.loaded {
-  opacity: 1;
+    opacity: 1;
 }
 
 main {
-  flex: 1;
-  max-width: 1200px;
-  width: 100%;
-  margin: 20px auto;
-  padding: 0 20px;
-  box-sizing: border-box;
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 /* Foco de accesibilidad */
 button:focus,
 input:focus,
 select:focus,
+a.btn:focus, /* AÑADIDO DEL CSS DE INICIO */
 .floating-accessibility-btn:focus,
-.close:focus,
 .menu a:focus,
-.cart-nav-btn:focus {
-  outline: 2px dashed var(--color-highlight);
-  outline-offset: 2px;
+.cart-nav-btn:focus,
+#accessibility-menu button:focus, /* AÑADIDO DEL CSS DE INICIO */
+.menu-toggle:focus { /* AÑADIDO DEL CSS DE INICIO */
+    outline: 2px dashed var(--color-highlight);
+    outline-offset: 2px;
 }
 
 /* Alto Contraste */
-body.high-contrast {
-  --color-primary-dark: #000;
-  --color-secondary: #fff;
-  --color-highlight: #0f0;
-  --color-danger: #f00;
-  --color-text-light: #000;
-  --color-border: #fff;
-  --color-bg-light: #000;
-  --color-bg-main: #000;
-  background-color: #000 !important;
-  color: #fff !important;
+/* REEMPLAZADO CON EL ALTO CONTRASTE DEL CSS DE INICIO PARA SOPORTE DE LA BARRA FLOTANTE */
+#body.high-contrast {
+    --color-primary-dark: var(--hc-primary-darker);
+    --color-secondary: var(--hc-text-light);
+    --color-highlight: var(--hc-highlight-bright);
+    --color-danger: #ff5757;
+    --color-text-light: #000;
+    --color-border: #333;
+    --color-bg-light: var(--hc-bg-dark);
+    --color-bg-main: var(--hc-bg-dark);
+    
+    background-color: var(--hc-bg-dark) !important;
+    color: var(--hc-text-light) !important;
 }
 
-body.high-contrast .barra-navegacion,
-body.high-contrast .footer,
-body.high-contrast .sidebar-header {
-  background-color: #000 !important;
-  color: #fff !important;
-  border-color: #fff !important;
+/* Exclusiones de Alto Contraste (Para Navbar y Botón Flotante) */
+#body.high-contrast #accessibility-menu button {
+    background-color: var(--hc-primary-darker) !important;
+    color: var(--hc-text-light) !important;
+    border-color: var(--hc-text-light) !important;
+}
+#body.high-contrast .hero,
+#body.high-contrast .features,
+#body.high-contrast .benefits,
+#body.high-contrast .call-to-action,
+#body.high-contrast .modal-content,
+/* Mantenemos el estilo de Alto Contraste para componentes de Novedades */
+#body.high-contrast .contenedor-calendario,
+#body.high-contrast .formulario-evento {
+    background-color: var(--hc-bg-dark) !important;
+    border: 1px solid var(--hc-text-light) !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;
+    color: var(--hc-text-light) !important;
+}
+/* Revertimos el estilo de Alto Contraste de Novedades, pero mantenemos los inputs */
+#body.high-contrast h1, h2, h3, h4,
+#body.high-contrast a,
+#body.high-contrast strong,
+#body.high-contrast .logo {
+    color: var(--hc-highlight-bright) !important;
 }
 
-body.high-contrast .contenedor-calendario,
-body.high-contrast .formulario-evento,
-body.high-contrast .modal-content,
-body.high-contrast .accessibility-sidebar {
-  background-color: #000 !important;
-  border: 2px solid #fff !important;
-  box-shadow: none !important;
-  color: #fff !important;
+#body.high-contrast p,
+#body.high-contrast li {
+    color: var(--hc-text-light) !important;
 }
 
-body.high-contrast h1, body.high-contrast h2, body.high-contrast h3, body.high-contrast h4,
-body.high-contrast a, body.high-contrast strong {
-  color: var(--color-highlight) !important;
-}
-
+#body.high-contrast .btn,
+#body.high-contrast .btn-primary,
+#body.high-contrast .btn-secondary,
+#body.high-contrast .btn-action,
+#body.high-contrast .floating-accessibility-btn,
+#body.high-contrast #accessibility-menu button,
+/* Mantenemos inputs específicos de Novedades/Calendario */
 body.high-contrast input[type="text"],
 body.high-contrast input[type="date"],
 body.high-contrast input[type="number"] {
-  background-color: #fff !important;
-  color: #000 !important;
-  border: 2px solid var(--color-highlight) !important;
+    background-color: var(--hc-highlight-bright) !important;
+    color: #000 !important;
+    border: 1px solid var(--hc-text-light) !important;
+    font-weight: bold;
 }
-
+/* Aseguramos que labels de Novedades se vean en HC */
 body.high-contrast label {
-  color: #fff !important;
+    color: var(--hc-text-light) !important;
 }
 
-body.high-contrast .btn-primary,
-body.high-contrast .btn-secondary,
-body.high-contrast .btn-action,
-body.high-contrast .modal-buttons .guardar {
-  background-color: var(--color-highlight) !important;
-  color: #000 !important;
-  border: 2px solid #000 !important;
-}
-
-body.high-contrast .modal-buttons .eliminar {
-  background-color: #f00 !important;
-  color: #000 !important;
-  border: 2px solid #000 !important;
-}
 
 /* ------------------------------------------- */
-/* NAVBAR, FOOTER, BOTONES (Estilo Unificado)  */
+/* NAVBAR, FOOTER, BOTONES (Estilo Unificado)  */
 /* ------------------------------------------- */
 
+/* INICIO CSS: Barra de navegación */
 .barra-navegacion {
-  background-color: var(--color-primary-dark);
-  color: var(--color-text-light);
-  padding: 0 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  transition: all 0.4s ease;
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
 }
-
 .barra-navegacion.oculta {
-  transform: translateY(-100%);
-  opacity: 0;
+    transform: translateY(-100%);
+    opacity: 0;
 }
-
 .barra-navegacion.transparente {
-  background-color: rgba(40, 84, 48, 0.9);
-  backdrop-filter: blur(6px);
+    background-color: rgba(40, 84, 48, 0.9);
+    backdrop-filter: blur(6px);
 }
-
 .header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  height: 60px; /* Altura estándar para Desktop */
-}
-
-/* LOGO (CORREGIDO A 1.5em * var(--font-scale)) */
-.logo {
-  margin: 0;
-  color: var(--color-text-light);
-  font-size: calc(1.5em * var(--font-scale));
-  font-weight: bold;
-  line-height: 1;
-  transition: color 0.3s ease;
-}
-
-.logo:hover {
-  color: #ccc;
-}
-
-.menu {
-    display: flex; /* Aseguramos Flexbox para el menú en desktop */
+    display: flex;
+    justify-content: space-between; 
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 60px; 
+}
+.logo {
+    margin: 0;
+    color: var(--color-text-light); 
+    font-size: calc(1.5em * var(--font-scale));
+    transition: color 0.3s;
+    /* Asegura que el logo no se encoja */
+    flex-shrink: 0;
+}
+/* CORRECCIÓN 1: Usar el nuevo color neutro */
+.logo:hover {
+    color: var(--color-lime-hover);
 }
 
+/* CORRECCIÓN PC: Links centrados */
+.menu {
+    display: flex; 
+    align-items: center;
+    /* Ocupa todo el espacio para permitir el centrado */
+    flex-grow: 1; 
+    /* Centra los links dentro del espacio disponible */
+    justify-content: center;
+}
+
+.menu-links-container {
+    /* En desktop, actúa como un contenedor de links normal */
+    display: flex; 
+    align-items: center; 
+}
+
+/* CORRECCIÓN 2: Eliminar el 'brinco' en el hover de los links en PC */
 .menu a {
-  color: var(--color-text-light);
-  text-decoration: none;
-  /* Espaciado para Desktop */
-  margin-left: 20px; 
-  padding: 5px 0;
-  transition: color 0.3s, border-bottom 0.3s;
+    color: var(--color-text-light); 
+    text-decoration: none;
+    /* Ajustamos los márgenes para centrado simétrico en PC */
+    margin: 0 15px; 
+    /* Compensamos 2px de padding para el borde */
+    padding: 5px 0 3px 0; 
+    transition: color 0.3s, border-bottom 0.3s;
+    white-space: nowrap; 
 }
-
 .menu a:hover, .menu a.active {
-  color: #ccc;
-  border-bottom: 2px solid var(--color-text-light);
+    color: var(--color-text-light); 
+    /* El borde de 2px no causará brinco si ajustamos el padding de arriba */
+    border-bottom: 2px solid var(--color-text-light);
+    background-color: transparent !important; 
 }
 
+/* Estilo específico para el logout móvil, se oculta en PC */
+.logout-btn-mobile {
+    display: none; 
+}
+
+/* ------------------------------------------------ */
+/* CONTENEDOR DE ACCIONES (Derecha: Logout, Carrito, Hamburguesa) */
+/* ------------------------------------------------ */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    /* Asegura que las acciones se mantengan a la derecha */
+    flex-shrink: 0; 
+}
+
+/* Estilo del botón de Cerrar Sesión (Desktop - Visible en PC) */
+.logout-btn {
+    background-color: var(--color-danger); 
+    color: var(--color-text-light);
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    text-decoration: none;
+    border-bottom: none !important; 
+    display: block; 
+}
+.logout-btn:hover {
+    background-color: #a93226;
+    transform: translateY(-1px);
+}
+
+/* Estilos del botón Carrito */
 .header-actions .cart-nav-btn {
-  background-color: var(--color-primary-medium);
-  color: var(--color-text-light);
-  border: 1px solid var(--color-primary-medium);
-  padding: 8px 15px;
-  border-radius: 4px;
-  transition: all 0.3s;
-  text-decoration: none;
+    position: relative;
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: var(--color-highlight);
+    border: 1px solid var(--color-highlight);
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
 }
-
 .header-actions .cart-nav-btn:hover {
-  background-color: #4a4a4a;
+    background-color: #006631;
+    border-color: #006631;
 }
 
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: calc(10px * var(--font-scale));
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+    border: 1px solid var(--color-bg-main);
+}
+
+/* Estilos para el botón de menú en móvil (Hamburguesa) */
+.menu-toggle {
+    display: none; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1002;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px; 
+}
+.icon-bar {
+    display: block;
+    width: 20px;
+    height: 3px;
+    margin: 4px auto;
+    background-color: var(--color-text-light);
+    transition: all 0.3s ease-in-out;
+    border-radius: 1px;
+}
+.menu.open .icon-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu.open .icon-bar:nth-child(2) { opacity: 0; }
+.menu.open .icon-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Contenedor para la vista actual en móvil */
+.current-page-mobile {
+    display: none; 
+    color: var(--color-text-light);
+    font-size: calc(1.3em * var(--font-scale));
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+    text-align: left;
+}
+
+
+/* Botones genéricos */
 .btn-primary, .btn-secondary, .btn-action, .btn-danger {
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s, transform 0.1s;
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.1s;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    /* CORRECCIÓN 3: Eliminar margen excesivo para evitar duplicidad visual en línea */
+    margin: 0; 
+}
+.btn-primary:active, .btn-secondary:active, .btn-action:active, .btn-agregar-producto:active {
+    transform: translateY(0px) !important;
 }
 
 .btn-primary, .modal-buttons .guardar {
-  background-color: var(--color-highlight);
-  color: var(--color-text-light);
+    background-color: var(--color-highlight);
+    color: var(--color-text-light);
 }
-
 .btn-primary:hover, .modal-buttons .guardar:hover {
-  background-color: #006631;
-  transform: translateY(-1px);
+    background-color: #006631;
+    transform: translateY(-1px);
 }
-
 .btn-secondary {
-  background-color: var(--color-primary-medium);
-  color: var(--color-text-light);
+    background-color: var(--color-primary-medium);
+    color: var(--color-text-light);
 }
-
 .btn-secondary:hover {
-  background-color: #5d5d5d;
+    background-color: #5d5d5d;
 }
-
 .btn-danger, .modal-buttons .eliminar {
-  background-color: var(--color-danger);
-  color: var(--color-text-light);
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
 }
-
 .btn-danger:hover, .modal-buttons .eliminar:hover {
-  background-color: #a93226;
-  transform: translateY(-1px);
+    background-color: #a93226;
+    transform: translateY(-1px);
 }
-
 .btn-action {
-  background-color: var(--color-primary-dark);
-  color: var(--color-text-light);
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
 }
 
+/* FOOTER (Mantenido del CSS de Novedades) */
 .footer {
-  background-color: var(--color-primary-dark);
-  color: var(--color-text-light);
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  border-top: 3px solid var(--color-highlight);
-  height: 80px; 
-  padding: 10px; 
-  box-sizing: border-box;
-  
-  /* --- ESTILOS DE ANIMACIÓN JS/SCROLL --- */
-  transform: translateY(100%); 
-  transition: transform 0.4s ease; 
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    border-top: 3px solid var(--color-highlight);
+    height: 80px; 
+    padding: 10px; 
+    box-sizing: border-box;
+    
+    /* --- ESTILOS DE ANIMACIÓN JS/SCROLL --- */
+    transform: translateY(100%); 
+    transition: transform 0.4s ease; 
 }
 
 .footer.visible {
-  transform: translateY(0);
+    transform: translateY(0);
 }
 
 .footer p {
-  margin: 5px 0;
-  font-size: calc(14px * var(--font-scale));
+    margin: 5px 0;
+    font-size: calc(14px * var(--font-scale));
 }
 
 /* ------------------------------------------- */
-/* CALENDARIO Y FORMULARIOS                    */
+/* CALENDARIO Y FORMULARIOS (Mantenido del CSS de Novedades) */
 /* ------------------------------------------- */
 
 .contenedor-calendario {
-  padding: 25px 20px;
-  margin: 20px auto;
-  border-radius: 10px;
-  background: var(--color-bg-main);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border);
-  max-width: 600px;
+    padding: 25px 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    background: var(--color-bg-main);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border);
+    max-width: 600px;
 }
 
 h2.titulo {
-  text-align: center;
-  color: var(--color-primary-dark);
-  margin-bottom: 20px;
-  border-bottom: 2px solid var(--color-highlight);
-  padding-bottom: 10px;
+    text-align: center;
+    color: var(--color-primary-dark);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--color-highlight);
+    padding-bottom: 10px;
 }
 
 .fc .fc-toolbar-title,
 .fc .fc-daygrid-event,
 .fc-theme-standard td, .fc-theme-standard th {
-  font-family: var(--font-body);
+    font-family: var(--font-body);
 }
 
 .fc .fc-button {
-  background-color: var(--color-primary-medium) !important;
-  border-color: var(--color-primary-medium) !important;
-  color: var(--color-text-light) !important;
-  transition: background 0.3s;
+    background-color: var(--color-primary-medium) !important;
+    border-color: var(--color-primary-medium) !important;
+    color: var(--color-text-light) !important;
+    transition: background 0.3s;
 }
 
 .fc .fc-button:hover,
 .fc .fc-button:focus {
-  background-color: var(--color-highlight) !important;
-  border-color: var(--color-highlight) !important;
-  box-shadow: none !important;
+    background-color: var(--color-highlight) !important;
+    border-color: var(--color-highlight) !important;
+    box-shadow: none !important;
 }
 
 .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 1.5em;
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content: space-between;
-  align-items: center;
+    margin-bottom: 1.5em;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* ---------------------------------------------------- */
@@ -343,38 +459,38 @@ h2.titulo {
 
 /* El chunk 1 contiene los botones de navegación (today, prev, next) */
 .fc-toolbar-chunk:nth-child(1) {
-  order: 2; 
-  width: 100%; 
-  text-align: center; 
-  margin-top: 10px;
-  display: flex;
-  justify-content: center; 
-  flex-basis: 100%;
+    order: 2; 
+    width: 100%; 
+    text-align: center; 
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; 
+    flex-basis: 100%;
 }
 
 /* El chunk 2 contiene el título (Mes/Año) */
 .fc-toolbar-chunk:nth-child(2) {
-  order: 1; 
-  width: 100%; 
+    order: 1; 
+    width: 100%; 
 }
 
 .fc .fc-toolbar-title {
-  color: var(--color-highlight);
-  font-size: calc(1.5em * var(--font-scale)) !important;
-  text-align: center;
-  width: 100%; 
+    color: var(--color-highlight);
+    font-size: calc(1.5em * var(--font-scale)) !important;
+    text-align: center;
+    width: 100%; 
 }
 
 /* El chunk 3 contiene los botones de vista (Día, Semana, Mes, Lista) */
 .fc-toolbar-chunk:nth-child(3) {
-  order: 3; 
-  margin-top: 10px; 
-  width: 100%; 
-  text-align: center; 
-  
-  display: flex; 
-  justify-content: center; 
-  flex-wrap: wrap;
+    order: 3; 
+    margin-top: 10px; 
+    width: 100%; 
+    text-align: center; 
+    
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap;
 }
 
 /* El grupo de botones de FullCalendar se centra dentro de su chunk */
@@ -387,327 +503,464 @@ h2.titulo {
 
 
 .fc .fc-daygrid-event {
-  background-color: var(--color-highlight);
-  border-radius: 4px;
-  padding: 2px 4px;
-  font-size: calc(0.9em * var(--font-scale));
+    background-color: var(--color-highlight);
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: calc(0.9em * var(--font-scale));
 }
 
 .fc .fc-daygrid-day-number {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .fc-theme-standard td, .fc-theme-standard th, .fc-daygrid-day-number {
-  color: var(--color-secondary);
+    color: var(--color-secondary);
 }
 
 .formulario-evento {
-  max-width: 600px;
-  margin: 30px auto 0;
-  padding: 20px;
-  background: var(--color-bg-light);
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border);
+    max-width: 600px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background: var(--color-bg-light);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border);
 }
 
 .formulario-evento h3 {
-  text-align: center;
-  color: var(--color-primary-dark);
-  margin-bottom: 15px;
+    text-align: center;
+    color: var(--color-primary-dark);
+    margin-bottom: 15px;
 }
 
 .formulario-evento form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .formulario-evento label {
-  margin: 8px 0 0;
-  font-weight: bold;
-  color: var(--color-secondary);
+    margin: 8px 0 0;
+    font-weight: bold;
+    color: var(--color-secondary);
 }
 
 .formulario-evento input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: calc(1em * var(--font-scale));
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: calc(1em * var(--font-scale));
 }
 
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.3s;
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
 }
 
 .modal.hidden {
-  display: none !important;
+    display: none !important;
 }
 
 .modal-content {
-  background: var(--color-bg-main);
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  animation: slideIn 0.3s ease-out;
+    background: var(--color-bg-main);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: slideIn 0.3s ease-out;
 }
 
 .modal-content h3 {
-  text-align: center;
-  margin-bottom: 15px;
-  color: var(--color-highlight);
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--color-highlight);
 }
 
 .modal-content form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-content label {
-  margin: 8px 0 5px;
-  font-weight: bold;
+    margin: 8px 0 5px;
+    font-weight: bold;
 }
 
 .modal-content input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: calc(1em * var(--font-scale));
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: calc(1em * var(--font-scale));
 }
 
 .modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: calc(1.5em * var(--font-scale));
-  font-weight: bold;
-  color: var(--color-primary-medium);
-  cursor: pointer;
-  transition: color 0.3s;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: calc(1.5em * var(--font-scale));
+    font-weight: bold;
+    color: var(--color-primary-medium);
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
 .close:hover {
-  color: var(--color-danger);
+    color: var(--color-danger);
 }
 
 .alert-modal, .confirm-modal {
-  text-align: center;
-  width: 350px;
+    text-align: center;
+    width: 350px;
 }
 
 .confirm-buttons {
-  display: flex;
-  justify-content: space-around;
-  gap: 10px;
-  margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 /* ------------------------------------------- */
-/* ACCESIBILIDAD SIDEBAR                       */
+/* ACCESIBILIDAD MENU FLOTANTE (DRAGGABLE)     */
+/* REEMPLAZADO CON EL CSS DE INICIO */
 /* ------------------------------------------- */
-
+.accessibility-container {
+    position: fixed;
+    top: 90px;
+    right: 20px; 
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    cursor: grab;
+    transition: none !important; 
+}
+.accessibility-container.align-left {
+    align-items: flex-start; 
+}
+.accessibility-container.dragging {
+    cursor: grabbing;
+}
 .floating-accessibility-btn {
-  position: fixed;
-  top: 90px;
-  left: 20px;
-  z-index: 1000;
-  background-color: var(--color-action);
-  color: var(--color-text-light);
-  border-radius: 50px;
-  padding: 12px 18px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: transform 0.4s ease;
-  cursor: pointer;
-  font-size: 1.2em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    background-color: var(--color-action);
+    color: var(--color-text-light);
+    border-radius: 50px;
+    padding: 12px 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
+    cursor: pointer; 
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; 
+}
+#accessibility-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+    transform-origin: top right;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 5px;
+    pointer-events: none;
+    cursor: default; 
+}
+.zoom-controls {
+    display: flex;
+    flex-direction: row; 
+    gap: 8px;
+}
+.accessibility-container.align-left #accessibility-menu {
+    transform-origin: top left;
+}
+#accessibility-menu.open {
+    opacity: 1;
+    max-height: 300px;
+    pointer-events: auto;
+}
+#accessibility-menu button {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 50px; 
+    width: 50px; 
+    height: 50px;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    font-size: 1.3em; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    text-indent: -9999px; 
+    position: relative;
+    overflow: hidden; 
+}
+#increaseTextBtn {
+    width: 60px !important; 
+}
+#accessibility-menu button::after {
+    content: attr(data-icon);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    text-indent: 0;
+    line-height: 1; 
+    font-size: 24px !important; 
+}
+#increaseTextBtn::after {
+    content: attr(data-icon);
+    position: absolute;
+    top: 50%;
+    left: 45%; 
+    transform: translate(-50%, -50%); 
+    width: 50px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 26px !important; 
+}
+#accessibility-menu button:hover {
+    background-color: var(--color-highlight);
 }
 
-.accessibility-sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 280px;
-  height: 100%;
-  background-color: var(--color-bg-main);
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 2000;
-  transform: translateX(-100%);
-  transition: transform 0.4s ease-in-out;
-  display: flex;
-  flex-direction: column;
-}
 
-.accessibility-sidebar.open {
-  transform: translateX(0);
-}
-
-.sidebar-header {
-  background-color: var(--color-primary-dark);
-  color: var(--color-text-light);
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.sidebar-items {
-  padding: 15px;
-}
-
-.text-size-controls {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.btn-full-width {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-/* ANIMACIONES */
+/* ANIMACIONES (Mantenido del CSS de Novedades) */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* ------------------------------------------- */
-/* RESPONSIVE (max-width: 768px)               */
+/* RESPONSIVE (max-width: 768px)               */
+/* REEMPLAZADO CON EL CSS DE INICIO */
 /* ------------------------------------------- */
 
 @media (max-width: 768px) {
-  
-  /* --- AJUSTE GENERAL DE FUENTE PARA TODO EL CONTENIDO --- */
-  :root {
-      --font-scale: 0.9; 
-  }
+    /* --- AJUSTE GENERAL DE FUENTE --- */
+    :root {
+        --font-scale: 0.9;
+    }
+    
+    body {
+        /* Aumentamos margin-bottom de 90px a 110px para compensar el footer de Novedades */
+        margin-bottom: 110px; 
+        padding-top: 50px;
+    }
+    /* --- AJUSTES NAVBAR MÓVIL --- */
+    .barra-navegacion {
+        padding: 0 5px;
+        box-sizing: border-box;
+    }
+    .header-content {
+        height: 50px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    /* Mostrar elementos móviles */
+    .current-page-mobile {
+        display: block;
+        order: 1; 
+        margin-left: 10px; 
+        flex-grow: 1; 
+        font-size: calc(1.3em * var(--font-scale));
+    }
+    .logo {
+        display: block; 
+        font-size: calc(1.3em * var(--font-scale));
+        order: 0;
+    }
+    
+    /* Contenedor de Acciones (Derecha) */
+    .header-actions {
+        order: 3;
+        display: flex; 
+        gap: 8px;
+    }
+    
+    /* OCULTAR ELEMENTOS DE ESCRITORIO */
+    .header-actions .logout-btn { 
+        display: none; /* Oculta Cerrar Sesión de escritorio */
+    }
+    .login-link-desktop {
+        display: none; /* Oculta el enlace Login de escritorio */
+    }
+    
+    /* El carrito y la hamburguesa deben estar visibles */
+    .header-actions .cart-nav-btn {
+        display: block; 
+    }
+    .menu-toggle {
+        display: block; 
+    }
 
-  /* --- AJUSTES NAVBAR (Espaciado de Links) --- */
-  
-  .barra-navegacion {
-    padding: 0 5px; 
-    box-sizing: border-box; 
-  }
+    /* Estilo del menú desplegable: Columna, ocupa toda la pantalla, transformado */
+    .menu {
+        flex-grow: 0; 
+        position: fixed;
+        top: 50px; 
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 50px);
+        background-color: var(--color-primary-dark);
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 20px;
+        transform: translateX(-100%); 
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        z-index: 999;
+        /* HABILITADO PARA POSICIONAR EL LOGOUT AL FINAL */
+        justify-content: space-between; 
+        padding-bottom: 40px;
+    }
+    .menu.open {
+        transform: translateX(0) !important;
+    }
 
-  .header-content {
-    height: 50px; 
-    margin: 0 auto; 
-    width: 100%;
-  }
-  
-  body {
-    padding-top: 50px; 
-  }
+    /* Contenedor para los links que no es el logout */
+    .menu-links-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
 
-  .logo {
-    display: none; 
-  }
-  
-  .menu {
-    width: auto;
-    flex-grow: 1; 
-    justify-content: flex-start; 
-    margin: 0; 
-    order: 1; 
-    min-width: 0;
-  }
+    .menu a {
+        width: 100%;
+        margin: 0; /* Quitamos márgenes de desktop */
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: calc(1.1em * var(--font-scale));
+        margin-left: 0;
+    }
+    .menu a:last-child {
+        border-bottom: none;
+    }
+    
+    /* **CORRECCIÓN MÓVIL:** Estilo del botón Cerrar Sesión (versión móvil) */
+    .logout-btn-mobile {
+        display: block; /* Muestra la versión móvil */
+        width: 100%;
+        background-color: var(--color-danger); 
+        color: var(--color-text-light);
+        padding: 12px 20px;
+        border-radius: 4px;
+        text-align: center;
+        margin-top: auto; /* Empuja el elemento al fondo del menú */
+        border-bottom: none !important;
+        border: none; 
+        transition: background-color 0.2s;
+    }
+    .logout-btn-mobile:hover {
+        background-color: #a93226;
+        transform: none;
+    }
 
-  .menu a {
-    font-size: 0.9em; 
-    /* AUMENTO DE ESPACIADO DE 4PX A 8PX */
-    margin: 0 8px; 
-    padding: 3px 0;
-    white-space: nowrap; 
-  }
-  
-  .header-actions {
-    display: flex;
-    align-items: center;
-    order: 2;
-  }
+    /* --- AJUSTES ESPECÍFICOS DE ACCESIBILIDAD EN MÓVIL --- */
+    .accessibility-container {
+        top: 70px; 
+        right: 10px;
+    }
+    /* Eliminamos el .floating-accessibility-btn:hover:active para que no entre en conflicto con el drag */
+    .floating-accessibility-btn {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    #accessibility-menu button {
+        width: 45px; 
+        height: 45px;
+        font-size: 1.3em;
+    }
+    #increaseTextBtn {
+        width: 55px !important; 
+    }
+    .zoom-controls {
+        flex-direction: row;
+    }
+    #accessibility-menu button::after {
+        font-size: 20px !important; 
+    }
+    #increaseTextBtn::after {
+        width: 40px; 
+        display: flex;
+        justify-content: space-around;
+        font-size: 22px !important; 
+    }
 
-  .header-actions .cart-nav-btn {
-    display: none; 
-  }
-  
-  /* --- AJUSTES FOOTER (Animación y tamaño) --- */
-  .footer {
-      height: 70px; 
-      padding: 10px; 
-      box-sizing: border-box;
-  }
-  
-  .footer p {
-      font-size: calc(13px * var(--font-scale)); 
-  }
+    /* --- AJUSTES ESPECÍFICOS DE NOVEDADES (Mantenidos) --- */
+    .contenedor-calendario {
+        padding: 10px; 
+        max-width: 100%; 
+    }
+    
+    .fc .fc-toolbar-title {
+        font-size: calc(1.3em * var(--font-scale)) !important; 
+    }
 
+    .fc .fc-daygrid-day-number {
+        font-size: calc(0.9em * var(--font-scale)); 
+        line-height: 1;
+        padding: 2px;
+    }
+    
+    .fc-theme-standard th {
+        font-size: calc(0.9em * var(--font-scale));
+        padding: 5px 2px; 
+    }
+    
+    /* CORRECCIÓN VISTA SEMANA/DÍA (TimeGrid) */
+    .fc-timegrid-slot-label,
+    .fc-timegrid-slot {
+        font-size: calc(0.75em * var(--font-scale)); 
+    }
+    
+    .fc-col-header-cell-cushion {
+        padding: 2px 0;
+        font-size: calc(0.8em * var(--font-scale));
+    }
 
-  /* --- AJUSTES CALENDARIO PARA MEJORAR ESPACIO EN VISTAS DETALLADAS --- */
-  
-  .contenedor-calendario {
-    padding: 10px; 
-    max-width: 100%; 
-  }
-  
-  .fc .fc-toolbar-title {
-     font-size: calc(1.3em * var(--font-scale)) !important; 
-  }
+    .fc-event {
+        padding: 1px 3px !important; 
+        font-size: calc(0.8em * var(--font-scale));
+    }
+    
+    .fc-button-group {
+        gap: 2px; 
+    }
+}
 
-  .fc .fc-daygrid-day-number {
-      font-size: calc(0.9em * var(--font-scale)); 
-      line-height: 1;
-      padding: 2px;
-  }
-  
-  .fc-theme-standard th {
-      font-size: calc(0.9em * var(--font-scale));
-      padding: 5px 2px; 
-  }
-  
-  /* CORRECCIÓN VISTA SEMANA/DÍA (TimeGrid) */
-  .fc-timegrid-slot-label,
-  .fc-timegrid-slot {
-      font-size: calc(0.75em * var(--font-scale)); 
-  }
-  
-  .fc-col-header-cell-cushion {
-      padding: 2px 0;
-      font-size: calc(0.8em * var(--font-scale));
-  }
-
-  .fc-event {
-      padding: 1px 3px !important; 
-      font-size: calc(0.8em * var(--font-scale));
-  }
-  
-  .fc-button-group {
-    gap: 2px; 
-  }
+@media (max-width: 480px) {
+    main { padding: 18px 10px 30px; }
 }

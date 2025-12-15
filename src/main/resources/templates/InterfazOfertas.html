@@ -4,69 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ofertas - GanderSync</title>
-    <!-- Se mantienen los atributos Thymeleaf para la integración posterior -->
     <link rel="stylesheet" th:href="@{/css/CSSOfertas.css}" href="CSSOfertas.css"> 
-    <!-- Enlaces para la fuente recomendada para accesibilidad y diseño -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body id="body"> 
+
     <header class="barra-navegacion">
         <div class="header-content">
             <h1 class="logo">GanderSync</h1>
-            <nav class="menu">
-                <!-- Se añaden atributos tabindex="0" a todos los enlaces de navegación -->
+
+            <nav class="menu" id="nav-menu" role="navigation" aria-label="Menú principal">
+                <p class="mobile-current-page"></p>
                 <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
                 <a th:href="@{/productos}" tabindex="0">Productos</a>
                 <a th:href="@{/novedades}" tabindex="0">Novedades</a>
-                <a th:href="@{/ofertas}" class="active" tabindex="0">Ofertas</a>
+                <a th:href="@{/ofertas}" class="active" tabindex="0" aria-current="page">Ofertas</a>
                 <a th:href="@{/historia}" tabindex="0">Historia</a>
-                <a th:href="@{/login}" tabindex="0">Login</a>
+                
+                <a href="#" class="logout-btn-mobile" tabindex="0">Cerrar Sesión</a>
             </nav>
+
             <div class="header-actions">
-                <!-- Botón de carrito para mantener la coherencia del header de Marketplace -->
-                <a href="#" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">
-                    🛒
-                </a>
+                <a href="#" class="logout-btn" tabindex="0">Cerrar Sesión</a>
+                
+                <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
+                
+                <button class="menu-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
         </div>
     </header>
 
     <main class="ofertas-container">
-        <!-- SECCIÓN DE SUBIR OFERTA -->
         <section class="upload-section">
             <h2>Subir Nueva Oferta</h2>
             <form id="uploadForm">
-                <!-- Se añaden IDs a los inputs para fácil manipulación en JS -->
                 <input type="text" placeholder="Nombre del producto" id="nombre" required tabindex="0" aria-label="Nombre del producto en oferta">
                 <input type="number" placeholder="Precio original (COP)" id="precioOriginal" min="1" required tabindex="0" aria-label="Precio original del producto">
                 <input type="number" placeholder="Precio rebajado (COP)" id="precioOferta" min="1" required tabindex="0" aria-label="Precio rebajado del producto en oferta">
                 
-                <!-- Estructura para ocultar el input file por defecto y usar un label personalizado -->
                 <label for="archivoImagen" class="file-label" tabindex="0">Subir Imagen (solo al agregar)</label>
-                <input type="file" id="archivoImagen" accept="image/*" tabindex="-1"> <!-- Tabindex -1 para que el foco lo reciba el label -->
+                <input type="file" id="archivoImagen" accept="image/*" tabindex="-1"> 
                 
                 <button type="submit" class="btn-primary" tabindex="0">Subir Producto</button>
             </form>
         </section>
 
-        <!-- SECCIÓN DE LISTA DE OFERTAS -->
         <section class="lista-ofertas">
             <h2>Listado de Ofertas</h2>
             <div class="grid" id="ofertasGrid">
-                <!-- Las tarjetas de ofertas se renderizarán aquí -->
-            </div>
+                </div>
         </section>
         
-        <!-- MODAL DE ALERTA (Para mensajes informativos) -->
-        <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage">
+        <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage" hidden>
             <div class="modal-content alert-modal">
               <p id="alertMessage"></p>
               <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
             </div>
         </div>
       
-        <!-- MODAL DE CONFIRMACIÓN (Para operaciones sensibles como eliminar) -->
-        <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage">
+        <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage" hidden>
             <div class="modal-content confirm-modal">
               <p id="confirmMessage"></p>
               <div class="confirm-buttons">
@@ -82,31 +82,23 @@
         <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p> 
     </footer>
     
-    <!-- ESTRUCTURA DE ACCESIBILIDAD -->
-    <!-- Botón Flotante para Abrir la Barra Lateral -->
-    <div id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" role="button" aria-controls="accessibility-sidebar" aria-expanded="false" aria-label="Abrir opciones de accesibilidad">
-        ♿
-    </div>
-    
-    <!-- Barra Lateral de Opciones de Accesibilidad -->
-    <div id="accessibility-sidebar" class="accessibility-sidebar" role="complementary" aria-hidden="true">
-        <div class="sidebar-header">
-            <h3>Opciones de Accesibilidad</h3>
-            <button id="closeAccessibility" class="close-btn" tabindex="0" aria-label="Cerrar barra de accesibilidad">✖</button>
-        </div>
-        <div class="sidebar-items">
-            <h4>🎨 Contraste</h4>
-            <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0" aria-live="polite">Alto Contraste: OFF</button>
+    <div id="accessibilityContainer" class="accessibility-container">
+        <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-menu" aria-expanded="false" aria-label="Abrir opciones de accesibilidad (Arrastrar para mover)" title="Opciones de Accesibilidad (Arrastrar para mover)">
+            ♿
+        </button>
+
+        <nav id="accessibility-menu" role="menubar" aria-hidden="true" hidden>
+            <button id="toggleContrastBtn" class="btn-action" role="menuitem" tabindex="0" aria-live="polite" title="Alternar Alto Contraste" data-icon="🎨">Alto Contraste</button>
             
-            <h4>🔍 Tamaño del Texto</h4>
-            <div class="text-size-controls">
-                <button id="decreaseTextBtn" class="btn-secondary" tabindex="0" aria-label="Disminuir tamaño del texto">A- Disminuir</button>
-                <button id="increaseTextBtn" class="btn-secondary" tabindex="0" aria-label="Aumentar tamaño del texto">A+ Aumentar</button>
+            <div class="zoom-controls"> 
+                <button id="increaseTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Aumentar Tamaño de Fuente" data-icon="🔍+">Aumentar Fuente</button>
+                <button id="decreaseTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Disminuir Tamaño de Fuente" data-icon="🔍-">Disminuir Fuente</button>
             </div>
-        </div>
+            
+            <button id="resetTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Restablecer Tamaño de Fuente" data-icon="🔄">Restablecer Fuente</button>
+        </nav>
     </div>
 
-    <!-- Se mantienen las referencias a los scripts -->
     <script th:src="@{/js/JSOfertas.js}" src="JSOfertas.js"></script>
 </body>
 </html>

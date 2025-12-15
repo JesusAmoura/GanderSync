@@ -12,16 +12,33 @@
     <header class="barra-navegacion">
         <div class="header-content">
             <h1 class="logo">GanderSync</h1>
+
+            
             <nav class="menu" role="navigation" aria-label="Menú principal">
-                <a th:href="@{/inicio}" class="active" tabindex="0" aria-current="page">Inicio</a> 
-                <a th:href="@{/productos}" tabindex="0">Productos</a>
-                <a th:href="@{/novedades}" tabindex="0">Novedades</a>
-                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
-                <a th:href="@{/historia}" tabindex="0">Historia</a>
-                <a th:href="@{/login}" tabindex="0">Login</a>
-            </nav>
+                
+                <div class="menu-links-container">
+                    <a th:href="@{/inicio}" class="active" tabindex="0" aria-current="page">Inicio</a> 
+                    <a th:href="@{/productos}" tabindex="0">Productos</a>
+                    <a th:href="@{/novedades}" tabindex="0">Novedades</a>
+                    <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                    <a th:href="@{/historia}" tabindex="0">Historia</a>
+                    
+                    </div>
+
+                <a href="#" class="logout-btn-mobile" tabindex="0">Cerrar Sesión</a>
+
+                </nav>
+
             <div class="header-actions">
+                <a href="#" class="logout-btn" tabindex="0">Cerrar Sesión</a>
+                
                 <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
+                
+                <button class="menu-toggle" aria-controls="menu-mobile-list" aria-expanded="false" aria-label="Abrir menú de navegación">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
         </div>
     </header>

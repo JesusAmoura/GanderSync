@@ -1,5 +1,13 @@
 @import url('https://fonts.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+/* Base y Reset */
+html, body {
+    height: 100%;
+    margin: 0; 
+    padding: 0;
+    line-height: 1.1;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -14,9 +22,10 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    background: #fff; 
 }
 
+/* --- Contenedor Principal (Desktop) --- */
 .container{
     position: relative;
     width: 850px;
@@ -28,15 +37,15 @@ body{
     overflow: hidden;
 }
 
-    .container h1{
-        font-size: 36px;
-        margin: -10px 0;
-    }
+.container h1{
+    font-size: 34px;
+    margin: 0;
+}
 
-    .container p{
-        font-size: 14.5px;
-        margin: 15px 0;
-    }
+.container p{
+    font-size: 14px;
+    margin: 5px 0; 
+}
 
 form{ width: 100%; }
 
@@ -47,210 +56,311 @@ form{ width: 100%; }
     height: 100%;
     background: #fff;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     color: #333;
     text-align: center;
-    padding: 40px;
+    padding: 20px;
     z-index: 1;
     transition: .6s ease-in-out 1.2s; 
-    /* ✅ Aseguramos que solo el formulario activo responda a eventos de mouse/teclado */
     pointer-events: auto;
 }
 
-    .container.active .form-box{ right: 50%; }
-
-    .form-box.register{ 
-        visibility: hidden; 
-        pointer-events: none; /* Deshabilitado por defecto */
-    }
-        .container.active .form-box.register{ 
-            visibility: visible;
-            pointer-events: auto; /* Habilitado cuando está activo */
-        }
-        
-    .form-box.login{
-        visibility: visible;
-    }
-        .container.active .form-box.login{
-            visibility: hidden;
-            pointer-events: none; /* Deshabilitado cuando está inactivo (Registro) */
-        }
+.container.active .form-box{ right: 50%; }
+.form-box.register{ visibility: hidden; pointer-events: none; }
+.container.active .form-box.register{ visibility: visible; pointer-events: auto; }
+.form-box.login{ visibility: visible; }
+.container.active .form-box.login{ visibility: hidden; pointer-events: none; }
 
 
+/* --- Contenido del Formulario (Espaciado Máximo Desktop) --- */
 .input-box{
     position: relative;
-    margin: 30px 0;
+    margin: 15px 0; 
+    padding: 0;
 }
 
-    .input-box input{
-        width: 100%;
-        padding: 13px 50px 13px 20px;
-        background: #eee;
-        border-radius: 8px;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        color: #333;
-        font-weight: 500;
-    }
+.input-box input, 
+.input-box select { 
+    width: 100%;
+    padding: 10px 50px 10px 20px; 
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 15px; 
+    color: #333;
+    font-weight: 500;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 45px; 
+}
+.input-box input::placeholder{ color: #888; font-weight: 400; }
+.input-box select option[disabled]:first-child { color: #888; font-weight: 400; }
 
-        .input-box input::placeholder{
-            color: #888;
-            font-weight: 400;
-        }
-    
-    .input-box i{
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 20px;
-    }
+/* Iconos de Candado/Usuario/Grupo */
+.input-box i{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
+    color: #333; 
+    z-index: 5;
+}
 
-.forgot-link{ margin: -15px 0 15px; }
-    .forgot-link a{
-        font-size: 14.5px;
-        color: #333;
-    }
+/* Estilo específico para el botón de "ojo" (toggle de contraseña) */
+.password-toggle {
+    position: absolute;
+    right: 50px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 18px;
+    color: #555; 
+    transition: color 0.2s;
+    z-index: 10; 
+}
+.password-toggle:hover {
+    color: #285430;
+}
 
+
+.forgot-link{ 
+    margin: 10px 0 15px; 
+    text-align: right;
+    width: 100%;
+    padding-right: 20px; 
+}
+.forgot-link a{ 
+    font-size: 14px; 
+    color: #333; 
+    transition: color 0.3s;
+}
+.forgot-link a:hover{
+    color: #285430;
+}
 .btn{
     width: 100%;
-    height: 48px;
+    height: 45px;
     background: #285430;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     color: #fff;
     font-weight: 600;
+    margin-top: 20px; 
+}
+.social-icons{ display: flex; justify-content: center; margin-top: 15px; }
+.social-icons a{
+    display: inline-flex; padding: 6px; border: 2px solid #ccc;
+    border-radius: 8px; font-size: 18px; color: #333; margin: 0 4px;
 }
 
-.social-icons{
-    display: flex;
-    justify-content: center;
+/* --- Toggle Box (Desktop) --- */
+.toggle-box{ position: absolute; width: 100%; height: 100%; }
+.toggle-box::before{
+    content: ''; position: absolute; left: -250%; width: 300%; height: 100%;
+    background: #285430; border-radius: 150px; z-index: 2; transition: 2.8s ease-in-out;
+}
+.container.active .toggle-box::before{ left: 50%; }
+.toggle-panel{
+    position: absolute; width: 50%; height: 100%; color: #fff;
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; z-index: 2; transition: .6s ease-in-out;
+}
+.toggle-panel.toggle-left{ left: 0; transition-delay: 1.2s; }
+.container.active .toggle-panel.toggle-left{ left: -50%; transition-delay: .6s; }
+.toggle-panel.toggle-right{ right: -50%; transition-delay: .6s; }
+.container.active .toggle-panel.toggle-right{ right: 0; transition-delay: 1.2s; }
+.toggle-panel p{ margin-bottom: 10px; }
+.toggle-panel .btn{
+    width: 130px; height: 34px; background: transparent; border: 2px solid #fff;
+    box-shadow: none; font-size: 14px;
 }
 
-    .social-icons a{
-        display: inline-flex;
-        padding: 10px;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        font-size: 24px;
-        color: #333;
-        margin: 0 8px;
-    }
+/* ----------------------------------------------------- */
+/* --- ESTILOS PARA EL MODAL DE CONFIRMACIÓN DE ROL (Colores MÁS OSCUROS) --- */
+/* ----------------------------------------------------- */
 
-.toggle-box{
-    position: absolute;
+.modal-overlay {
+    position: fixed; 
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-}
-
-    .toggle-box::before{
-        content: '';
-        position: absolute;
-        left: -250%;
-        width: 300%;
-        height: 100%;
-        background: #285430;
-        
-        border-radius: 150px;
-        z-index: 2;
-        transition: 2.8s ease-in-out;
-    }
-
-        .container.active .toggle-box::before{ left: 50%; }
-
-.toggle-panel{
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.7); 
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 2;
-    transition: .6s ease-in-out;
+    z-index: 1000; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none; 
 }
 
-    .toggle-panel.toggle-left{ 
-        left: 0;
-        transition-delay: 1.2s; 
-    }
-        .container.active .toggle-panel.toggle-left{
-            left: -50%;
-            transition-delay: .6s;
-        }
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto; 
+}
 
-    .toggle-panel.toggle-right{ 
-        right: -50%;
-        transition-delay: .6s;
-    }
-        .container.active .toggle-panel.toggle-right{
-            right: 0;
-            transition-delay: 1.2s;
-        }
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s ease-in-out;
+}
 
-    .toggle-panel p{ margin-bottom: 20px; }
+.modal-overlay.show .modal-content {
+    transform: scale(1);
+}
 
-    .toggle-panel .btn{
-        width: 160px;
-        height: 46px;
-        background: transparent;
-        border: 2px solid #fff;
-        box-shadow: none;
-    }
+.modal-content h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 20px;
+}
 
+.modal-content p {
+    margin-bottom: 25px;
+    color: #555;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    width: 48%; 
+    height: 40px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: none;
+    margin: 0;
+    padding: 0; 
+}
+
+/* COLORES OSCUROS SOLICITADOS */
+#modalConfirmBtn {
+    background-color: #1d3d13; /* Verde muy profundo */
+    color: white;
+}
+#modalConfirmBtn:hover {
+    background-color: #284f18; 
+}
+
+#modalCancelBtn {
+    background-color: #750000; /* Rojo Borgoña Oscuro */
+    color: white;
+}
+#modalCancelBtn:hover {
+    background-color: #990000; 
+}
+
+
+/* --- MÓVIL (MAX-WIDTH: 650PX) --- */
 @media screen and (max-width: 650px){
-    .container{ height: calc(100vh - 40px); }
-
+    /* 1. Contenedor Principal (Layout Vertical) */
+    .container{ height: 98vh; width: 98vw; margin: 1vh auto; }
+    
+    /* 2. Caja de Formulario: Usamos space-evenly para la distribución vertical */
     .form-box{
-        bottom: 0;
-        width: 100%;
-        height: 70%;
+        bottom: 0; 
+        width: 100%; 
+        height: 70%; 
+        padding: 10px 15px; 
+        justify-content: space-evenly; 
+        overflow-y: auto;
+    }
+    .container.active .form-box{ right: 0; bottom: 30%; }
+
+    .container h1{ font-size: 24px; margin: 0; } 
+    .container p{ font-size: 12px; margin: 0; } 
+
+    /* Espaciado de Inputs en Móvil */
+    .input-box{ 
+        margin: 5px 0; 
+        padding: 0; 
+    }
+    
+    .input-box input, 
+    .input-box select { 
+        padding: 8px 35px 8px 15px; 
+        font-size: 12px; 
+        height: 38px; 
     }
 
-        .container.active .form-box{
-            right: 0;
-            bottom: 30%;
-        }
-
-    .toggle-box::before{
-        left: 0;
-        top: -270%;
-        width: 100%;
-        height: 300%;
-        border-radius: 20vw;
+    .input-box i{ font-size: 15px; right: 15px; }
+    
+    .password-toggle { 
+        right: 40px; /* Ajuste en móvil */
+        font-size: 15px;
     }
 
-        .container.active .toggle-box::before{
-            left: 0;
-            top: 70%;
-        }
-
-        .container.active .toggle-panel.toggle-left{
-            left: 0;
-            top: -30%;
-        }
-
-    .toggle-panel{ 
-        width: 100%;
-        height: 30%;
+    .forgot-link{ 
+        margin: 5px 0; 
+        padding-right: 15px; 
     }
-        .toggle-panel.toggle-left{ top: 0; }
-        .toggle-panel.toggle-right{
-            right: 0;
-            bottom: -30%;
-        }
+    .forgot-link a{ font-size: 12px; }
 
-            .container.active .toggle-panel.toggle-right{ bottom: 0; }
+    .btn{ height: 38px; font-size: 13px; margin-top: 5px; } 
+    .social-icons{ margin-top: 5px; } 
+    .social-icons a{ padding: 4px; font-size: 14px; margin: 0 3px; }
+    
+    /* 3. Toggle Box y Panel */
+    .toggle-box::before{ left: 0; top: -270%; width: 100%; height: 300%; border-radius: 20vw; }
+    .container.active .toggle-box::before{ left: 0; top: 70%; }
+    .toggle-panel{ width: 100%; height: 30%; }
+    .toggle-panel.toggle-left{ top: 0; transition-delay: .6s; }
+    .container.active .toggle-panel.toggle-left{ left: 0; top: -30%; transition-delay: .6s; }
+    .toggle-panel.toggle-right{ right: 0; bottom: -30%; transition-delay: .6s; }
+    .container.active .toggle-panel.toggle-right{ bottom: 0; transition-delay: 1.2s; }
+    
+    .toggle-panel h1{font-size: 22px; margin: 0;}
+    .toggle-panel p{ margin: 5px 0; font-size: 11px;}
+    .toggle-panel .btn{ width: 100px; height: 28px; font-size: 12px; }
+
+    /* Ajuste de Modal en Móvil */
+    .modal-content {
+        padding: 20px;
+    }
+    .modal-content h2 {
+        font-size: 18px;
+    }
+    .modal-content p {
+        font-size: 13px;
+    }
+    .modal-buttons {
+        flex-direction: column; 
+    }
+    .modal-buttons button {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 400px){
-    .form-box { padding: 20px; }
-
-    .toggle-panel h1{font-size: 30px; }
+    .form-box { padding: 5px 10px; }
+    .form-box h1 { font-size: 20px; }
+    .toggle-panel h1{font-size: 18px; }
+    .toggle-panel p{ font-size: 10px;}
+    .toggle-panel .btn{ width: 80px; height: 24px; font-size: 11px; }
 }

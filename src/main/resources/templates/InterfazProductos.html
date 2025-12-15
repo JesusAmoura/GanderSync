@@ -1,233 +1,236 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Productos - GanderSync</title>
-  <link rel="stylesheet" th:href="@{/css/CSSProductos.css}"> 
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - GanderSync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" th:href="@{/css/CSSProductos.css}"> 
+    
 </head>
 <body id="body"> 
-  <header class="barra-navegacion">
-    <div class="header-content">
-      <h1 class="logo">GanderSync</h1>
-      <nav class="menu">
-        <a th:href="@{/inicio}">Inicio</a>
-        <a th:href="@{/productos}" class="active">Productos</a>
-        <a th:href="@{/novedades}">Novedades</a>
-        <a th:href="@{/ofertas}">Ofertas</a>
-        <a th:href="@{/historia}">Historia</a>
-        <a th:href="@{/login}">Login</a>
-      </nav>
-      <div class="header-actions">
-        <a href="#" id="toggleCarritoNav" class="cart-nav-btn">
-          🛒 <span id="cartCountNav" class="cart-badge">0</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <main class="productos-container">
     
-    <div id="productos-view">
-        <section class="filtros">
-            <input type="text" id="searchInput" placeholder="Buscar producto..." tabindex="0"> 
-            <select id="categoriaFiltro" tabindex="0">
-              <option value="todos">Todas las categorías</option>
-            </select>
-      
-            <button id="abrirFormBtn" class="btn-agregar-producto" tabindex="0">➕ Agregar producto</button>
-      
-            <div class="vista-botones">
-              <button id="btnVistaOriginal" title="Vista original" tabindex="0">🔳</button>
-              <button id="btnVistaLista" title="Vista lista" tabindex="0">📋</button>
+    <header class="barra-navegacion">
+        <div class="header-content">
+            <h1 class="logo">GanderSync</h1>
+
+            <nav class="menu" id="nav-menu" role="navigation" aria-label="Menú principal">
+                <p class="mobile-current-page"></p>
+                <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
+                <a th:href="@{/productos}" class="active" tabindex="0" aria-current="page">Productos</a>
+                <a th:href="@{/novedades}" tabindex="0">Novedades</a>
+                <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
+                <a th:href="@{/historia}" tabindex="0">Historia</a>
+                
+                <a href="#" class="logout-btn-mobile" tabindex="0">Cerrar Sesión</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#" class="logout-btn" tabindex="0">Cerrar Sesión</a>
+                
+                <a href="#" id="toggleCarritoNav" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">
+                    🛒 <span id="cartCountNav" class="cart-badge"></span>
+                </a>
+                
+                <button class="menu-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
-        </section>
-      
-        <section class="grid vista-original" id="productosGrid">
-        </section>
+        </div>
+    </header>
+    
+    <main class="productos-container">
         
-        <div id="floatingCartBtn" class="floating-cart-btn cart-nav-btn" tabindex="0">
-            🛒 <span id="cartCountFloating" class="cart-badge">0</span>
+        <div id="productos-view">
+            <section class="filtros">
+                <input type="text" id="searchInput" placeholder="Buscar producto..." tabindex="0"> 
+                <select id="categoriaFiltro" tabindex="0">
+                    <option value="todos">Todas las categorías</option>
+                </select>
+            
+                <button id="abrirFormBtn" class="btn-agregar-producto" tabindex="0">➕ Agregar producto</button>
+            
+                <div class="vista-botones">
+                    <button id="btnVistaOriginal" title="Vista original" tabindex="0">🔳</button>
+                    <button id="btnVistaLista" title="Vista lista" tabindex="0">📋</button>
+                </div>
+            </section>
+            
+            <section class="grid vista-original" id="productosGrid">
+                </section>
+            
+            <div id="floatingCartBtn" class="floating-cart-btn cart-nav-btn" tabindex="0">
+                🛒 <span id="cartCountFloating" class="cart-badge">0</span>
+            </div>
+        </div>
+
+        <div id="carrito-view" class="hidden">
+            
+            <section id="carrito-section">
+                <h2>🛒 Carrito de Compras</h2>
+                <table id="carritoTabla">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+                <h3 id="totalCarrito">Total: $0</h3>
+                <button id="backToProductosBtn" class="btn-secondary" style="margin-bottom: 10px;" tabindex="0">⬅️ Regresar a Productos</button>
+                <button id="goToPagoBtn" class="btn-primary" tabindex="0">Pagar Ahora</button>
+            </section>
+
+            <section id="pago-section" class="hidden">
+                <h2>💳 Método de Pago</h2>
+                <div class="pago-grid">
+                    <label for="billetera">Selecciona tu billetera:</label>
+                    <select id="billetera" tabindex="0">
+                        <option value="">-- Selecciona una --</option>
+                        <option value="Nequi">Nequi</option>
+                        <option value="Daviplata">Daviplata</option>
+                        <option value="Bancolombia">Bancolombia</option>
+                        <option value="PayPal">PayPal</option>
+                    </select>
+                </div>
+                <button id="pagarBtn" class="btn-primary" tabindex="0">Confirmar Pago</button>
+                <button id="backToCartBtn" class="btn-secondary" tabindex="0">Volver al Carrito</button>
+            </section>
+        </div>
+
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <span id="closeModal" tabindex="0">&times;</span>
+                <img id="modalImg" src="" alt="Imagen del producto">
+                <h2 id="modalNombre"></h2>
+                <p id="modalInfo"></p>
+                <p><strong>Modo de uso:</strong> <span id="modalUso"></span></p>
+                <p><strong>Precio:</strong> <span id="modalPrecio"></span></p>
+                <button id="contactoBtn" class="btn-action" tabindex="0">Escribir al vendedor</button> 
+            </div>
+        </div>
+
+        <div id="formModal" class="modal hidden">
+            <div class="modal-content">
+                <span id="closeForm" tabindex="0">&times;</span>
+                <h2 id="formTitle">Agregar Producto</h2>
+                <form th:action="@{/productos/guardar}" method="post" id="productoForm" enctype="multipart/form-data">
+                    <input type="hidden" id="editIndex" name="id">
+
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required tabindex="0">
+
+                    <label for="categoria">Categoría:</label>
+                    <select id="categoria" name="categoria" required tabindex="0">
+                        </select>
+
+                    <label for="info">Descripción:</label>
+                    <textarea id="info" name="info" required tabindex="0"></textarea>
+
+                    <label for="uso">Modo de uso:</label>
+                    <textarea id="uso" name="uso" required tabindex="0"></textarea>
+
+                    <label for="precio">Precio (COP):</label>
+                    <input type="number" id="precio" name="precio" required tabindex="0">
+
+                    <label for="imagen">URL Imagen (opcional):</label>
+                    <input type="text" id="imagen" name="imagen" tabindex="0">
+
+                    <label for="imagenArchivo">O Subir Archivo de Imagen (opcional):</label>
+                    <input type="file" id="imagenArchivo" accept="image/*" tabindex="0">
+
+                    <button type="submit" class="btn-primary" tabindex="0">💾 Guardar</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+    
+    <div id="mini-cart-sidebar" class="mini-cart-sidebar">
+        <div class="sidebar-header">
+            <h3>🛒 Tu Carrito</h3>
+            <button id="closeMiniCart" class="close-btn" tabindex="0">✖</button>
+        </div>
+        <div id="miniCartItems" class="sidebar-items">
+            <p class="empty-message">Aún no hay productos.</p>
+        </div>
+        <div class="sidebar-footer">
+            <h4 id="miniCartTotal">Total: $0</h4>
+            <button id="viewCartGridBtn" class="btn-primary" tabindex="0">Ver Carrito Completo</button>
         </div>
     </div>
 
-    <div id="carrito-view" class="hidden">
-      
-      <section id="carrito-section">
-        <h2>🛒 Carrito de Compras</h2>
-        <table id="carritoTabla">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Cant.</th>
-              <th>Precio</th>
-              <th>Total</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <h3 id="totalCarrito">Total: $0</h3>
-        <button id="backToProductosBtn" class="btn-secondary" style="margin-bottom: 10px;" tabindex="0">⬅️ Regresar a Productos</button>
-        <button id="goToPagoBtn" class="btn-primary" tabindex="0">Pagar Ahora</button>
-      </section>
-
-      <section id="pago-section" class="hidden">
-        <h2>💳 Método de Pago</h2>
-        <div class="pago-grid">
-            <label for="billetera">Selecciona tu billetera:</label>
-            <select id="billetera" tabindex="0">
-              <option value="">-- Selecciona una --</option>
-              <option value="Nequi">Nequi</option>
-              <option value="Daviplata">Daviplata</option>
-              <option value="Bancolombia">Bancolombia</option>
-              <option value="PayPal">PayPal</option>
-            </select>
+    <div id="alertModal" class="modal hidden">
+        <div class="modal-content alert-modal">
+            <p id="alertMessage"></p>
+            <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
         </div>
-        <button id="pagarBtn" class="btn-primary" tabindex="0">Confirmar Pago</button>
-        <button id="backToCartBtn" class="btn-secondary" tabindex="0">Volver al Carrito</button>
-      </section>
     </div>
 
-    <div id="modal" class="modal hidden">
-      <div class="modal-content">
-        <span id="closeModal" tabindex="0">&times;</span>
-        <img id="modalImg" src="" alt="Imagen del producto">
-        <h2 id="modalNombre"></h2>
-        <p id="modalInfo"></p>
-        <p><strong>Modo de uso:</strong> <span id="modalUso"></span></p>
-        <p><strong>Precio:</strong> <span id="modalPrecio"></span></p>
-        <button id="contactoBtn" class="btn-action" tabindex="0">Escribir al vendedor</button>
-      </div>
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-content confirm-modal">
+            <p id="confirmMessage"></p>
+            <div class="confirm-buttons">
+                <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
+                <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p> 
+    </footer>
+    
+    <div id="accessibility-container" class="accessibility-container">
+        <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-menu" aria-expanded="false" aria-label="Abrir opciones de accesibilidad (Arrastrar para mover)" title="Opciones de Accesibilidad (Arrastrar para mover)">
+            ♿
+        </button>
+
+        <nav id="accessibility-menu" role="menubar" aria-hidden="true" hidden>
+            <button id="toggleContrastBtn" class="btn-action" role="menuitem" tabindex="0" aria-live="polite" title="Alternar Alto Contraste" data-icon="🎨">Alto Contraste</button>
+            
+            <div class="zoom-controls"> 
+                <button id="increaseTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Aumentar Tamaño de Fuente" data-icon="🔍+">Aumentar Fuente</button>
+                <button id="decreaseTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Disminuir Tamaño de Fuente" data-icon="🔍-">Disminuir Fuente</button>
+            </div>
+            
+            <button id="resetTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Restablecer Tamaño de Fuente" data-icon="🔄">Restablecer Fuente</button>
+        </nav>
     </div>
 
-    <div id="formModal" class="modal hidden">
-      <div class="modal-content">
-        <span id="closeForm" tabindex="0">&times;</span>
-        <h2 id="formTitle">Agregar Producto</h2>
-        <form th:action="@{/productos/guardar}" method="post" id="productoForm" enctype="multipart/form-data">
-          <input type="hidden" id="editIndex" name="id">
-
-          <label>Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required tabindex="0">
-
-          <label>Categoría:</label>
-          <select id="categoria" name="categoria" required tabindex="0">
-          </select>
-
-          <label>Descripción:</label>
-          <textarea id="info" name="info" required tabindex="0"></textarea>
-
-          <label>Modo de uso:</label>
-          <textarea id="uso" name="uso" required tabindex="0"></textarea>
-
-          <label>Precio (COP):</label>
-          <input type="number" id="precio" name="precio" required tabindex="0">
-
-          <label>URL Imagen (opcional):</label>
-          <input type="text" id="imagen" name="imagen" tabindex="0">
-
-          <label>O Subir Archivo de Imagen (opcional):</label>
-          <input type="file" id="imagenArchivo" accept="image/*" tabindex="0">
-
-          <button type="submit" class="btn-primary" tabindex="0">💾 Guardar</button>
-        </form>
-      </div>
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
     </div>
 
-    <div id="chatBox" class="chat hidden">
-      <div class="chat-header">
-        <span>💬 Contactar al vendedor</span>
-        <button id="closeChat" tabindex="0">✖</button>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="message vendedor">👨‍🌾 Hola, ¿en qué puedo ayudarte?</div>
-      </div>
-      <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="Escribe un mensaje..." tabindex="0">
-        <button id="sendMsg" class="btn-action" tabindex="0">Enviar</button>
-      </div>
-    </div>
-  </main>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script>
+        // CONFIGURACIÓN DE FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4URRzvmN3OYMnM3jaGk1vdzFgGpENWvA",
+            authDomain: "gandersync.firebaseapp.com",
+            databaseURL: "https://gandersync-default-rtdb.firebaseio.com/",
+            projectId: "gandersync",
+            storageBucket: "gandersync.appspot.com",
+            messagingSenderId: "744744999999",
+            appId: "1:744744999999:web:12345abcde6789",
+            measurementId: "G-XYZ1234ABC"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const storage = firebase.storage(); 
+    </script>
 
-  <div id="mini-cart-sidebar" class="mini-cart-sidebar">
-    <div class="sidebar-header">
-        <h3>🛒 Tu Carrito</h3>
-        <button id="closeMiniCart" class="close-btn" tabindex="0">✖</button>
-    </div>
-    <div id="miniCartItems" class="sidebar-items">
-        <p class="empty-message">Aún no hay productos.</p>
-    </div>
-    <div class="sidebar-footer">
-        <h4 id="miniCartTotal">Total: $0</h4>
-        <button id="viewCartGridBtn" class="btn-primary" tabindex="0">Ver Carrito Completo</button>
-    </div>
-  </div>
-
-  <div id="alertModal" class="modal hidden">
-    <div class="modal-content alert-modal">
-      <p id="alertMessage"></p>
-      <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
-    </div>
-  </div>
-
-  <div id="confirmModal" class="modal hidden">
-    <div class="modal-content confirm-modal">
-      <p id="confirmMessage"></p>
-      <div class="confirm-buttons">
-        <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
-        <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
-      </div>
-    </div>
-  </div>
-  
-  <footer class="footer">
-    <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
-    <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p> 
-  </footer>
-  
-  <div id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0">
-      ♿
-  </div>
-  
-  <div id="accessibility-sidebar" class="accessibility-sidebar">
-      <div class="sidebar-header">
-          <h3>Opciones de Accesibilidad</h3>
-          <button id="closeAccessibility" class="close-btn" tabindex="0">✖</button>
-      </div>
-      <div class="sidebar-items">
-          <h4>🎨 Contraste</h4>
-          <button id="toggleContrastBtn" class="btn-full-width btn-secondary" tabindex="0">Alto Contraste: OFF</button>
-          
-          <h4>🔍 Tamaño del Texto</h4>
-          <div class="text-size-controls">
-              <button id="decreaseTextBtn" class="btn-secondary" tabindex="0">A- Disminuir</button>
-              <button id="increaseTextBtn" class="btn-secondary" tabindex="0">A+ Aumentar</button>
-          </div>
-          
-      </div>
-  </div>
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyA4URRzvmN3OYMnM3jaGk1vdzFgGpENWvA",
-      authDomain: "gandersync.firebaseapp.com",
-      databaseURL: "https://gandersync-default-rtdb.firebaseio.com/",
-      projectId: "gandersync",
-      storageBucket: "gandersync.appspot.com",
-      messagingSenderId: "744744999999",
-      appId: "1:744744999999:web:12345abcde6789",
-      measurementId: "G-XYZ1234ABC"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    const storage = firebase.storage(); 
-  </script>
-
-  <script th:src="@{/js/JSProductos.js}"></script>
+    <script th:src="@{/js/JSProductos.js}"></script>
 </body>
 </html>

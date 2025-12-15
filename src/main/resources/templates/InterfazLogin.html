@@ -6,6 +6,7 @@
     <title>Login / Registro</title>
     <link rel="stylesheet" th:href="@{/css/CSSLogin.css}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
 </head>
 <body>
     <div class="container" th:classappend="${mode=='register'} ? 'active' : ''">
@@ -19,10 +20,25 @@
                     <input type="email" name="email" placeholder="Correo electrónico" required>
                     <i class='bx bxs-user'></i>
                 </div>
+
+                <div class="input-box select-role-box">
+                    <select name="role" required tabindex="0"> 
+                        <option value="" disabled selected>Seleccione su Rol</option>
+                        <option value="Vendedor">Vendedor</option>
+                        <option value="Cliente">Cliente</option>
+                    </select>
+                    <i class='bx bxs-group'></i> 
+                </div>
+
                 <div class="input-box">
                     <input type="password" name="password" placeholder="Contraseña" required>
                     <i class='bx bxs-lock-alt'></i>
                 </div>
+                
+                <div class="forgot-link">
+                    <a href="#">¿Te olvidaste de tu contraseña?</a>
+                </div>
+                
                 <button type="submit" class="btn">Iniciar Sesión</button>
             </form>
         </div>
@@ -41,6 +57,16 @@
                     <input type="email" name="email" placeholder="Correo electrónico" required>
                     <i class='bx bxs-envelope'></i>
                 </div>
+
+                <div class="input-box select-role-box">
+                    <select name="role" required tabindex="-1">
+                        <option value="" disabled selected>Seleccione su Rol</option>
+                        <option value="Vendedor">Vendedor</option>
+                        <option value="Cliente">Cliente</option>
+                    </select>
+                    <i class='bx bxs-group'></i>
+                </div>
+
                 <div class="input-box">
                     <input type="password" name="password" placeholder="Contraseña" required>
                     <i class='bx bxs-lock-alt'></i>
@@ -58,7 +84,7 @@
             <div class="toggle-panel toggle-right">
                 <h1>¡Bienvenido de vuelta!</h1>
                 <p>¿Ya tienes una cuenta?</p>
-                <button class="btn login-btn" type="button" tabindex="0">Login</button>
+                <button class="btn login-btn" type="button" tabindex="-1">Login</button>
             </div>
         </div>
     </div>
