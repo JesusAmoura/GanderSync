@@ -1,34 +1,34 @@
-/* =================================================== */
-/* 1. VARIABLES GLOBALES Y BASE   */
-/* =================================================== */
-
 :root {
     --font-scale: 1.0;
-    --color-primary-dark: #285430; /* 🟢 Verde Oscuro (Navbar/Footer) */
-    --color-primary-medium: #4a4a4a; /* Gris Oscuro para texto secundario */
-    --color-secondary: #000; /* Negro para la mayoría del texto por defecto */
-    --color-highlight: #007c39; /* Verde de GanderSync para focus/acción */
-    --color-lime-hover: #a3ff73; /* 🟢 Nuevo Verde Lima para Hover/Active (Añadido) */
-    --color-action: #4a4a4a; /* Gris para botones de acción flotantes */
+    --color-primary-dark: #285430;
+    --color-primary-medium: #4a4a4a;
+    --color-secondary: #000;
+    --color-highlight: #007c39;
+    --color-lime-hover: #cccccc;
+    --color-action: #4a4a4a;
     --color-danger: #d9534f;
-    --color-text-light: #fff; /* ⚪ Blanco (Texto en fondo oscuro) */
+    --color-text-light: #fff;
     --color-border: #eee;
     --color-bg-light: #f4f4f4;
     --color-bg-main: #fff;
     --font-body: 'Open Sans', Arial, sans-serif;
-    --nav-height: 60px; /* Altura de la barra de navegación */
-    --footer-height: 80px; /* Altura del footer */
-    --chat-bubble-self: var(--color-highlight); /* Verde para mis mensajes */
-    --chat-bubble-other: #e9ecef; /* Gris claro para mensajes del vendedor */
+    --nav-height: 60px;
+    --footer-height: 80px;
+    --chat-bubble-self: var(--color-highlight);
+    --chat-bubble-other: #e9ecef;
+
+    --hc-bg-dark: #121e14;
+    --hc-text-light: #e0e0e0;
+    --hc-highlight-bright: var(--color-highlight);
+    --hc-primary-darker: #1a331f;
+    --color-menu-hover-active: var(--color-text-light);
 }
 
 * {
     box-sizing: border-box;
-    /* La fuente base utiliza la variable --font-scale */
     font-size: calc(16px * var(--font-scale));
 }
 
-/* Base body y Animación de Carga */
 body {
     margin: 0;
     font-family: var(--font-body);
@@ -37,105 +37,114 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* Espacio superior para el Navbar fijo */
-    padding-top: var(--nav-height); 
-    /* Agregado espacio inferior para el Footer fijo (CRUCIAL para corregir el salto de scroll) */
-    padding-bottom: var(--footer-height); 
+    padding-top: var(--nav-height);
+    padding-bottom: var(--footer-height);
     overflow-x: hidden;
     line-height: 1.6;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out; 
+    transition: opacity 0.5s ease-in-out;
 }
 
 body.loaded {
-    opacity: 1; 
+    opacity: 1;
 }
 
-/* Foco de accesibilidad (Unificado con CSSInicio.css) */
 button:focus,
 input:focus,
 a:focus,
 .menu a:focus,
 .floating-accessibility-btn:focus,
-.close-btn:focus { 
+.close-btn:focus,
+#accessibility-menu button:focus,
+.menu-toggle:focus {
     outline: 2px dashed var(--color-highlight);
     outline-offset: 2px;
 }
 
-/* ----------------------------------------------------- */
-/* 2. ESTILOS DE ACCESIBILIDAD (High Contrast - B/N Estricto)  */
-/* ----------------------------------------------------- */
-
 body.high-contrast {
-    --color-primary-dark: #000;
-    --color-primary-medium: #111;
-    --color-secondary: #fff; /* Blanco Estricto */
-    --color-highlight: #fff; /* Blanco Estricto */
-    --color-action: #000;
-    --color-danger: #f00;
+    --color-primary-dark: var(--hc-primary-darker);
+    --color-secondary: var(--hc-text-light);
+    --color-highlight: var(--hc-highlight-bright);
+    --color-danger: #ff5757;
     --color-text-light: #000;
-    --color-border: #000;
-    --color-bg-light: #000;
-    --color-bg-main: #000;
-    background-color: #000 !important;
-    color: #fff !important;
+    --color-border: #333;
+    --color-bg-light: var(--hc-bg-dark);
+    --color-bg-main: var(--hc-bg-dark);
+
+    background-color: var(--hc-bg-dark) !important;
+    color: var(--hc-text-light) !important;
 }
 
 body.high-contrast .barra-navegacion,
-body.high-contrast .footer,
-body.high-contrast .sidebar-header,
-body.high-contrast .chat-header {
-    background-color: #000 !important;
-    color: #fff !important; 
-    border-color: #fff !important; 
+body.high-contrast .footer {
+    background-color: var(--hc-primary-darker) !important;
+    color: var(--hc-text-light) !important;
+    border-color: var(--hc-text-light) !important;
 }
 
-body.high-contrast a,
-body.high-contrast .menu a {
-    color: #fff !important; 
+body.high-contrast #accessibility-menu button,
+body.high-contrast .floating-accessibility-btn {
+    background-color: var(--hc-primary-darker) !important;
+    color: var(--hc-text-light) !important;
+    border: 1px solid var(--hc-text-light) !important;
 }
+
+body.high-contrast .sidebar-header,
+body.high-contrast .chat-header {
+    background-color: var(--hc-primary-darker) !important;
+    color: var(--hc-text-light) !important;
+    border-color: var(--hc-text-light) !important;
+}
+
+/* REGLA MODIFICADA: Quitamos 'h2' de esta regla genérica para que la regla específica del chat funcione */
+body.high-contrast a,
+body.high-contrast .menu a,
+body.high-contrast h1, h3, h4 { 
+    color: var(--hc-highlight-bright) !important;
+}
+
+/* REGLA ESPECÍFICA APLICADA CON ÉXITO: Asegura que el H2 del chat use el color claro */
+.chat-header h2 {
+    color: var(--color-text-light);
+    font-size: calc(1.2em * var(--font-scale));
+    margin: 0;
+}
+body.high-contrast .chat-header h2 {
+    color: var(--hc-text-light) !important; 
+}
+/* FIN REGLAS DEL TÍTULO */
+
 
 body.high-contrast .chat-container,
 body.high-contrast .chat-messages,
 body.high-contrast .modal-content,
 body.high-contrast .accessibility-sidebar {
-    background-color: #000 !important;
-    border: 2px solid #fff !important; 
+    background-color: var(--hc-bg-dark) !important;
+    border: 2px solid var(--hc-text-light) !important;
     box-shadow: none !important;
-    color: #fff !important;
-}
-
-body.high-contrast h1, h2, h3, h4 {
-    color: #fff !important; 
+    color: var(--hc-text-light) !important;
 }
 
 body.high-contrast input,
 body.high-contrast button {
-    border-color: #fff !important; 
+    border-color: var(--hc-text-light) !important;
 }
 
-/* AJUSTES DE CONTRASTE PARA BOTONES DEL SIDEBAR (Unificado con CSSInicio) */
-body.high-contrast .btn-primary, 
-body.high-contrast .btn-secondary, 
-body.high-contrast .btn-action, 
+body.high-contrast .btn-primary,
+body.high-contrast .btn-secondary,
+body.high-contrast .btn-action,
 body.high-contrast .chat-input-area button,
 body.high-contrast .message.cliente {
-    background-color: #fff !important; 
+    background-color: var(--hc-text-light) !important;
     color: #000 !important;
     border: 2px solid #000 !important;
 }
 
 body.high-contrast .message.vendedor {
-    background-color: #444 !important; 
-    color: #fff !important;
+    background-color: #444 !important;
+    color: var(--hc-text-light) !important;
 }
 
-
-/* ----------------------------------------------------- */
-/* 3. LAYOUT GENERAL Y COMPONENTES (Navbar, Footer, Acc.)*/
-/* ----------------------------------------------------- */
-
-/* NAVBAR (Sin cambios) */
 .barra-navegacion {
     background-color: var(--color-primary-dark);
     color: var(--color-text-light);
@@ -169,26 +178,132 @@ body.high-contrast .message.vendedor {
     color: var(--color-text-light);
     font-size: calc(1.5em * var(--font-scale));
     transition: color 0.3s;
+    flex-shrink: 0;
 }
+.logo:hover {
+    color: var(--color-lime-hover);
+}
+
 .menu {
     display: flex;
     align-items: center;
+    flex-grow: 1;
+    justify-content: center;
 }
+
+.menu-links-container {
+    display: flex;
+    align-items: center;
+}
+
 .menu a {
     color: var(--color-text-light);
     text-decoration: none;
-    margin-left: 20px;
-    padding: 5px 0;
+    margin: 0 15px;
+    padding: 5px 0 3px 0;
     transition: color 0.3s, border-bottom 0.3s;
     white-space: nowrap;
 }
 .menu a:hover, .menu a.active {
-    color: var(--color-lime-hover);
-    border-bottom: 2px solid var(--color-lime-hover);
+    color: var(--color-text-light);
+    border-bottom: 2px solid var(--color-text-light);
+    background-color: transparent !important;
+}
+
+.logout-btn-mobile {
+    display: none;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.logout-btn {
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    text-decoration: none;
+    border-bottom: none !important;
+    display: block;
+}
+.logout-btn:hover {
+    background-color: #a93226;
+    transform: translateY(-1px);
+}
+
+.header-actions .cart-nav-btn {
+    position: relative;
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: var(--color-highlight);
+    border: 1px solid var(--color-highlight);
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.header-actions .cart-nav-btn:hover {
+    background-color: #006631;
+    border-color: #006631;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: calc(10px * var(--font-scale));
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+    border: 1px solid var(--color-bg-main);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1002;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+}
+.icon-bar {
+    display: block;
+    width: 20px;
+    height: 3px;
+    margin: 4px auto;
+    background-color: var(--color-text-light);
+    transition: all 0.3s ease-in-out;
+    border-radius: 1px;
+}
+.menu.open .icon-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu.open .icon-bar:nth-child(2) { opacity: 0; }
+.menu.open .icon-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.current-page-mobile {
+    display: none;
+    color: var(--color-text-light);
+    font-size: calc(1.3em * var(--font-scale));
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+    text-align: left;
 }
 
 
-/* FOOTER (Sin cambios) */
 .footer {
     background-color: var(--color-primary-dark);
     color: var(--color-text-light);
@@ -202,13 +317,12 @@ body.high-contrast .message.vendedor {
     height: var(--footer-height);
     padding: 10px;
     box-sizing: border-box;
-    /* Inicia oculto */
+
     transform: translateY(100%);
     transition: transform 0.4s ease;
 }
 
 .footer.visible {
-    /* Se muestra al hacer scroll al final */
     transform: translateY(0);
 }
 
@@ -217,7 +331,6 @@ body.high-contrast .message.vendedor {
     font-size: calc(14px * var(--font-scale));
 }
 
-/* ⭐ BOTONES GENÉRICOS (Para el Sidebar) - Copia de CSSInicio.css ⭐ */
 .btn-primary, .btn-secondary, .btn-action, .btn-danger {
     padding: 10px 20px;
     border-radius: 4px;
@@ -241,7 +354,6 @@ body.high-contrast .message.vendedor {
 
 .btn-secondary {
     background-color: var(--color-primary-medium);
-    /* Color de texto CLARO por defecto para fondo gris oscuro */
     color: var(--color-text-light);
 }
 .btn-secondary:hover {
@@ -262,115 +374,113 @@ body.high-contrast .message.vendedor {
     color: var(--color-text-light);
 }
 
-/* ACCESIBILIDAD SIDEBAR (Botón y Sidebar UNIFICADOS) */
-.floating-accessibility-btn {
+.accessibility-container {
     position: fixed;
     top: 90px;
-    right: 20px; 
+    right: 20px;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    cursor: grab;
+    transition: none !important;
+}
+.accessibility-container.align-left {
+    align-items: flex-start;
+}
+.accessibility-container.dragging {
+    cursor: grabbing;
+}
+.floating-accessibility-btn {
     background-color: var(--color-action);
     color: var(--color-text-light);
     border-radius: 50px;
     padding: 12px 18px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
     cursor: pointer;
     font-size: 1.2em;
-    border: none;
-    transition: transform 0.4s ease; 
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;
 }
-.floating-accessibility-btn:hover {
-    transform: scale(1.05);
-}
-
-.accessibility-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0; 
-    width: 280px;
-    height: 100%;
-    background-color: var(--color-bg-main);
-    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1); 
-    z-index: 2000;
-    transform: translateX(100%); 
-    transition: transform 0.4s ease-in-out;
+#accessibility-menu {
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+    transform-origin: top right;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 5px;
+    pointer-events: none;
+    cursor: default;
 }
-
-.accessibility-sidebar.open {
-    transform: translateX(0);
+.zoom-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
-
-.sidebar-header {
+.accessibility-container.align-left #accessibility-menu {
+    transform-origin: top left;
+}
+#accessibility-menu.open {
+    opacity: 1;
+    max-height: 300px;
+    pointer-events: auto;
+}
+#accessibility-menu button {
     background-color: var(--color-primary-dark);
     color: var(--color-text-light);
-    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    font-size: 1.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    text-indent: -9999px;
+    position: relative;
+    overflow: hidden;
+}
+#increaseTextBtn {
+    width: 60px !important;
+}
+#accessibility-menu button::after {
+    content: attr(data-icon);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-indent: 0;
+    line-height: 1;
+    font-size: 24px !important;
+}
+#increaseTextBtn::after {
+    content: attr(data-icon);
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 26px !important;
 }
-.close-btn {
-    background: transparent;
-    color: var(--color-text-light);
-    font-size: calc(1.2em * var(--font-scale));
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
+#accessibility-menu button:hover {
+    background-color: var(--color-highlight);
 }
-.accessibility-sidebar .sidebar-items {
-    padding: 15px;
-}
-
-/* ⭐⭐⭐ CORRECCIÓN CLAVE: Asegurar que TODO el texto normal en el cuerpo del sidebar sea Verde Oscuro ⭐⭐⭐ */
-.accessibility-sidebar .sidebar-items * {
-    /* Resetea a Verde Oscuro para el texto normal del cuerpo, si no está en un botón o en el modo alto contraste */
-    color: var(--color-primary-dark);
-}
-/* Excepciones (Botones) */
-.accessibility-sidebar .sidebar-items button,
-.accessibility-sidebar .sidebar-items .btn-secondary,
-.accessibility-sidebar .sidebar-items .btn-full-width {
-    /* Reestablece el texto a BLANCO solo dentro de los botones, para contrastar con el gris */
-    color: var(--color-text-light) !important; 
-}
-/* TÍTULOS DE SECCIÓN (h4) */
-.accessibility-sidebar .sidebar-items h4 {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    /* Ya están cubiertos por la regla general de arriba, pero los forzamos por si acaso */
-    color: var(--color-primary-dark) !important; 
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 5px;
-    font-size: 1.1em;
-}
-
-.text-size-controls {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-}
-.btn-full-width {
-    width: 100%;
-    margin-bottom: 10px;
-}
-/* Configuraciones finales de los botones del sidebar */
-.sidebar-items .btn-secondary,
-.sidebar-items .btn-full-width {
-    padding: 10px 15px;
-    font-size: calc(1em * var(--font-scale)); 
-}
-/* ⭐⭐⭐ FIN CORRECCIONES SIDEBAR TEXTO ⭐⭐⭐ */
-
-
-/* ----------------------------------------------------- */
-/* 4. ESTILOS ESPECÍFICOS DEL CHAT                     */
-/* ----------------------------------------------------- */
 
 main {
-    flex: 1; 
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -383,7 +493,7 @@ main {
 .contenedor-chat {
     width: 100%;
     max-width: 700px;
-    min-height: 650px; /* Altura mínima corregida */
+    min-height: 650px;
     margin: 20px 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
@@ -409,12 +519,6 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-/* Título del chat en blanco */
-.chat-header h2 { 
-    color: var(--color-text-light); 
-    font-size: calc(1.2em * var(--font-scale));
-    margin: 0;
 }
 
 .disconnect-btn {
@@ -455,14 +559,14 @@ main {
     background-color: var(--chat-bubble-other);
     color: var(--color-secondary);
     margin-right: auto;
-    border-bottom-left-radius: 5px; 
+    border-bottom-left-radius: 5px;
 }
 
 .message.cliente {
     background-color: var(--chat-bubble-self);
     color: var(--color-text-light);
     margin-left: auto;
-    border-bottom-right-radius: 5px; 
+    border-bottom-right-radius: 5px;
 }
 .message.status {
     text-align: center;
@@ -512,41 +616,117 @@ main {
 }
 
 
-/* ------------------------------------------- */
-/* 5. RESPONSIVE (max-width: 768px)          */
-/* ------------------------------------------- */
-
 @media (max-width: 768px) {
-    /* --- AJUSTE GENERAL DE FUENTE Y TAMAÑO --- */
     :root {
         --font-scale: 0.9;
         --nav-height: 50px;
         --footer-height: 70px;
     }
     body {
-        padding-top: var(--nav-height); 
-        padding-bottom: var(--footer-height); 
+        padding-top: var(--nav-height);
+        padding-bottom: 90px;
     }
 
-    /* --- AJUSTES NAVBAR --- */
+    .barra-navegacion {
+        padding: 0 5px;
+        box-sizing: border-box;
+    }
     .header-content {
         height: var(--nav-height);
-    }
-    .logo {
-        display: none;
-    }
-    .menu {
-        flex-grow: 1;
-        justify-content: flex-start;
-        margin: 0;
-    }
-    .menu a {
-        font-size: 0.9em;
-        margin: 0 8px;
-        padding: 3px 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
 
-    /* --- AJUSTES FOOTER --- */
+    .current-page-mobile {
+        display: block;
+        order: 1;
+        margin-left: 10px;
+        flex-grow: 1;
+        font-size: calc(1.3em * var(--font-scale));
+    }
+    .logo {
+        display: block;
+        font-size: calc(1.3em * var(--font-scale));
+        order: 0;
+    }
+
+    .header-actions {
+        order: 3;
+        display: flex;
+        gap: 8px;
+    }
+
+    .header-actions .logout-btn {
+        display: none;
+    }
+
+    .header-actions .cart-nav-btn {
+        display: block;
+    }
+    .menu-toggle {
+        display: block;
+    }
+
+    .menu {
+        flex-grow: 0;
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--nav-height));
+        background-color: var(--color-primary-dark);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 999;
+        justify-content: space-between;
+        padding-bottom: 40px;
+    }
+    .menu.open {
+        transform: translateX(0) !important;
+    }
+
+    .menu-links-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+
+    .menu a {
+        width: 100%;
+        margin: 0;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: calc(1.1em * var(--font-scale));
+        margin-left: 0;
+    }
+    .menu a:last-child {
+        border-bottom: none;
+    }
+
+    .logout-btn-mobile {
+        display: block;
+        width: 100%;
+        background-color: var(--color-danger);
+        color: var(--color-text-light);
+        padding: 12px 20px;
+        border-radius: 4px;
+        text-align: center;
+        margin-top: auto;
+        border-bottom: none !important;
+        border: none;
+        transition: background-color 0.2s;
+    }
+    .logout-btn-mobile:hover {
+        background-color: #a93226;
+        transform: none;
+    }
+
     .footer {
         height: var(--footer-height);
         padding: 8px;
@@ -555,17 +735,39 @@ main {
         font-size: calc(13px * var(--font-scale));
     }
 
-    /* --- AJUSTES CHAT Y ACCESIBILIDAD --- */
+    .accessibility-container {
+        top: 70px;
+        right: 10px;
+    }
+    .floating-accessibility-btn {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    #accessibility-menu button {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3em;
+    }
+    #increaseTextBtn {
+        width: 55px !important;
+    }
+    .zoom-controls {
+        flex-direction: row;
+    }
+    #accessibility-menu button::after {
+        font-size: 20px !important;
+    }
+    #increaseTextBtn::after {
+        width: 40px;
+        display: flex;
+        justify-content: space-around;
+        font-size: 22px !important;
+    }
+
     main {
         padding: 10px;
     }
-    .floating-accessibility-btn {
-        top: 70px; 
-        right: 10px; 
-        padding: 10px 15px; 
-        font-size: 1em;
-    }
     .contenedor-chat {
-        min-height: 90vh; 
+        min-height: 90vh;
     }
 }

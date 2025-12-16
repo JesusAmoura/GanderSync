@@ -30,4 +30,10 @@ public class PagesController {
     public String mostrarchat() {
         return "InterfazChat"; // carga InterfazChat.html
     }
+    
+    // NUEVA RUTA PARA EL ADMINISTRADOR
+    @GetMapping("/admin")
+    public String mostrarAdmin() {
+        return "InterfazAdmin"; // carga InterfazAdmin.html
+    }
 }

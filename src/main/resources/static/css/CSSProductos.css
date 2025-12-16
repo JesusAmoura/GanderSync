@@ -1436,4 +1436,83 @@ main {
     .footer {
         padding: 15px 10px; /* Ajuste el padding horizontal */
     }
+
+    /* --- CORRECCIÓN PARA VISTA DE LISTA EN MÓVIL --- */
+@media (max-width: 768px) {
+    /* Forzamos que la tarjeta de lista se comporte como bloque vertical en móviles */
+    .vista-lista .card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+
+    /* La imagen ocupa el ancho completo para no apretar el texto lateralmente */
+    .vista-lista .card-media {
+        width: 100% !important;
+        height: 180px !important;
+        margin-right: 0 !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* Aseguramos que el cuerpo no desborde */
+    .vista-lista .card-body {
+        width: 100% !important;
+        text-align: center;
+        padding: 0 5px;
+    }
+
+    /* Los botones se ajustan para ser fáciles de tocar en móvil */
+    .vista-lista .card-actions {
+        margin-left: 0 !important;
+        margin-top: 15px !important;
+        justify-content: center !important;
+        width: 100% !important;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .vista-lista .card-actions button {
+        flex: 1;
+        min-width: 100px;
+        height: 40px !important;
+    }
 }
+/* --- CORRECCIÓN FINAL: FORZAR BOTÓN LOGOUT AL FONDO --- */
+@media (max-width: 768px) {
+    /* 1. Forzamos al nav a ocupar todo el alto disponible */
+    #nav-menu.menu {
+        display: flex !important;
+        flex-direction: column !important;
+        height: calc(100vh - 50px) !important; 
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        justify-content: flex-start !important; /* Los links arriba */
+    }
+
+    /* 2. Estilo para los enlaces de navegación */
+    #nav-menu.menu a {
+        display: block !important;
+        width: 100% !important;
+        padding: 15px 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* 3. FORZAR el botón de cerrar sesión al final */
+    #nav-menu.menu a.logout-btn-mobile {
+        margin-top: auto !important; /* ESTO ES LO QUE LO EMPUJA AL FINAL */
+        background-color: var(--color-danger) !important;
+        color: white !important;
+        text-align: center !important;
+        border-radius: 6px !important;
+        padding: 15px !important;
+        font-weight: bold !important;
+        border-bottom: none !important;
+        margin-bottom: 20px !important; /* Espacio extra para que no pegue al borde físico */
+    }
+}
+
+
+}
+

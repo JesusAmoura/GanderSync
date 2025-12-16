@@ -1,29 +1,38 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ChatMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.messaging.handler.annotation.DestinationVariable; // Importación para claridad, aunque no se usa en este caso
+
+import com.example.demo.model.ChatMessage;
 
 @Controller
 public class ChatController {
 
+    // Inyectamos el SimpMessagingTemplate para enviar mensajes programáticamente
+    private final SimpMessagingTemplate messagingTemplate;
+
+    // Inyección de dependencia (constructor)
+    public ChatController(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
+
     @MessageMapping("/chat.sendMessage")
-    // Nota: El path variable {chatId} se resuelve gracias a que Spring usa la información de conexión STOMP.
-    @SendTo("/topic/{chatId}") 
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        // Lógica de negocio opcional (guardar en base de datos, validar)
+    public void sendMessage(@Payload ChatMessage chatMessage) {
+        // En lugar de usar @SendTo, construimos el destino y lo enviamos
+        String destination = "/topic/" + chatMessage.getChatId();
         
-        // Retorna el mensaje, que será enviado al broker bajo /topic/{chatId}
-        return chatMessage;
+        // Enviamos el mensaje al broker (a todos los suscritos al chatId)
+        messagingTemplate.convertAndSend(destination, chatMessage);
     }
 
     @MessageMapping("/chat.addUser")
-    @SendTo("/topic/{chatId}") 
-    public ChatMessage addUser(@Payload ChatMessage chatMessage) {
-        // Enviar notificación de que un usuario se unió o salió
-        return chatMessage;
+    public void addUser(@Payload ChatMessage chatMessage) {
+        // Lógica para notificaciones JOIN/LEAVE
+        String destination = "/topic/" + chatMessage.getChatId();
+        
+        // Enviamos el mensaje de estado al broker
+        messagingTemplate.convertAndSend(destination, chatMessage);
     }
 }

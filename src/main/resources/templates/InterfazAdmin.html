@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat con Vendedor - GanderSync</title>
-
-    <link rel="stylesheet" th:href="@{/css/CSSChat.css}"> 
+    <title>Administrador - GanderSync</title>
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/CSSAdmin.css}" href="CSSAdmin.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
-<body id="body">
+<body id="body"> 
 
     <header class="barra-navegacion">
         <div class="header-content">
             <h1 class="logo">GanderSync</h1>
 
-            <nav class="menu" role="navigation" aria-label="Menú principal">
+            <nav class="menu" id="nav-menu" role="navigation" aria-label="Menú principal">
+                <p class="mobile-current-page"></p>
                 
                 <div class="menu-links-container">
                     <a th:href="@{/inicio}" tabindex="0">Inicio</a> 
@@ -27,11 +23,10 @@
                     <a th:href="@{/novedades}" tabindex="0">Novedades</a>
                     <a th:href="@{/ofertas}" tabindex="0">Ofertas</a>
                     <a th:href="@{/historia}" tabindex="0">Historia</a>
+                    <a th:href="@{/admin}" class="active" tabindex="0" aria-current="page">Admin</a> 
                 </div>
                 
                 <a href="#" class="logout-btn-mobile" tabindex="0">Cerrar Sesión</a>
-
-                
             </nav>
 
             <div class="header-actions">
@@ -39,7 +34,7 @@
                 
                 <a th:href="@{/productos}" class="cart-nav-btn" tabindex="0" aria-label="Ver carrito de compras">🛒</a>
                 
-                <button class="menu-toggle" aria-controls="menu-mobile-list" aria-expanded="false" aria-label="Abrir menú de navegación">
+                <button class="menu-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -47,37 +42,45 @@
             </div>
         </div>
     </header>
-    <main>
-        <section class="contenedor-chat">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h2>Chat con Vendedor: [[${vendedorName}]]</h2> 
-                    <button id="disconnectBtn" class="disconnect-btn" aria-label="Desconectar" title="Desconectar" tabindex="0">❌</button>
-                </div>
-                
-                <div id="chat-messages" class="chat-messages" role="log" aria-live="polite">
-                    <div class="message status">Estableciendo conexión con el vendedor...</div>
-                </div>
+    <main class="admin-container">
+        <h2 class="admin-title">Panel de Administración Central</h2>
+        
+        <section class="admin-dashboard">
+            <div class="card" id="productos" tabindex="0">
+                <h2><i class="fas fa-box admin-title-icon"></i> GESTIÓN DE PRODUCTOS</h2>
+                <p>Revisar y moderar productos pendientes de aprobación o reportados por usuarios. Mantener la calidad del catálogo.</p>
+                <button class="btn-primary admin-btn" tabindex="0" aria-label="Abrir Panel de Productos">
+                    <i class="fas fa-box"></i>
+                </button>
+            </div>
 
-                <div class="chat-input-area">
-                    <input type="text" id="messageInput" placeholder="Escribe tu mensaje..." autocomplete="off"
-                            aria-label="Campo de texto para escribir mensaje">
-                    
-                    <button id="sendBtn" tabindex="0">Enviar</button>
-                </div>
+            <div class="card" id="ofertas" tabindex="0">
+                <h2><i class="fas fa-tags admin-title-icon"></i> MODERACIÓN DE OFERTAS</h2>
+                <p>Verificar la validez de las ofertas y eventos subidos. Gestionar calendario de promociones.</p>
+                <button class="btn-primary admin-btn" tabindex="0" aria-label="Abrir Panel de Ofertas">
+                    <i class="fas fa-tags"></i>
+                </button>
+            </div>
+
+            <div class="card" id="reportes" tabindex="0">
+                <h2><i class="fas fa-chart-bar admin-title-icon"></i> RESEÑAS Y REPORTES</h2>
+                <p>Revisar y atender reportes de usuarios sobre contenido inapropiado, reseñas falsas o problemas de cuenta.</p>
+                <button class="btn-primary admin-btn" tabindex="0" aria-label="Abrir Centro de Reportes">
+                    <i class="fas fa-chart-bar"></i>
+                </button>
             </div>
         </section>
-
+        
         <div id="alertModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertMessage" hidden>
             <div class="modal-content alert-modal">
-                <p id="alertMessage"></p>
+                <p id="alertMessage">Mensaje de Alerta.</p>
                 <button id="alertCloseBtn" class="btn-action" tabindex="0">Aceptar</button>
             </div>
         </div>
-
+        
         <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmMessage" hidden>
             <div class="modal-content confirm-modal">
-                <p id="confirmMessage"></p>
+                <p id="confirmMessage">Mensaje de Confirmación.</p>
                 <div class="confirm-buttons">
                     <button id="confirmOkBtn" class="btn-primary" tabindex="0">Aceptar</button>
                     <button id="confirmCancelBtn" class="btn-secondary" tabindex="0">Cancelar</button>
@@ -85,13 +88,11 @@
             </div>
         </div>
     </main>
-
     <footer class="footer">
         <p>📧 Email: soportegandersync@gmail.com | ☎️ Tel: +57 322 8159958</p>
-        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p>
+        <p><strong>Marketplace GanderSync</strong> © 2025 | Todos los derechos reservados</p> 
     </footer>
-
-    <div id="accessibility-container" class="accessibility-container">
+    <div id="accessibilityContainer" class="accessibility-container">
         <button id="floatingAccessibilityBtn" class="floating-accessibility-btn" tabindex="0" aria-controls="accessibility-menu" aria-expanded="false" aria-label="Abrir opciones de accesibilidad (Arrastrar para mover)" title="Opciones de Accesibilidad (Arrastrar para mover)">
             ♿
         </button>
@@ -107,6 +108,7 @@
             <button id="resetTextBtn" class="btn-action" role="menuitem" tabindex="0" title="Restablecer Tamaño de Fuente" data-icon="🔄">Restablecer Fuente</button>
         </nav>
     </div>
-    <script th:src="@{/js/JSChat.js}"></script>
+    <script th:src="@{/js/JSAdmin.js}" src="JSAdmin.js"></script>
+    <script src="https://kit.fontawesome.com/c16053f3e1.js" crossorigin="anonymous"></script>
 </body>
 </html>

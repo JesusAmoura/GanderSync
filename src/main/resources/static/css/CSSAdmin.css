@@ -1,0 +1,1003 @@
+:root {
+    --font-scale: 1.0;
+    --color-primary-dark: #285430; /* Verde Oscuro (Navbar/Footer) */
+    --color-primary-medium: #4a4a4a; /* Gris Oscuro para texto secundario y botones */
+    --color-secondary: #000; /* Negro para la mayoría del texto por defecto */
+    --color-highlight: #007c39; /* Verde de GanderSync para acciones y foco */
+    /* Pegado de Novedades/Inicio */
+    --color-lime-hover: #cccccc; 
+    --color-action: #4a4a4a; /* Gris para botones de acción flotantes */
+    --color-danger: #d9534f; /* Rojo */
+    --color-text-light: #fff; /* Blanco */
+    --color-border: #eee;
+    --color-bg-light: #f4f4f4;
+    --color-bg-main: #fff;
+    --font-body: 'Open Sans', Arial, sans-serif;
+    /* Pegado de Novedades/Inicio: Variables para Alto Contraste del Navbar/Botón Flotante */
+    --hc-bg-dark: #121e14; 
+    --hc-text-light: #e0e0e0; 
+    --hc-highlight-bright: var(--color-highlight); 
+    --hc-primary-darker: #1a331f; 
+    --color-menu-hover-active: var(--color-text-light); 
+}
+
+* {
+    box-sizing: border-box;
+    /* La fuente base utiliza la variable --font-scale */
+    font-size: calc(16px * var(--font-scale));
+}
+
+/* ------------------------------------------- */
+/* ESTILOS DE ACCESIBILIDAD Y BASE            */
+/* ------------------------------------------- */
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-bg-light);
+    color: var(--color-secondary);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Espacio superior para el Navbar fijo (60px) */
+    padding-top: 60px;
+    /* *** CORRECCIÓN: Se elimina padding-bottom ya que el footer ya no es fijo. *** */
+    /* padding-bottom: 80px; */
+    overflow-x: hidden;
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+/* Foco de accesibilidad (Unificado con Novedades) */
+button:focus,
+input:focus,
+select:focus,
+a.btn:focus,
+.floating-accessibility-btn:focus,
+.menu a:focus,
+.cart-nav-btn:focus,
+#accessibility-menu button:focus,
+.menu-toggle:focus,
+.file-label:focus,
+.card:focus {
+    outline: 2px dashed var(--color-highlight);
+    outline-offset: 2px;
+}
+
+/* Alto Contraste (Copiado de Novedades) */
+#body.high-contrast {
+    --color-primary-dark: var(--hc-primary-darker);
+    --color-secondary: var(--hc-text-light);
+    --color-highlight: var(--hc-highlight-bright);
+    --color-danger: #ff5757;
+    --color-text-light: #000;
+    --color-border: #333;
+    --color-bg-light: var(--hc-bg-dark);
+    --color-bg-main: var(--hc-bg-dark);
+    
+    background-color: var(--hc-bg-dark) !important;
+    color: var(--hc-text-light) !important;
+}
+
+/* Exclusiones de Alto Contraste (Para Navbar y Botón Flotante) */
+#body.high-contrast #accessibility-menu button {
+    background-color: var(--hc-primary-darker) !important;
+    color: var(--hc-text-light) !important;
+    border-color: var(--hc-text-light) !important;
+}
+
+/* Ajustes para Ofertas en Alto Contraste */
+#body.high-contrast .upload-section,
+#body.high-contrast .card,
+#body.high-contrast .modal-content {
+    background-color: var(--hc-bg-dark) !important;
+    border: 1px solid var(--hc-text-light) !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) !important;
+    color: var(--hc-text-light) !important;
+}
+
+#body.high-contrast h1, h2, h3, h4,
+#body.high-contrast a,
+#body.high-contrast strong,
+#body.high-contrast .logo {
+    color: var(--hc-highlight-bright) !important;
+}
+
+#body.high-contrast p,
+#body.high-contrast li,
+#body.high-contrast del,
+#body.high-contrast .file-label {
+    color: var(--hc-text-light) !important;
+}
+
+#body.high-contrast .btn,
+#body.high-contrast .btn-primary,
+#body.high-contrast .btn-secondary,
+#body.high-contrast .btn-action,
+#body.high-contrast .floating-accessibility-btn,
+#body.high-contrast #accessibility-menu button,
+/* Mantenemos inputs específicos de Ofertas */
+body.high-contrast input[type="text"],
+body.high-contrast input[type="date"],
+body.high-contrast input[type="number"] {
+    background-color: var(--hc-highlight-bright) !important;
+    color: #000 !important;
+    border: 1px solid var(--hc-text-light) !important;
+    font-weight: bold;
+}
+
+/* ------------------------------------------- */
+/* NAVBAR, FOOTER, BOTONES (Copiado de Novedades) */
+/* ------------------------------------------- */
+
+/* Barra de navegación */
+.barra-navegacion {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+}
+.barra-navegacion.oculta {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.barra-navegacion.transparente {
+    background-color: rgba(40, 84, 48, 0.9);
+    backdrop-filter: blur(6px);
+}
+.header-content {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 60px; 
+}
+.logo {
+    margin: 0;
+    color: var(--color-text-light); 
+    font-size: calc(1.5em * var(--font-scale));
+    transition: color 0.3s;
+    flex-shrink: 0;
+}
+.logo:hover {
+    color: var(--color-lime-hover);
+}
+
+/* Links centrados en PC */
+.menu {
+    display: flex; 
+    align-items: center;
+    flex-grow: 1; 
+    justify-content: center;
+}
+
+.menu-links-container {
+    display: flex; 
+    align-items: center; 
+}
+
+.menu a {
+    color: var(--color-text-light); 
+    text-decoration: none;
+    margin: 0 15px; 
+    padding: 5px 0 3px 0; 
+    transition: color 0.3s, border-bottom 0.3s;
+    white-space: nowrap; 
+}
+.menu a:hover, .menu a.active {
+    color: var(--color-text-light); 
+    border-bottom: 2px solid var(--color-text-light);
+    background-color: transparent !important; 
+}
+
+/* Estilo específico para el logout móvil, se oculta en PC */
+.logout-btn-mobile {
+    display: none; 
+}
+
+/* ------------------------------------------------ */
+/* CONTENEDOR DE ACCIONES (Derecha: Logout, Carrito, Hamburguesa) */
+/* ------------------------------------------------ */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    flex-shrink: 0; 
+}
+
+/* Estilo del botón de Cerrar Sesión (Desktop - Visible en PC) */
+.logout-btn {
+    background-color: var(--color-danger); 
+    color: var(--color-text-light);
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    text-decoration: none;
+    border-bottom: none !important; 
+    display: block; 
+}
+.logout-btn:hover {
+    background-color: #a93226;
+    transform: translateY(-1px);
+}
+
+/* Estilos del botón Carrito (Unificado) */
+.header-actions .cart-nav-btn {
+    position: relative;
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: var(--color-highlight); /* Usamos highlight en lugar de medium */
+    border: 1px solid var(--color-highlight);
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.header-actions .cart-nav-btn:hover {
+    background-color: #006631;
+    border-color: #006631;
+}
+
+/* Estilos para el botón de menú en móvil (Hamburguesa) */
+.menu-toggle {
+    display: none; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1002;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px; 
+}
+.icon-bar {
+    display: block;
+    width: 20px;
+    height: 3px;
+    margin: 4px auto;
+    background-color: var(--color-text-light);
+    transition: all 0.3s ease-in-out;
+    border-radius: 1px;
+}
+.menu.open .icon-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu.open .icon-bar:nth-child(2) { opacity: 0; }
+.menu.open .icon-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Contenedor para la vista actual en móvil */
+.mobile-current-page {
+    display: none !important; /* Ocultamos en escritorio de forma forzada */
+    color: var(--color-text-light);
+    font-size: calc(1.3em * var(--font-scale));
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+    text-align: left;
+}
+
+
+/* Botones genéricos (Revisados de Novedades) */
+.btn-primary, .btn-secondary, .btn-action, .btn-danger {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.1s;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0; 
+}
+.btn-primary:active, .btn-secondary:active, .btn-action:active, .btn-agregar-producto:active {
+    transform: translateY(0px) !important;
+}
+
+.btn-primary, .modal-buttons .guardar {
+    background-color: var(--color-highlight);
+    color: var(--color-text-light);
+}
+.btn-primary:hover, .modal-buttons .guardar:hover {
+    background-color: #006631;
+    transform: translateY(-1px);
+}
+.btn-secondary {
+    background-color: var(--color-primary-medium);
+    color: var(--color-text-light);
+}
+.btn-secondary:hover {
+    background-color: #5d5d5d;
+}
+.btn-danger, .modal-buttons .eliminar, .acciones .eliminar {
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
+}
+.btn-danger:hover, .modal-buttons .eliminar:hover, .acciones .eliminar:hover {
+    background-color: #a93226;
+    transform: translateY(-1px);
+}
+.btn-action {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+}
+.btn-action:hover {
+    background-color: var(--color-primary-medium);
+    transform: translateY(-1px);
+}
+
+/* FOOTER (Actualizado a Sticky Footer) */
+.footer {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    text-align: center;
+    /* *** CORRECCIÓN: Se elimina el posicionamiento fijo. Ahora está en el flujo normal (Sticky). *** */
+    /* position: fixed; */
+    /* bottom: 0; */
+    /* left: 0; */
+    /* right: 0; */
+    width: 100%;
+    z-index: 999;
+    border-top: 3px solid var(--color-highlight);
+    /* Se usa padding en lugar de height */
+    padding: 15px 10px; 
+    box-sizing: border-box;
+    /* Se eliminan las propiedades de transición de fixed footer */
+    /* transform: translateY(100%); */ 
+    /* transition: transform 0.4s ease; */
+}
+
+/* Eliminamos la clase visible ya que ya no es necesaria con Sticky Footer */
+/* .footer.visible {
+    transform: translateY(0);
+} */
+
+.footer p {
+    margin: 5px 0;
+    font-size: calc(14px * var(--font-scale));
+}
+
+/* ------------------------------------------- */
+/* ACCESIBILIDAD MENU FLOTANTE (DRAGGABLE) (Copiado de Novedades) */
+/* ------------------------------------------- */
+.accessibility-container {
+    position: fixed;
+    top: 90px;
+    right: 20px; 
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    cursor: grab;
+    transition: none !important; 
+}
+.accessibility-container.dragging {
+    cursor: grabbing;
+}
+.floating-accessibility-btn {
+    background-color: var(--color-action);
+    color: var(--color-text-light);
+    border-radius: 50px;
+    padding: 12px 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
+    cursor: pointer; 
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; 
+}
+#accessibility-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+    transform-origin: top right;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 5px;
+    pointer-events: none;
+    cursor: default; 
+}
+.zoom-controls {
+    display: flex;
+    flex-direction: row; 
+    gap: 8px;
+}
+.accessibility-container.align-left #accessibility-menu {
+    transform-origin: top left;
+}
+#accessibility-menu.open {
+    opacity: 1;
+    max-height: 300px;
+    pointer-events: auto;
+}
+#accessibility-menu button {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 50px; 
+    width: 50px; 
+    height: 50px;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    font-size: 1.3em; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    text-indent: -9999px; 
+    position: relative;
+    overflow: hidden; 
+}
+#increaseTextBtn {
+    width: 60px !important; 
+}
+#accessibility-menu button::after {
+    content: attr(data-icon);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    text-indent: 0;
+    line-height: 1; 
+    font-size: 24px !important; 
+}
+#increaseTextBtn::after {
+    content: attr(data-icon);
+    position: absolute;
+    top: 50%;
+    left: 45%; 
+    transform: translate(-50%, -50%); 
+    width: 50px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 26px !important; 
+}
+#accessibility-menu button:hover {
+    background-color: var(--color-highlight);
+}
+
+/* ------------------------------------------- */
+/* ESTILOS ESPECÍFICOS DE OFERTAS (Mantengo esta sección)             */
+/* ------------------------------------------- */
+
+main {
+    flex: 1; /* Permite que MAIN ocupe el espacio disponible para que el footer sea "sticky" */
+    max-width: 1200px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 40px auto 60px;
+    padding: 30px;
+    background: var(--color-bg-main);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    border: 1px solid var(--color-border);
+}
+
+.upload-section h2 {
+    margin-bottom: 20px;
+    color: var(--color-highlight);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.upload-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.upload-section input[type="text"],
+.upload-section input[type="number"] {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: calc(1em * var(--font-scale));
+    width: 100%;
+}
+
+.file-label {
+    background-color: var(--color-bg-light);
+    border: 1px dashed #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+#archivoImagen {
+    display: none;
+}
+
+.ofertas-grid-container h2 {
+    color: var(--color-primary-dark);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 5px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background: var(--color-bg-main);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card:focus {
+    outline: 2px solid var(--color-highlight);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: var(--color-bg-light);
+}
+
+.card h3 {
+    color: var(--color-primary-dark);
+    margin: 5px 0;
+    font-size: calc(1.1em * var(--font-scale));
+}
+
+.card p {
+    margin: 5px 0;
+    font-weight: 600;
+}
+
+.card del {
+    color: var(--color-danger);
+    font-weight: 400;
+    margin-right: 5px;
+}
+
+.card strong {
+    color: var(--color-highlight);
+    font-size: calc(1.1em * var(--font-scale));
+}
+
+.acciones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--color-border);
+}
+
+.acciones button {
+    padding: 8px 15px;
+    font-size: calc(0.9em * var(--font-scale));
+    border-radius: 4px;
+    color: var(--color-text-light);
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.acciones .editar {
+    background-color: #f39c12;
+}
+
+.acciones .editar:hover {
+    background-color: #e67e22;
+    transform: translateY(-1px);
+}
+
+/* === ESTILOS DE MODALES (Alerta/Confirmación) === */
+.modal {
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+
+.modal.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background-color: var(--color-bg-main);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 90%;
+    width: 500px;
+    position: relative;
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert-modal, .confirm-modal {
+    text-align: center;
+    width: 350px;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ------------------------------------------- */
+/* ESTILOS ESPECÍFICOS DE ADMINISTRACIÓN (ACTUALIZADO) */
+/* ------------------------------------------- */
+
+.admin-title {
+    text-align: center;
+    color: var(--color-primary-dark);
+    margin-bottom: 30px;
+    font-size: calc(1.8em * var(--font-scale));
+}
+
+.admin-dashboard {
+    display: grid;
+    /* 3 columnas en desktop, se ajusta a 1 en móvil */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* Mejor espaciado entre tarjetas */
+    margin-top: 20px;
+}
+
+.admin-dashboard .card {
+    padding: 25px;
+    text-align: center;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; /* Centrar el botón */
+}
+
+.admin-dashboard .card h2 {
+    color: var(--color-highlight);
+    margin-top: 0;
+    font-size: calc(1.2em * var(--font-scale));
+    border-bottom: none; 
+    /* Permite que el ícono y el texto estén en línea */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+/* NUEVO: Estilo para el ícono dentro del título H2 */
+.admin-dashboard .card h2 .admin-title-icon {
+    margin-right: 10px;
+    font-size: 1.4em; /* Icono un poco más grande que el texto */
+    color: var(--color-primary-dark); /* Color del icono */
+    line-height: 1;
+}
+
+.admin-dashboard .card p {
+    flex-grow: 1; /* Permite que el párrafo use el espacio disponible */
+    margin-bottom: 20px;
+}
+
+/* Estilo para los botones de ícono del administrador */
+.admin-dashboard .admin-btn {
+    /* 1. Más pequeño, menos rectangular y espaciado */
+    width: 60px; /* Tamaño fijo */
+    height: 60px;
+    padding: 0;
+    border-radius: 50%; /* Redondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 15px; 
+    
+    /* 2. Estilo del Ícono */
+    font-size: calc(1.8em * var(--font-scale)); /* Aumentar el tamaño del ícono */
+    line-height: 1; 
+}
+
+.admin-dashboard .admin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para el ícono dentro del botón */
+.admin-dashboard .admin-btn i {
+    color: var(--color-text-light);
+}
+
+
+/* ------------------------------------------- */
+/* RESPONSIVE (Copiado de Novedades y ajustado para Ofertas) */
+/* ------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* --- AJUSTE GENERAL DE FUENTE --- */
+    :root {
+        --font-scale: 0.9;
+    }
+    
+    body {
+        /* *** CORRECCIÓN: Se elimina padding-bottom que ya no es necesario con el sticky footer *** */
+        /* padding-bottom: 110px; */ 
+        padding-top: 50px;
+    }
+    /* --- AJUSTES NAVBAR MÓVIL (Copiado de Novedades) --- */
+    .barra-navegacion {
+        padding: 0 5px;
+        box-sizing: border-box;
+    }
+    .header-content {
+        height: 50px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    /* Mostrar elementos móviles */
+    .mobile-current-page {
+        display: block !important; /* Visible en el header principal en móvil */
+        order: 1; 
+        margin-left: 10px; 
+        flex-grow: 1; 
+        font-size: calc(1.3em * var(--font-scale));
+        
+        /* === CORRECCIÓN CLAVE PARA ELIMINAR EL BORDE DE LISTA EN MENÚ HAMBURGUESA === */
+        border-bottom: none !important; 
+        padding: 0; 
+        width: auto;
+        margin-top: 0;
+        margin-bottom: 0;
+        /* =========================================================================== */
+    }
+    .logo {
+        display: block; 
+        font-size: calc(1.3em * var(--font-scale));
+        order: 0;
+    }
+    
+    /* Contenedor de Acciones (Derecha) */
+    .header-actions {
+        order: 3;
+        display: flex; 
+        gap: 8px;
+    }
+    
+    /* OCULTAR ELEMENTOS DE ESCRITORIO */
+    .header-actions .logout-btn { 
+        display: none; 
+    }
+    
+    /* El carrito y la hamburguesa deben estar visibles */
+    .header-actions .cart-nav-btn {
+        display: block; 
+        padding: 6px 10px; /* Ajuste para móvil */
+    }
+    .menu-toggle {
+        display: block; 
+    }
+
+    /* Estilo del menú desplegable: Columna, transformado */
+    .menu {
+        flex-grow: 0; 
+        position: fixed;
+        top: 50px; 
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 50px);
+        background-color: var(--color-primary-dark);
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 20px;
+        transform: translateX(-100%); 
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        z-index: 999;
+        justify-content: space-between; 
+        padding-bottom: 40px;
+    }
+    .menu.open {
+        transform: translateX(0) !important;
+    }
+
+    /* Contenedor para los links que no es el logout */
+    .menu-links-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+    
+    /* --- INICIO CORRECCIÓN DEL ESPACIADO Y TAMAÑO DE LOS LINKS DE HAMBURGUESA --- */
+    /* Este estilo solo debe afectar a los <a> */
+    .menu a {
+        width: 100%;
+        margin: 0; 
+        padding: 10px 0; /* Asegura un espaciado reducido */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: calc(1em * var(--font-scale)); /* Asegura un tamaño de fuente estándar y no gigante */
+        margin-left: 0;
+    }
+    
+    /* Aseguramos el estilo activo */
+    .menu a.active {
+        border-bottom: 2px solid var(--color-text-light);
+    }
+    
+    /* Reajustar el último enlace (aunque el CSS tiene un :last-child, lo mantenemos por si acaso) */
+    .menu a:last-child {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Mantenemos la línea para el último enlace antes del botón de logout */
+    }
+    /* --- FIN CORRECCIÓN DEL ESPACIADO Y TAMAÑO DE LOS LINKS DE HAMBURGUESA --- */
+    
+    /* Estilo del botón Cerrar Sesión (versión móvil) */
+    .logout-btn-mobile {
+        display: block; 
+        width: 100%;
+        background-color: var(--color-danger); 
+        color: var(--color-text-light);
+        padding: 12px 20px;
+        border-radius: 4px;
+        text-align: center;
+        margin-top: auto; 
+        border-bottom: none !important;
+        border: none; 
+        transition: background-color 0.2s;
+    }
+    .logout-btn-mobile:hover {
+        background-color: #a93226;
+        transform: none;
+    }
+
+    /* --- AJUSTES ESPECÍFICOS DE ACCESIBILIDAD EN MÓVIL (Copiado de Novedades) --- */
+    .accessibility-container {
+        top: 70px; 
+        right: 10px;
+    }
+    .floating-accessibility-btn {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    #accessibility-menu button {
+        width: 45px; 
+        height: 45px;
+        font-size: 1.3em;
+    }
+    #increaseTextBtn {
+        width: 55px !important; 
+    }
+    .zoom-controls {
+        flex-direction: row;
+    }
+    #accessibility-menu button::after {
+        font-size: 20px !important; 
+    }
+    #increaseTextBtn::after {
+        width: 40px; 
+        display: flex;
+        justify-content: space-around;
+        font-size: 22px !important; 
+    }
+
+    /* --- AJUSTES ESPECÍFICOS DE OFERTAS (Revisados del código original de Ofertas) --- */
+    main {
+        padding: 0 10px; 
+        margin: 10px auto;
+    }
+
+    .upload-section {
+        margin: 20px auto 30px;
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+        gap: 15px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .card img {
+        height: 120px;
+    }
+
+    .card h3 {
+        font-size: calc(1em * var(--font-scale));
+    }
+
+    .acciones {
+        gap: 5px;
+    }
+
+    .acciones button {
+        padding: 6px 10px;
+        font-size: calc(0.85em * var(--font-scale));
+    }
+
+    /* --- AJUSTES ESPECÍFICOS DE ADMINISTRACIÓN EN MÓVIL (NUEVO) --- */
+    .admin-dashboard {
+        gap: 20px;
+    }
+    .admin-dashboard .card {
+        min-height: auto;
+        padding: 20px;
+    }
+    .admin-dashboard .admin-btn {
+        width: 50px; 
+        height: 50px;
+        font-size: calc(1.5em * var(--font-scale)); 
+    }
+}
+
+@media (max-width: 480px) {
+    main { padding: 18px 10px 30px; }
+}
